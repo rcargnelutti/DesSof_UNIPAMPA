@@ -1,3 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+<div class="col-8 m-auto pt-2 pb-2 text-center">
+  <h1>Condomínios cadastrados</h1>
+</div>
+
+<div class="col-8 m-auto pt-2 pb-2 text-center" >
+  {% comment %} <a href="/" class="btn btn-info">Voltar</a> {% endcomment %}
+  <input type="submit" class="btn btn-info" onclick="location.href = '{% url 'condominio:create' %}'" value="Novo Condomínio">
+</div>
+
+<div class="col-8 m-auto pt-4 pb-2 text-center">
+<table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Documento</th>
+        <th scope="col">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for condominio in object_list %}
+      <tr>
+        <th scope="row">{{condominio.id}}</th>
+        <td>{{condominio.nome}}</td>
+        <td>{{condominio.documento}}</td>
+        <td>
+          <a href=" {% url 'condominio:update' pk=condominio.id %}" class="btn btn-dark">Editar</a>
+          <a href=" {% url 'condominio:detail' pk=condominio.id %}" class="btn btn-primary">Visualizar</a>
+          <a href=" {% url 'condominio:delete' pk=condominio.id %}" class="btn btn-danger">Deletar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
