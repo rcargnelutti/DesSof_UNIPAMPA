@@ -42,9 +42,13 @@ def condominio_gestao(request, condominio_id):
 # UNIDADES
 
 
-class UnidadeList(ListView):
-    model = Unidade
-    queryset = Unidade.objects.all()
+#def unidade_list(request, condominio_id):
+def unidade_list(request):
+    #condominio = Condominio.objects.get(id=condominio_id)
+    data = {}
+    data = request.GET.get('search')
+    return render(request, 'condominio/unidade_list.html', data)
+    #return render(request, 'condominio/unidade_list.html', data, {'object':condominio})
 
 
 def unidade_create(request, condominio_id):

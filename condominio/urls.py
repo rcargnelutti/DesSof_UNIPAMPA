@@ -17,8 +17,10 @@ urlpatterns = [
     path('gestao/<int:condominio_id>/', views.condominio_gestao, name='gestao'),
 
 
-    path('unidade_list', views.UnidadeList.as_view(), name='unidade_list'),
-    path('unidade_create', views.unidade_create, name='unidade_create'),
+    #path('unidade_list/<int:condominio_id>/', views.unidade_list, name='unidade_list'),
+    path('unidade_list/', views.unidade_list, name='unidade_list'),
+
+    path('unidade_create/<int:condominio_id>/', views.unidade_create, name='unidade_create'),
 
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico')))
 ]
