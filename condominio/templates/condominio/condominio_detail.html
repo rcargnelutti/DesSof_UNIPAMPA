@@ -23,7 +23,7 @@
         <strong>Dia de vencimento da fatura:</strong> {{ object.dia_vencimento_boleto }} <br />
       </div>
       <div class="col-8 m-auto pt-2 pb-2 text-center" >
-        <input type="submit" class="btn btn-info" onclick="location.href = '{% url 'condominio:list' %}'" value="Voltar">
+        <button type="reset" class="btn btn-info" onclick="location.href = '{% url 'condominio:list' %}'"><span class="fas fa-arrow-left"></span> Voltar</button>
       </div>
     </div>
   </div>
