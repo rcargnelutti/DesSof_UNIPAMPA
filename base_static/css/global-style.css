@@ -1,0 +1,63 @@
+html {
+	position: relative;
+	min-height: 100%;
+}
+
+body {
+	/* Margin bottom by footer height */
+	margin-bottom: 60px;
+	background: #f8f9fa;
+}
+
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	/* Set the fixed height of the footer here */
+	height: 60px;
+	line-height: 60px; /* Vertically center the text there */
+	background-color: #ffffff;
+}
+
+.bg-light {
+	background-color: #ffffff !important;
+}
+
+.scroll {
+	max-height: 22em;
+	overflow-y: auto;
+}
+
+a.disabled {
+	color: black;
+	pointer-events: none;
+}
+
+.opt {
+	margin: 0.1em;
+}
+
+span {
+	margin: 0.1em;
+}
+
+.new-project {
+	margin-bottom: 0.5em;
+}
+
+.min-height {
+	min-height: 65px;
+}
+
+.load {
+	z-index: 9999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(0, 0, 0, 0.5);
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
