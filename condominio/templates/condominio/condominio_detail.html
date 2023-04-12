@@ -1,35 +1,30 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <meta charset="UTF-8">
-    <title>Condomínio</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
-  </head>
-  <body>
+{% extends 'base.html' %}
 
-    <div class="col-8 m-auto pt-2 pb-2 text-center">
-        <h1>Detalhes do Condomínio</h1>
+{% block title %}Condomínios{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header text-center">
+        <h4>Detalhes do Condomínio</h4>
+      </div>
+      <div class="col-2 m-auto pt-4 pb-2 ">
+        <strong>Nome:</strong> {{ object.nome }} <br />
+        <strong>Documento:</strong> {{ object.documento }} <br />
+        <strong>CEP:</strong> {{ object.cep }} <br />
+        <strong>Endereço:</strong> {{ object.endereco }}, {{ object.numero }} <br />
+        <strong>Bairro:</strong> {{ object.bairro }} <br />
+        <strong>Cidade:</strong> {{ object.cidade }} <br />
+        <strong>Estado:</strong> {{ object.estado }} <br />
+        <strong>País:</strong> {{ object.pais }} <br />
+        <strong>Área comum:</strong> {{ object.area_comum }} m²<br />
+        <strong>Área privativa:</strong> {{ object.area_privativa }} m²<br />
+        <strong>Área total:</strong> {{ object.area_total }} m²<br />
+        <strong>Dia de vencimento da fatura:</strong> {{ object.dia_vencimento_boleto }} <br />
+      </div>
+      <div class="col-8 m-auto pt-2 pb-2 text-center" >
+        <input type="submit" class="btn btn-info" onclick="location.href = '{% url 'condominio:list' %}'" value="Voltar">
+      </div>
     </div>
-
-    <div class="col-2 m-auto pt-4 pb-2 ">
-        Nome: {{ object.nome }} <br />
-        Documento: {{ object.documento }} <br />
-        CEP: {{ object.cep }} <br />
-        Endereço: {{ object.endereco }}, {{ object.numero }} <br />
-        Bairro: {{ object.bairro }} <br />
-        Cidade: {{ object.cidade }} <br />
-        Estado: {{ object.estado }} <br />
-        País: {{ object.pais }} <br />
-        Área comum: {{ object.area_comum }} m²<br />
-        Área privativa: {{ object.area_privativa }} m²<br />
-        Área total: {{ object.area_total }} m²<br />
-        Dia de vencimento da fatura: {{ object.dia_vencimento_boleto }} <br />
-    </div>
-
-    <div class="col-8 m-auto pt-2 pb-2 text-center" >
-      {% comment %} <a href="/" class="btn btn-info">Voltar</a> {% endcomment %}
-      <input type="submit" class="btn btn-info" onclick="location.href = '{% url 'condominio:list' %}'" value="Voltar">
   </div>
-
-  </body>
-</html>
+{% endblock %}
