@@ -25,3 +25,8 @@ class Condominio(models.Model):
 
     def __str__(self):
         return self.nome
+    
+class Unidade(models.Model):
+    nome = models.CharField(max_length=200)
+    fracao = models.CharField('fração', max_length=20)
+    condominio = models.ForeignKey(Condominio, on_delete=models.CASCADE, related_name='unidades')
