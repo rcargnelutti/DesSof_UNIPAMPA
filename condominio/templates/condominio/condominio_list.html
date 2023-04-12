@@ -9,12 +9,7 @@
         <h4>Condomínios</h4>
       </div>
       <div class="card-body">
-        <div class="col-8 m-auto pt-2 pb-2 text-center">
-          {% comment %} <h1>Condomínios cadastrados</h1> {% endcomment %}
-        </div>
         <div class="col-8 m-auto pt-2 pb-2 text-center" >
-          {% comment %} <a href="/" class="btn btn-info">Voltar</a> {% endcomment %}
-          {% comment %} <input type="submit" class="btn btn-info" onclick="location.href = '{% url 'condominio:create' %}'" value="Novo Condomínio"> {% endcomment %}
           <a href="{% url 'condominio:create'%}" class="btn btn-info"> <span class="fas fa-solid fa-plus"></span> Novo Condomínio</a>
         </div>
         <div class="col-8 m-auto pt-4 pb-2 text-center">
@@ -47,53 +42,3 @@
     </div>
   </div>
 {% endblock %}
-
-
-
-<!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <meta charset="UTF-8">
-    <title>Condomínios</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
-  </head>
-  <body>
-
-    <div class="col-8 m-auto pt-2 pb-2 text-center">
-        <h1>Condomínios cadastrados</h1>
-    </div>
-
-    <div class="col-8 m-auto pt-2 pb-2 text-center" >
-        {% comment %} <a href="/" class="btn btn-info">Voltar</a> {% endcomment %}
-        <input type="submit" class="btn btn-info" onclick="location.href = '{% url 'condominio:create' %}'" value="Novo Condomínio">
-    </div>
-
-    <div class="col-8 m-auto pt-4 pb-2 text-center">
-      <table class="table">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">Id</th>
-              <th scope="col">Nome</th>
-              <th scope="col">Documento</th>
-              <th scope="col">Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for condominio in object_list %}
-            <tr>
-              <th scope="row">{{condominio.id}}</th>
-              <td>{{condominio.nome}}</td>
-              <td>{{condominio.documento}}</td>
-              <td>
-                <a href=" {% url 'condominio:update' pk=condominio.id %}" class="btn btn-dark">Editar</a>
-                <a href=" {% url 'condominio:detail' pk=condominio.id %}" class="btn btn-primary">Visualizar</a>
-                <a href=" {% url 'condominio:delete' pk=condominio.id %}" class="btn btn-danger">Deletar</a>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-  </div>
-
-  </body>
-</html>
