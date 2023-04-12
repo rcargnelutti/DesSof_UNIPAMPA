@@ -14,6 +14,11 @@ urlpatterns = [
     path('update/<int:pk>/', views.CondominioUpdate.as_view(), name='update'),
     path('detail/<int:pk>/', views.CondominioDetail.as_view(), name='detail'),
     path('delete/<int:pk>/', views.CondominioDelete.as_view(), name='delete'),
+    path('gestao/<int:condominio_id>/', views.condominio_gestao, name='gestao'),
+
+
+    path('unidade_list', views.UnidadeList.as_view(), name='unidade_list'),
+    path('unidade_create', views.unidade_create, name='unidade_create'),
 
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico')))
 ]

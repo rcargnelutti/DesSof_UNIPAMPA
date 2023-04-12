@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Condomínios{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header text-center">
+        <h4>Condomínio: [nome do condomínio] </h4>
+        <div class="col-8 m-auto pt-2 pb-2 text-center" >
+          <a href="{% url 'condominio:unidade_list'%}" class="btn btn-info">Unidade</a>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="col-8 m-auto pt-2 pb-2 text-center" >
+          Informações do condomínio
+        </div>
+        <div class="col-8 m-auto pt-4 pb-2 text-center">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

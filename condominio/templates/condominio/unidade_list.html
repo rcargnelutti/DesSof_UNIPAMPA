@@ -6,19 +6,22 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header text-center">
-        <h4>Condomínios</h4>
+        <h4>Condomínio: [nome do condomínio] </h4>
+        <div class="col-8 m-auto pt-2 pb-2 text-center" >
+          <a href="{% url 'condominio:unidade_list'%}" class="btn btn-info">Unidade</a>
+        </div>
       </div>
       <div class="card-body">
         <div class="col-8 m-auto pt-2 pb-2 text-center" >
-          <a href="{% url 'condominio:create'%}" class="btn btn-info"> <span class="fas fa-plus"></span> Novo Condomínio</a>
+          <a href="{% url 'condominio:unidade_create'%}" class="btn btn-info"> <span class="fas fa-plus"></span> Nova Unidade</a>
         </div>
         <div class="col-8 m-auto pt-4 pb-2 text-center">
           <table class="table">
             <thead class="thead-dark">
               <tr>
                 <th scope="col">Id</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Documento</th>
+                <th scope="col">Unidade</th>
+                <th scope="col">Fração</th>
                 <th scope="col" style="text-align: center">Ações</th>
               </tr>
             </thead>
@@ -29,7 +32,7 @@
                 <td>{{condominio.nome}}</td>
                 <td>{{condominio.documento}}</td>
                 <td style="text-align: center">
-                  <a href=" {% url 'condominio:gestao' condominio_id=condominio.id %}" class="btn btn-success"> <span class="fas fa-gears"></span> Gerenciar</a>
+                  <a href=" {% url 'condominio:gestao' pk=condominio.id %}" class="btn btn-success"> <span class="fas fa-edit"></span> Gerenciar</a>
                   <a href=" {% url 'condominio:update' pk=condominio.id %}" class="btn btn-dark"> <span class="fas fa-edit"></span> Editar</a>
                   <a href=" {% url 'condominio:detail' pk=condominio.id %}" class="btn btn-primary"> <span class="fas fa-light fa-eye"></span> Visualizar</a>
                   <a href=" {% url 'condominio:delete' pk=condominio.id %}" class="btn btn-danger"> <span class="fas fa-trash-alt"></span> Remover</a>

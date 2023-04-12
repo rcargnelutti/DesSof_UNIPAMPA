@@ -1,8 +1,11 @@
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
-from condominio.models import Condominio
+from condominio.models import Condominio, Unidade
+from condominio.forms import UnidadeForm
 
 
+# CONDOMÍNIO
 class CondominioList(ListView):
     model = Condominio
     queryset = Condominio.objects.all()
@@ -29,3 +32,32 @@ class CondominioDetail(DetailView):
 class CondominioDelete(DeleteView):
     queryset = Condominio.objects.all()
     success_url = reverse_lazy('condominio:list')
+
+
+def condominio_gestao(request, condominio_id):
+    condominio = Condominio.objects.get(id=condominio_id)
+    return render(request, 'condominio/condominio_gestao.html', {'object':condominio})
+
+
+# UNIDADES
+
+
+class UnidadeList(ListView):
+    model = Unidade
+    queryset = Unidade.objects.all()
+
+
+def unidade_create(request, condominio_id):
+    condominio = Condominio.objects.get(id=condominio_id)
+
+    if request.method == "GET":
+        form = UnidadeForm(initial = {'condominio':condominio})
+        return render(request, 'condominio/unidade_form.html', {'object':condominio, 'form': form})
+    else:
+        form = UnidadeForm(request.POST)
+        if not form.is_valid():
+            return render(request, 'condominio/unidade_form.html', {'object':condominio, 'form': form})
+        unidade = form.save(commit=False)
+        unidade.condominio = condominio
+        unidade.save()
+        return redirect(reverse('condominio:list'))
