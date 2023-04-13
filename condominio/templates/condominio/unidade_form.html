@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Unidades{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header text-center">
+        <h4>Cadastro de Unidade</h4>
+      </div>
+            <div class="col-8 m-auto pt-2 pb-2 text-center">
+            <p>Você está salvando uma unidade para o condomínio '{{ object.nome }}'</p>
+            <form method="post" action="." >
+                {% csrf_token %}
+                <table align="center">
+                {{ form.as_table }}
+                </table>
+                </br>
+                <button type="reset" class="btn btn-info" onclick="location.href = '{% url 'condominio:unidade_list' object.id%}'"><span class="fas fa-arrow-left"></span> Voltar</button>
+                <button type="submit" class="btn btn-success"><span class="fas fa-save"></span> Salvar</button>
+            </form>    
+            </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -14,15 +14,15 @@ urlpatterns = [
     path('update/<int:pk>/', views.CondominioUpdate.as_view(), name='update'),
     path('detail/<int:pk>/', views.CondominioDetail.as_view(), name='detail'),
     path('delete/<int:pk>/', views.CondominioDelete.as_view(), name='delete'),
-    path('gestao/<int:condominio_id>/', views.condominio_gestao, name='gestao'),
+    path('gestao/<int:condominio_id>/', views.condominio_gestao, name='gestao'),  # noqa
 
 
-    #path('unidade_list/<int:condominio_id>/', views.unidade_list, name='unidade_list'),
-    path('unidade_list/', views.unidade_list, name='unidade_list'),
+    path('unidade_list/<int:condominio_id>/', views.UnidadeList.as_view(), name='unidade_list'),  # noqa
 
-    path('unidade_create/<int:condominio_id>/', views.unidade_create, name='unidade_create'),
+    # path('unidade_list/<int:condominio_id>/', views.unidade_list, name='unidade_list'),  # noqa
+    path('unidade_create/<int:condominio_id>/', views.unidade_create, name='unidade_create'),  # noqa
 
-    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico')))
+    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico')))  # noqa
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
