@@ -6,15 +6,20 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header text-center">
-        <h4>Remover Condomínio</h4>
+        <h4>Cadastro de Condomínio</h4>
       </div>
         <div class="col-8 m-auto pt-4 pb-2 text-center">
           Tem certeza que deseja remover o condomínio <strong> '{{ object.nome }}' </strong>? 
           </br></br>
           <form method="post" action="." >
             {% csrf_token %}
-            <button type="reset" class="btn btn-info" onclick="location.href = '{% url 'condominio:list' %}'"><span class="fas fa-arrow-left"></span> Não quero remover</button>
-            <button type="submit" class="btn btn-danger" onclick="location.href = '{% url 'condominio:list' %}'"><span class="fas fa-trash-alt"></span> Sim, quero remover</button>
+            
+            <input type="reset" class="btn btn-info" value="Não quero remover" onclick="location.href = '{% url 'condominio:list' %}'">
+            <input type="submit" class="btn btn-danger" value="Sim, quero remover">
+
+
+
+            {% comment %} <a href=" {% url 'condominio:delete' pk=condominio.id %}" class="btn btn-danger"> <span class="fas fa-trash-alt"></span> Deletar</a> {% endcomment %}
           </form>
         </div>
       </div>

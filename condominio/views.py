@@ -84,11 +84,8 @@ def unidade_update(request, unidade_id):
         return redirect(f'/condominios/unidade_list/{1}/')  # noqa
 
 
-def unidade_update2(request, unidade_id):
-        form = UnidadeForm(request.POST)
-        unidade = Unidade.objects.get(id=unidade_id)
-        if form.is_valid():
-            unidade = Unidade.objects.get(id=unidade_id)
-            unidade = form.save()
-            unidade.save()
-        return render(request, 'condominio/unidade_form.html', {'unidade': unidade, 'form': form})  # noqa
+def unidade_delete(request, unidade_id):
+    db = Unidade.objects.get(pk=unidade_id)
+    db.delete()
+    #return redirect(f'/condominios/unidade_list/{1}/')  # noqa
+    return render(request, 'condominio/unidade_confirm_delete.html')
