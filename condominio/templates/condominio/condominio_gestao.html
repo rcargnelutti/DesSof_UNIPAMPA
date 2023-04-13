@@ -6,10 +6,9 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header text-center">
-        <span>Condomínio: <strong> {{ object.nome }} </strong></span>
+        <span>Condomínio: <strong> {{ condominio.nome }} </strong></span>
         <div class="col-8 m-auto pt-2 pb-2 text-center" >
-          <a href="{% url 'condominio:unidade_list' object.id %}" class="btn btn-info">Unidades</a>
-          {% comment %} <a href="{% url 'condominio:unidade_create' object.id %}" class="btn btn-info">Unidades</a> {% endcomment %}
+          <a href="{% url 'condominio:unidade_list' condominio.id %}" class="btn btn-info">Unidades</a>
           <a href="" class="btn btn-info">Despesas</a>
           <a href="" class="btn btn-info">Faturas</a>
         </div>

@@ -36,21 +36,16 @@ class CondominioDelete(DeleteView):
 
 def condominio_gestao(request, condominio_id):
     condominio = Condominio.objects.get(id=condominio_id)
-    return render(request, 'condominio/condominio_gestao.html', {'object': condominio})  # noqa
+    return render(request, 'condominio/condominio_gestao.html', {'condominio': condominio})  # noqa
 
 
 # UNIDADES
 
-class UnidadeList(ListView):
-    model = Unidade
-    queryset = Unidade.objects.all()
 
-
-# def unidade_list(request, condominio_id):
-#    condominio = Condominio.objects.get(id=condominio_id)
-#    data = {}
-#    data['unidade'] = Unidade.objects.all()
-#    return render(request, 'condominio/unidade_list.html', data, {'object': condominio})  # noqa
+def unidade_list(request, condominio_id):
+    condominio = Condominio.objects.get(id=condominio_id)
+    unidade = Unidade.objects.filter(condominio_id=condominio_id)
+    return render(request, 'condominio/unidade_list.html', {'unidade': unidade, 'condominio': condominio})  # noqa
 
 
 def unidade_create(request, condominio_id):

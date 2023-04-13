@@ -6,9 +6,9 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header text-center">
-        <span>Condomínio: <strong> {{ objects.nome }} </strong></span>
+        <span>Condomínio: <strong> {{ condominio.nome }} </strong></span>
         <div class="col-8 m-auto pt-2 pb-2 text-center" >
-          <a href="." class="btn btn-info">Unidades</a>
+          <a href="{% url 'condominio:unidade_list' condominio.id %}" class="btn btn-info">Unidades</a>
           <a href="" class="btn btn-info">Despesas</a>
           <a href="" class="btn btn-info">Faturas</a>
         </div>
@@ -16,7 +16,7 @@
       <div class="card-body">
         <div class="col-8 m-auto pt-2 pb-2 text-center" >
           <h4>Unidades</h4>
-          <a href="{% url 'condominio:unidade_create' condominio_id=1 %}" class="btn btn-info"> <span class="fas fa-plus"></span> Nova Unidade</a>
+          <a href="{% url 'condominio:unidade_create' condominio_id=condominio.id %}" class="btn btn-info"> <span class="fas fa-plus"></span> Nova Unidade</a>
         </div>
         <div class="col-8 m-auto pt-2 pb-2 text-center">
           <table class="table">
@@ -29,7 +29,7 @@
               </tr>
             </thead>
             <tbody>
-              {% for unidade in object_list %}
+              {% for unidade in unidade %}
               <tr>
                 <th scope="row">{{unidade.id}}</th>
                 <td>{{unidade.nome}}</td>
