@@ -21,6 +21,7 @@ urlpatterns = [
     #UNIDADE
     path('unidade_list/<int:condominio_id>/', views.unidade_list, name='unidade_list'),  # noqa
     path('unidade_create/<int:condominio_id>/', views.unidade_create, name='unidade_create'),  # noqa
+    path('unidade_update/<int:unidade_id>/', views.unidade_update, name='unidade_update'),  # noqa
 
 
     # FAVICON
