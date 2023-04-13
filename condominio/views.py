@@ -66,18 +66,20 @@ def unidade_create(request, condominio_id):
 
 
 def unidade_update(request, unidade_id):
-    condominio = Condominio.objects.get(id=1)
-    #condominio = Unidade.objects.get(id=unidade_id)
+    unidade = Unidade.objects.get(id=unidade_id)
+    condominio = unidade.condominio
+
     if request.method == "GET":
         form = UnidadeForm(initial={'condominio': condominio})
         return render(request, 'condominio/unidade_form.html', {'condominio': condominio, 'form': form})  # noqa
     else:
-        form = UnidadeForm(request.POST)
+        form = UnidadeForm(request.POST or None, unidade)
         if not form.is_valid():
             return render(request, 'condominio/unidade_form.html', {'condominio': condominio, 'form': form})  # noqa
-        unidade = form.save()
-        unidade.condominio = condominio
-        unidade.save()
+        form.save()
+        #unidade = form.save()
+        #unidade.condominio = condominio
+        #unidade.save()
         # return redirect(reverse(f'/unidade_list/{condominio_id}/'))  # noqa
         return redirect(f'/condominios/unidade_list/{1}/')  # noqa
 
