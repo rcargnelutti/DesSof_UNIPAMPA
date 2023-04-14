@@ -22,10 +22,8 @@ urlpatterns = [
     path('unidade_list/<int:condominio_id>/', views.unidade_list, name='unidade_list'),  # noqa
     path('unidade_create/<int:condominio_id>/', views.unidade_create, name='unidade_create'),  # noqa
     path('unidade_update/<int:unidade_id>/', views.unidade_update, name='unidade_update'),  # noqa
-
     path('unidade_confirm_delete/<int:unidade_id>/', views.unidade_confirm_delete, name='unidade_confirm_delete'),  # noqa
     path('unidade_delete/<int:unidade_id>/', views.unidade_delete, name='unidade_delete'),  # noqa
-
 
     # FAVICON
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico')))  # noqa
