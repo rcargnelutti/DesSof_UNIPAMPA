@@ -44,7 +44,7 @@ def condominio_gestao(request, condominio_id):
 
 def unidade_list(request, condominio_id):
     condominio = Condominio.objects.get(id=condominio_id)
-    unidade = Unidade.objects.filter(condominio_id=condominio_id)
+    unidade = Unidade.objects.order_by("nome").filter(condominio_id=condominio_id)
     return render(request, 'condominio/unidade_list.html', {'unidade': unidade, 'condominio': condominio})  # noqa
 
 
