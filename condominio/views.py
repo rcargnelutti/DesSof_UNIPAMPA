@@ -70,22 +70,18 @@ def unidade_update(request, unidade_id):
     condominio = unidade.condominio
 
     if request.method == "GET":
-        form = UnidadeForm(initial={'condominio': condominio})
+        form = UnidadeForm(instance=unidade)
         return render(request, 'condominio/unidade_form.html', {'condominio': condominio, 'form': form})  # noqa
     else:
-        form = UnidadeForm(request.POST or None, unidade)
+        form = UnidadeForm(request.POST, instance=unidade)
         if not form.is_valid():
             return render(request, 'condominio/unidade_form.html', {'condominio': condominio, 'form': form})  # noqa
         form.save()
-        #unidade = form.save()
-        #unidade.condominio = condominio
-        #unidade.save()
-        # return redirect(reverse(f'/unidade_list/{condominio_id}/'))  # noqa
-        return redirect(f'/condominios/unidade_list/{1}/')  # noqa
+        return redirect(f'/condominios/unidade_list/{unidade.condominio_id}/')  # noqa
 
 
 def unidade_delete(request, unidade_id):
     db = Unidade.objects.get(pk=unidade_id)
     db.delete()
-    #return redirect(f'/condominios/unidade_list/{1}/')  # noqa
+    # return redirect(f'/condominios/unidade_list/{1}/')  # noqa
     return render(request, 'condominio/unidade_confirm_delete.html')
