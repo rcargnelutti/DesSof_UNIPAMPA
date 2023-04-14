@@ -80,8 +80,14 @@ def unidade_update(request, unidade_id):
         return redirect(f'/condominios/unidade_list/{unidade.condominio_id}/')  # noqa
 
 
-def unidade_delete(request, unidade_id):
-    db = Unidade.objects.get(pk=unidade_id)
-    db.delete()
+def unidade_confirm_delete(request, unidade_id):
+    unidade = Unidade.objects.get(pk=unidade_id)
+    # db.delete()
     # return redirect(f'/condominios/unidade_list/{1}/')  # noqa
-    return render(request, 'condominio/unidade_confirm_delete.html')
+    return render(request, 'condominio/unidade_confirm_delete.html', {'unidade': unidade})  # noqa
+
+
+def unidade_delete(request, unidade_id):
+    unidade = Unidade.objects.get(pk=unidade_id)
+    unidade.delete()
+    return redirect(f'/condominios/unidade_list/{unidade.condominio_id}/')  # noqa
