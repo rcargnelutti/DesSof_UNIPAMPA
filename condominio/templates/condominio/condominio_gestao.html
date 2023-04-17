@@ -8,15 +8,28 @@
       <div class="card-header text-center">
         <span>Condomínio: <strong> {{ condominio.nome }} </strong></span>
         <div class="col-8 m-auto pt-2 pb-2 text-center" >
-          <a href="{% url 'condominio:unidade_list' condominio.id %}" class="btn btn-info">Unidades</a>
-          <a href="" class="btn btn-info">Despesas</a>
-          <a href="" class="btn btn-info">Faturas</a>
+          <a href="{% url 'condominio:gestao' condominio_id=condominio.id %}" class="btn btn-secondary">Dashboard</a>
+          <a href="{% url 'condominio:unidade_list' condominio.id %}" class="btn btn-secondary">Unidades</a>
+          <a href="" class="btn btn-secondary">Despesas</a>
+          <a href="" class="btn btn-secondary">Faturas</a>
         </div>
       </div>
       <div class="card-body">
-        <div class="col-8 m-auto pt-2 pb-2 text-center" >
-          Informações do condomínio
-        </div>
+        <div class="col-2 m-auto pt-2 pb-2 ">
+          <h4>Informações do condomínio</h4>
+          <strong>Nome:</strong> {{ condominio.nome }} <br />
+          <strong>Documento:</strong> {{ condominio.documento }} <br />
+          <strong>CEP:</strong> {{ condominio.cep }} <br />
+          <strong>Endereço:</strong> {{ condominio.endereco }}, {{ condominio.numero }} <br />
+          <strong>Bairro:</strong> {{ condominio.bairro }} <br />
+          <strong>Cidade:</strong> {{ condominio.cidade }} <br />
+          <strong>Estado:</strong> {{ condominio.estado }} <br />
+          <strong>País:</strong> {{ condominio.pais }} <br />
+          <strong>Área comum:</strong> {{ condominio.area_comum }} m²<br />
+          <strong>Área privativa:</strong> {{ condominio.area_privativa }} m²<br />
+          <strong>Área total:</strong> {{ condominio.area_total }} m²<br />
+          <strong>Dia de vencimento da fatura:</strong> {{ condominio.dia_vencimento_boleto }} <br />
+          </div>
         <div class="col-8 m-auto pt-4 pb-2 text-center">
         </div>
       </div>

@@ -8,9 +8,10 @@
       <div class="card-header text-center">
         <span>Condomínio: <strong> {{ condominio.nome }} </strong></span>
         <div class="col-8 m-auto pt-2 pb-2 text-center" >
-          <a href="{% url 'condominio:unidade_list' condominio.id %}" class="btn btn-info">Unidades</a>
-          <a href="" class="btn btn-info">Despesas</a>
-          <a href="" class="btn btn-info">Faturas</a>
+          <a href="{% url 'condominio:gestao' condominio_id=condominio.id %}" class="btn btn-secondary">Dashboard</a>
+          <a href="{% url 'condominio:unidade_list' condominio.id %}" class="btn btn-secondary">Unidades</a>
+          <a href="" class="btn btn-secondary">Despesas</a>
+          <a href="" class="btn btn-secondary">Faturas</a>
         </div>
       </div>
       <div class="card-body">
@@ -35,10 +36,9 @@
                 <td>{{unidade.nome}}</td>
                 <td>{{unidade.fracao}}</td>
                 <td style="text-align: center">
-                  {% comment %} <a href=" {% url 'condominio:gestao' condominio_id=condominio.id %}" class="btn btn-success"> <span class="fas fa-gears"></span> Gerenciar</a> {% endcomment %}
-                  <a href=" {% url 'condominio:unidade_update' unidade.id %}" class="btn btn-dark"> <span class="fas fa-edit"></span> Editar</a>
-                  <a href=" {% url 'condominio:detail' pk=unidade.id %}" class="btn btn-primary"> <span class="fas fa-light fa-eye"></span> Visualizar</a>
-                  <a href=" {% url 'condominio:unidade_confirm_delete' unidade.id %}" class="btn btn-danger"> <span class="fas fa-trash-alt"></span> Remover</a>
+                  <a href=" {% url 'condominio:unidade_update' unidade.id %}" class="btn btn-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
+                  {% comment %} <a href=" {% url 'condominio:detail' pk=unidade.id %}" class="btn btn-primary"><i class="fas fa-light fa-eye"></i> Visualizar</a> {% endcomment %}
+                  <a href=" {% url 'condominio:unidade_confirm_delete' unidade.id %}" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Remover"><i class="fas fa-trash-alt"></i></a>
                 </td>
               </tr>
               {% endfor %}

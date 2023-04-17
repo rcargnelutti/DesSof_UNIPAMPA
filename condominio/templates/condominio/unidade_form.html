@@ -6,20 +6,28 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header text-center">
-        <h4>Cadastro de Unidade</h4>
+        <h5><span>Condomínio: [{{ condominio.id }}] {{ condominio.nome }} </span></h5>
+        <div class="col-8 m-auto pt-2 pb-2 text-center" >
+          <a href="{% url 'condominio:gestao' condominio_id=condominio.id %}" class="btn btn-secondary">Dashboard</a>
+          <a href="{% url 'condominio:unidade_list' condominio.id %}" class="btn btn-secondary">Unidades</a>
+          <a href="" class="btn btn-secondary">Despesas</a>
+          <a href="" class="btn btn-secondary">Faturas</a>
+        </div>
       </div>
-            <div class="col-8 m-auto pt-2 pb-2 text-center">
-            <p>Você está salvando uma unidade para o condomínio '{{ condominio.nome }}'</p>
-            <form method="post" action="." >
-                {% csrf_token %}
-                <table align="center">
-                {{ form.as_table }}
-                </table>
-                </br>
-                <button type="reset" class="btn btn-info" onclick="location.href = '{% url 'condominio:unidade_list' condominio.id%}'"><span class="fas fa-arrow-left"></span> Voltar</button>
-                <button type="submit" class="btn btn-success"><span class="fas fa-save"></span> Salvar</button>
-            </form>    
-            </div>
+      <div class="card-body">
+        <div class="col-8 m-auto pt-2 pb-2 text-center">
+          {% comment %} <p>Você está salvando uma unidade para o condomínio: [{{ condominio.id }}] {{ condominio.nome }}</p> {% endcomment %}
+          <h5>Cadastro de Unidade</h5>
+          <form method="post" action="." >
+              {% csrf_token %}
+              <table align="center">
+              {{ form.as_table }}
+              </table>
+              </br>
+              <button type="reset" class="btn btn-info" onclick="location.href = '{% url 'condominio:unidade_list' condominio.id%}'"><span class="fas fa-arrow-left"></span> Voltar</button>
+              <button type="submit" class="btn btn-success"><span class="fas fa-save"></span> Salvar</button>
+          </form>    
+        </div>
       </div>
     </div>
   </div>
