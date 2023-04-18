@@ -13,8 +13,8 @@
           </br></br>
           <form method="post" action="." >
             {% csrf_token %}
-            <button type="reset" class="btn btn-info" onclick="location.href = '{% url 'condominio:list' %}'"><span class="fas fa-arrow-left"></span> Não quero remover</button>
-            <button type="submit" class="btn btn-danger" onclick="location.href = '{% url 'condominio:list' %}'"><span class="fas fa-trash-alt"></span> Sim, quero remover</button>
+            <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:list' %}'"><span class="fas fa-arrow-left"></span> Não quero remover</button>
+            <button type="submit" class="btn btn-outline-danger btn-sm" onclick="location.href = '{% url 'condominio:list' %}'"><span class="fas fa-trash-alt"></span> Sim, quero remover</button>
           </form>
         </div>
       </div>

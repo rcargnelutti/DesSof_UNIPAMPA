@@ -7,17 +7,17 @@
     <div class="card">
       <div class="card-header text-center">
         <h5><span>Condomínio: [{{ condominio.id }}] {{ condominio.nome }} </span></h5>
-        <div class="col-8 m-auto pt-2 pb-2 text-center" >
-          <a href="{% url 'condominio:gestao' condominio_id=condominio.id %}" class="btn btn-secondary">Dashboard</a>
-          <a href="{% url 'condominio:unidade_list' condominio.id %}" class="btn btn-secondary">Unidades</a>
-          <a href="" class="btn btn-secondary">Despesas</a>
-          <a href="" class="btn btn-secondary">Faturas</a>
+        <div class="col-4 m-auto pt-2 pb-2 text-center btn-group btn-group-toggle" data-toggle="buttons">
+          <a href="{% url 'condominio:gestao' condominio_id=condominio.id %}" class="btn btn-outline-secondary btn-sm">Dashboard</a>
+          <a href="{% url 'condominio:unidade_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Unidades</a>
+          <a href="" class="btn btn-outline-secondary btn-sm">Despesas</a>
+          <a href="" class="btn btn-outline-secondary btn-sm">Faturas</a>
         </div>
       </div>
       <div class="card-body">
         <div class="col-8 m-auto pt-2 pb-2 text-center" >
           <h5>Unidades</h5>
-          <a href="{% url 'condominio:unidade_create' condominio_id=condominio.id %}" class="btn btn-info"> <span class="fas fa-plus"></span> Nova Unidade</a>
+          <a href="{% url 'condominio:unidade_create' condominio_id=condominio.id %}" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Nova Unidade</a>
         </div>
         <div class="col-4 m-auto pt-2 pb-2 text-center">
           <table class="table">
@@ -36,9 +36,9 @@
                 <td>{{unidade.nome}}</td>
                 <td>{{unidade.fracao}}</td>
                 <td>
-                  <a href=" {% url 'condominio:unidade_update' unidade.id %}" class="btn btn-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
+                  <a href=" {% url 'condominio:unidade_update' unidade.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
                   {% comment %} <a href=" {% url 'condominio:detail' pk=unidade.id %}" class="btn btn-primary"> <i class="fas fa-light fa-eye"></i> Visualizar</a> {% endcomment %}
-                  <a href=" {% url 'condominio:unidade_confirm_delete' unidade.id %}" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Remover"> <i class="fas fa-trash-alt"></i></a>
+                  <a href=" {% url 'condominio:unidade_confirm_delete' unidade.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Remover"> <i class="fas fa-trash-alt"></i></a>
                 </td>
               </tr>
               {% endfor %}

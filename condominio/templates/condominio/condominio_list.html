@@ -10,7 +10,7 @@
       </div>
       <div class="card-body">
         <div class="col-8 m-auto pt-2 pb-2 text-center" >
-          <a href="{% url 'condominio:create'%}" class="btn btn-info"> <span class="fas fa-plus"></span> Novo Condomínio</a>
+          <a href="{% url 'condominio:create'%}" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Novo Condomínio</a>
         </div>
         <div class="col-8 m-auto pt-4 pb-2 text-center">
           <table class="table">
@@ -29,10 +29,10 @@
                 <td>{{condominio.nome}}</td>
                 <td>{{condominio.documento}}</td>
                 <td style="text-align: center">
-                  <a href=" {% url 'condominio:gestao' condominio_id=condominio.id %}" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Gerenciar"><i class="fas fa-gears"></i></a>
-                  <a href=" {% url 'condominio:update' pk=condominio.id %}" class="btn btn-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
+                  <a href=" {% url 'condominio:gestao' condominio_id=condominio.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Gerenciar"><i class="fas fa-gears"></i></a>
+                  <a href=" {% url 'condominio:update' pk=condominio.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
                   {% comment %} <a href=" {% url 'condominio:detail' pk=condominio.id %}" class="btn btn-primary"> <i class="fas fa-light fa-eye"></i> Visualizar</a> {% endcomment %}
-                  <a href=" {% url 'condominio:delete' pk=condominio.id %}" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Remover"><i class="fas fa-trash-alt"></i></a>
+                  <a href=" {% url 'condominio:delete' pk=condominio.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Remover"><i class="fas fa-trash-alt"></i></a>
                 </td>
               </tr>
               {% endfor %}
