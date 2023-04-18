@@ -47,7 +47,7 @@ class PessoaUnidade(models.Model):
 
     class Morador(models.IntegerChoices):
         PROPRIETARIO = 'P', 'Proprietário'
-        LOCATARIO = 'P', 'Locatário'
+        LOCATARIO = 'L', 'Locatário'
 
     pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name="moradores")
     unidade = models.ForeignKey(Unidade, on_delete=models.PROTECT, related_name="+")
