@@ -30,3 +30,30 @@ class Unidade(models.Model):
     nome = models.CharField(max_length=200)
     fracao = models.CharField('fração', max_length=20)
     condominio = models.ForeignKey(Condominio, on_delete=models.CASCADE, related_name='unidades')
+
+
+class Pessoa(models.Model):
+    nome = models.CharField(max_length=200)
+    documento = models.CharField('CNPJ', max_length=20)
+    status = models.BooleanField(default=True, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.nome
+    
+
+class PessoaUnidade(models.Model):
+
+    class Morador(models.IntegerChoices):
+        PROPRIETARIO = 'P', 'Proprietário'
+        LOCATARIO = 'P', 'Locatário'
+
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name="moradores")
+    unidade = models.ForeignKey(Unidade, on_delete=models.PROTECT, related_name="+")
+    tipo = models.CharField(choices=Morador.choices, default=Morador.PROPRIETARIO)
+    data_inicio = models.DateTimeField(blank=True, null=True)
+    data_fim = models.DateTimeField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
