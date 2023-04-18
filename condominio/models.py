@@ -34,7 +34,7 @@ class Unidade(models.Model):
 
 class Pessoa(models.Model):
     nome = models.CharField(max_length=200)
-    documento = models.CharField('CNPJ', max_length=20)
+    documento = models.CharField('CPF', max_length=20)
     status = models.BooleanField(default=True, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -52,8 +52,8 @@ class PessoaUnidade(models.Model):
     pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name="moradores")
     unidade = models.ForeignKey(Unidade, on_delete=models.PROTECT, related_name="+")
     tipo = models.CharField(choices=Morador.choices, default=Morador.PROPRIETARIO)
-    data_inicio = models.DateTimeField(blank=True, null=True)
-    data_fim = models.DateTimeField(blank=True, null=True)
+    data_inicio = models.DateTimeField('data de início',blank=True, null=True)
+    data_fim = models.DateTimeField('data de fim',blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
