@@ -45,15 +45,17 @@ class Pessoa(models.Model):
 
 class PessoaUnidade(models.Model):
 
-    class Morador(models.IntegerChoices):
+    class Morador(models.TextChoices):
         PROPRIETARIO = 'P', 'Proprietário'
         LOCATARIO = 'L', 'Locatário'
 
     pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name="moradores")
-    unidade = models.ForeignKey(Unidade, on_delete=models.PROTECT, related_name="+")
-    tipo = models.CharField(choices=Morador.choices, default=Morador.PROPRIETARIO)
+    unidade = models.ForeignKey(Unidade, on_delete=models.PROTECT, related_name="moradores")
+    tipo = models.CharField(choices=Morador.choices, default=Morador.PROPRIETARIO, max_length=1)
     data_inicio = models.DateTimeField('data de início',blank=True, null=True)
     data_fim = models.DateTimeField('data de fim',blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f"{self.pessoa} - {self.unidade}"
