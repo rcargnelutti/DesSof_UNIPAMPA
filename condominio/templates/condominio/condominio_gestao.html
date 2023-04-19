@@ -7,7 +7,7 @@
     <div class="card">
       <div class="card-header text-center">
         <h5><span>Condomínio: [{{ condominio.id }}] {{ condominio.nome }} </span></h5>
-        <div class="col-4 m-auto pt-2 pb-2 text-center btn-group btn-group-toggle" data-toggle="buttons">
+        <div class="col-4 m-auto pt-2 pb-2 text-center">
           <a href="{% url 'condominio:gestao' condominio_id=condominio.id %}" class="btn btn-outline-secondary btn-sm">Dashboard</a>
           <a href="{% url 'condominio:unidade_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Unidades</a>
           <a href="" class="btn btn-outline-secondary btn-sm">Despesas</a>
@@ -15,9 +15,9 @@
         </div>
       </div>
       <div class="card-body">
-        <div class="col-3 m-auto pt-2 pb-2">
+        <div class="col-8 m-auto pt-2 pb-2 text-center">
           <h4>Informações do condomínio</h4>
-          <strong>Nome:</strong> {{ condominio.nome }} <br />
+          <strong class="text-center">Nome:</strong> {{ condominio.nome }} <br />
           <strong>Documento:</strong> {{ condominio.documento }} <br />
           <strong>CEP:</strong> {{ condominio.cep }} <br />
           <strong>Endereço:</strong> {{ condominio.endereco }}, {{ condominio.numero }} <br />
@@ -30,8 +30,7 @@
           <strong>Área total:</strong> {{ condominio.area_total }} m²<br />
           <strong>Dia de vencimento da fatura:</strong> {{ condominio.dia_vencimento_boleto }} <br />
           </div>
-        <div class="col-8 m-auto pt-4 pb-2 text-center">
-        </div>
+        
       </div>
     </div>
   </div>
