@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView  # noqa
-from condominio.models import Condominio, Unidade
+from condominio.models import Condominio, Unidade, Pessoa
 from condominio.forms import UnidadeForm
 
 
@@ -88,3 +88,26 @@ def unidade_delete(request, unidade_id):
     unidade = Unidade.objects.get(pk=unidade_id)
     unidade.delete()
     return redirect(f'/condominios/unidade_list/{unidade.condominio_id}/')  # noqa
+
+
+# PESSOAS
+
+class PessoaList(ListView):
+    model = Pessoa
+    queryset = Pessoa.objects.all()
+
+
+class PessoaCreate(CreateView):
+    model = Pessoa
+    fields = ['nome', 'documento', 'status']  # noqa
+    success_url = reverse_lazy('condominio:pessoa_list')
+
+
+class PessoaUpdate(UpdateView):
+    model = Pessoa
+    fields = fields = ['nome', 'documento', 'status']  # noqa
+    success_url = reverse_lazy('condominio:pessoa_list')
+
+
+class PessoaDetail(DetailView):
+    queryset = Pessoa.objects.all()

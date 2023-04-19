@@ -33,9 +33,14 @@ class Unidade(models.Model):
 
 
 class Pessoa(models.Model):
+
+    class Status(models.TextChoices):
+        ATIVO = 'Ativo', 'Ativo'
+        INATIVO = 'Inativo', 'Inativo'
+
     nome = models.CharField(max_length=200)
     documento = models.CharField('CPF', max_length=20)
-    status = models.BooleanField(default=True, blank=True, null=True)
+    status = models.CharField(choices=Status.choices, default=Status.ATIVO, max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -46,11 +51,11 @@ class Pessoa(models.Model):
 class PessoaUnidade(models.Model):
 
     class Morador(models.TextChoices):
-        PROPRIETARIO = 'P', 'Proprietário'
-        LOCATARIO = 'L', 'Locatário'
+        PROPRIETARIO = 'Proprietário', 'Proprietário'
+        LOCATARIO = 'Locatário', 'Locatário'
 
-    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name="moradores")
-    unidade = models.ForeignKey(Unidade, on_delete=models.PROTECT, related_name="moradores")
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name="morador")
+    unidade = models.ForeignKey(Unidade, on_delete=models.PROTECT, related_name="morador")
     tipo = models.CharField(choices=Morador.choices, default=Morador.PROPRIETARIO, max_length=1)
     data_inicio = models.DateTimeField('data de início',blank=True, null=True)
     data_fim = models.DateTimeField('data de fim',blank=True, null=True)
