@@ -56,7 +56,7 @@ class PessoaUnidade(models.Model):
 
     pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name="morador")
     unidade = models.ForeignKey(Unidade, on_delete=models.PROTECT, related_name="morador")
-    tipo = models.CharField(choices=Morador.choices, default=Morador.PROPRIETARIO, max_length=1)
+    tipo = models.CharField(choices=Morador.choices, default=Morador.PROPRIETARIO, max_length=15)
     data_inicio = models.DateTimeField('data de início',blank=True, null=True)
     data_fim = models.DateTimeField('data de fim',blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
