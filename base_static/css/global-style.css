@@ -45,7 +45,11 @@
 	line-height: 1.8;
 	font-weight: normal;
 	background: #fafafa;
-	color: gray; 
+	color: white; 
+  }
+
+  header {
+	background: var(--gray-dark);
   }
   
   #content {
