@@ -3,42 +3,40 @@
 {% block title %}Condomínios{% endblock %}
 
 {% block content %}
-  <div class="">
-    <div class="card">
-      <div class="card-header text-center">
-        <h4>Condomínios</h4>
+  <div class="card">
+    <div class="card-header text-center">
+      <h4>Condomínios</h4>
+    </div>
+    <div class="card-body">
+      <div class="col-8 m-auto pt-2 pb-2 text-center" >
+        <a href="{% url 'condominio:create'%}" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Novo Condomínio</a>
       </div>
-      <div class="card-body">
-        <div class="col-8 m-auto pt-2 pb-2 text-center" >
-          <a href="{% url 'condominio:create'%}" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Novo Condomínio</a>
-        </div>
-        <div class="col-8 m-auto pt-2 pb-2">
-          <table class="table">
-            <thead class="thead-dark">
-              <tr>
-                {% comment %} <th scope="col">Id</th> {% endcomment %}
-                <th scope="col">Nome</th>
-                <th scope="col">Documento</th>
-                <th scope="col" style="text-align: center">Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for condominio in object_list %}
-              <tr>
-                {% comment %} <th scope="row">{{condominio.id}}</th> {% endcomment %}
-                <td>{{condominio.nome}}</td>
-                <td>{{condominio.documento}}</td>
-                <td style="text-align: center">
-                  <a href=" {% url 'condominio:gestao' condominio_id=condominio.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Gerenciar"><i class="fas fa-gears"></i></a>
-                  <a href=" {% url 'condominio:update' pk=condominio.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
-                  {% comment %} <a href=" {% url 'condominio:detail' pk=condominio.id %}" class="btn btn-primary"> <i class="fas fa-light fa-eye"></i> Visualizar</a> {% endcomment %}
-                  <a href=" {% url 'condominio:delete' pk=condominio.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Remover"><i class="fas fa-trash-alt"></i></a>
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
+      <div class="col-8 m-auto pt-2 pb-2">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              {% comment %} <th scope="col">Id</th> {% endcomment %}
+              <th scope="col">Nome</th>
+              <th scope="col">Documento</th>
+              <th scope="col" style="text-align: center">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for condominio in object_list %}
+            <tr>
+              {% comment %} <th scope="row">{{condominio.id}}</th> {% endcomment %}
+              <td>{{condominio.nome}}</td>
+              <td>{{condominio.documento}}</td>
+              <td style="text-align: center">
+                <a href=" {% url 'condominio:gestao' condominio_id=condominio.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Gerenciar"><i class="fas fa-gears"></i></a>
+                <a href=" {% url 'condominio:update' pk=condominio.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
+                {% comment %} <a href=" {% url 'condominio:detail' pk=condominio.id %}" class="btn btn-primary"> <i class="fas fa-light fa-eye"></i> Visualizar</a> {% endcomment %}
+                <a href=" {% url 'condominio:delete' pk=condominio.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Remover"><i class="fas fa-trash-alt"></i></a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
