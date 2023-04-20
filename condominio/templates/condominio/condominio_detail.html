@@ -3,28 +3,26 @@
 {% block title %}Condomínios{% endblock %}
 
 {% block content %}
-  <div class="container-fluid">
-    <div class="card">
-      <div class="card-header text-center">
-        <h4>Detalhes do Condomínio</h4>
-      </div>
-      <div class="col-2 m-auto pt-4 pb-2 ">
-        <strong>Nome:</strong> {{ object.nome }} <br />
-        <strong>Documento:</strong> {{ object.documento }} <br />
-        <strong>CEP:</strong> {{ object.cep }} <br />
-        <strong>Endereço:</strong> {{ object.endereco }}, {{ object.numero }} <br />
-        <strong>Bairro:</strong> {{ object.bairro }} <br />
-        <strong>Cidade:</strong> {{ object.cidade }} <br />
-        <strong>Estado:</strong> {{ object.estado }} <br />
-        <strong>País:</strong> {{ object.pais }} <br />
-        <strong>Área comum:</strong> {{ object.area_comum }} m²<br />
-        <strong>Área privativa:</strong> {{ object.area_privativa }} m²<br />
-        <strong>Área total:</strong> {{ object.area_total }} m²<br />
-        <strong>Dia de vencimento da fatura:</strong> {{ object.dia_vencimento_boleto }} <br />
-      </div>
-      <div class="col-8 m-auto pt-2 pb-2 text-center" >
-        <button type="reset" class="btn btn-info" onclick="location.href = '{% url 'condominio:list' %}'"><span class="fas fa-arrow-left"></span> Voltar</button>
-      </div>
+  <div class="card">
+    <div class="card-header text-center">
+      <h4>Detalhes do Condomínio</h4>
+    </div>
+    <div class="col-2 m-auto pt-4 pb-2 ">
+      <strong>Nome:</strong> {{ object.nome }} <br />
+      <strong>Documento:</strong> {{ object.documento }} <br />
+      <strong>CEP:</strong> {{ object.cep }} <br />
+      <strong>Endereço:</strong> {{ object.endereco }}, {{ object.numero }} <br />
+      <strong>Bairro:</strong> {{ object.bairro }} <br />
+      <strong>Cidade:</strong> {{ object.cidade }} <br />
+      <strong>Estado:</strong> {{ object.estado }} <br />
+      <strong>País:</strong> {{ object.pais }} <br />
+      <strong>Área comum:</strong> {{ object.area_comum }} m²<br />
+      <strong>Área privativa:</strong> {{ object.area_privativa }} m²<br />
+      <strong>Área total:</strong> {{ object.area_total }} m²<br />
+      <strong>Dia de vencimento da fatura:</strong> {{ object.dia_vencimento_boleto }} <br />
+    </div>
+    <div class="col-8 m-auto pt-2 pb-2 text-center" >
+      <button type="reset" class="btn btn-info" onclick="location.href = '{% url 'condominio:list' %}'"><span class="fas fa-arrow-left"></span> Voltar</button>
     </div>
   </div>
 {% endblock %}

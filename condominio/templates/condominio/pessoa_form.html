@@ -3,22 +3,20 @@
 {% block title %}Pessoas{% endblock %}
 
 {% block content %}
-  <div class="container-fluid">
-    <div class="card">
-      <div class="card-header text-center">
-        <h4>Cadastro de Pessoas</h4>
-      </div>
-        <div class="col-8 m-auto pt-4 pb-2 text-center">
-          <form method="post" action="." >
-            {% csrf_token %}
-            <table align="center">
-              {{ form.as_table}}
-            </table>
-            </br>
-            <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:pessoa_list' %}'"><span class="fas fa-arrow-left"></span> Voltar</button>
-            <button type="submit" class="btn btn-outline-success btn-sm"><span class="fas fa-save"></span> Salvar</button>
-          </form>
-        </div>
+  <div class="card">
+    <div class="card-header text-center">
+      <h4>Cadastro de Pessoas</h4>
+    </div>
+      <div class="col-8 m-auto pt-4 pb-2 text-center">
+        <form method="post" action="." >
+          {% csrf_token %}
+          <table align="center">
+            {{ form.as_table}}
+          </table>
+          </br>
+          <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:pessoa_list' %}'"><span class="fas fa-arrow-left"></span> Voltar</button>
+          <button type="submit" class="btn btn-outline-success btn-sm"><span class="fas fa-save"></span> Salvar</button>
+        </form>
       </div>
     </div>
   </div>

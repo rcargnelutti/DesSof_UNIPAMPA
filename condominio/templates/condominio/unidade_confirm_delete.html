@@ -3,17 +3,15 @@
 {% block title %}Unidade{% endblock %}
 
 {% block content %}
-  <div class="container-fluid">
-    <div class="card">
-      <div class="card-header text-center">
-        <h4>Remover Unidade</h4>
-      </div>
-        <div class="col-8 m-auto pt-4 pb-2 text-center">
-          Tem certeza que deseja remover a unidade <strong> '{{ unidade.nome }}' </strong>? 
-          </br></br>
-          <a href=" {% url 'condominio:unidade_list' unidade.condominio_id %}" class="btn btn-outline-info btn-sm"> <span class="fas fa-arrow-left"></span> Não quero remover</a>
-          <a href=" {% url 'condominio:unidade_delete' unidade.id %}" class="btn btn-outline-danger btn-sm"> <span class="fas fa-trash-alt"></span> Sim, quero remover</a>
-        </div>
+  <div class="card">
+    <div class="card-header text-center">
+      <h4>Remover Unidade</h4>
+    </div>
+      <div class="col-8 m-auto pt-4 pb-2 text-center">
+        Tem certeza que deseja remover a unidade <strong> '{{ unidade.nome }}' </strong>? 
+        </br></br>
+        <a href=" {% url 'condominio:unidade_list' unidade.condominio_id %}" class="btn btn-outline-info btn-sm"> <span class="fas fa-arrow-left"></span> Não quero remover</a>
+        <a href=" {% url 'condominio:unidade_delete' unidade.id %}" class="btn btn-outline-danger btn-sm"> <span class="fas fa-trash-alt"></span> Sim, quero remover</a>
       </div>
     </div>
   </div>

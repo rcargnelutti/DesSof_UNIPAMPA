@@ -3,19 +3,17 @@
 {% block title %}Pessoa{% endblock %}
 
 {% block content %}
-  <div class="container-fluid">
-    <div class="card">
-      <div class="card-header text-center">
-        <h4>Detalhes da Pessoa</h4>
-      </div>
-      <div class="col-2 m-auto pt-4 pb-2 ">
-        <strong>Nome:</strong> {{ object.nome }} <br />
-        <strong>Documento:</strong> {{ object.documento }} <br />
-        <strong>Status:</strong> {{ object.status }} <br />
-      </div>
-      <div class="col-8 m-auto pt-2 pb-2 text-center" >
-        <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:pessoa_list' %}'"><span class="fas fa-arrow-left"></span> Voltar</button>
-      </div>
+  <div class="card">
+    <div class="card-header text-center">
+      <h4>Detalhes da Pessoa</h4>
+    </div>
+    <div class="col-2 m-auto pt-4 pb-2 ">
+      <strong>Nome:</strong> {{ object.nome }} <br />
+      <strong>Documento:</strong> {{ object.documento }} <br />
+      <strong>Status:</strong> {{ object.status }} <br />
+    </div>
+    <div class="col-8 m-auto pt-2 pb-2 text-center" >
+      <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:pessoa_list' %}'"><span class="fas fa-arrow-left"></span> Voltar</button>
     </div>
   </div>
 {% endblock %}
