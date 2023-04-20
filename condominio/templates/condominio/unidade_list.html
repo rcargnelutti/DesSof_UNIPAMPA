@@ -6,7 +6,7 @@
   <div class="card">
     <div class="card-header text-center">
       <h5><span>Condomínio: [{{ condominio.id }}] {{ condominio.nome }} </span></h5>
-      <div class="col-4 m-auto pt-2 pb-2 text-center btn-group btn-group-toggle" data-toggle="buttons">
+      <div class="col-4 m-auto pt-2 pb-2 text-center" data-toggle="buttons">
         <a href="{% url 'condominio:gestao' condominio_id=condominio.id %}" class="btn btn-outline-secondary btn-sm">Dashboard</a>
         <a href="{% url 'condominio:unidade_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Unidades</a>
         <a href="" class="btn btn-outline-secondary btn-sm">Despesas</a>

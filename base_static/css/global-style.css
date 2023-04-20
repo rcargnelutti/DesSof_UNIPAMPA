@@ -75,11 +75,7 @@ header {
 	background: var(--gray-dark) ;
 	color: #fff;
 	font-size: 14px;
-	height: auto;
-}
-
-#sidebar ul {
-	height: 100vh;
+	height: 95vh;
 }
 	
 #sidebar ul li a {
