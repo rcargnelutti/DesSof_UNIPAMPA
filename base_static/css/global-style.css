@@ -43,6 +43,7 @@ body {
 
 header {
 	background: var(--gray-dark);
+	border-bottom : 0.1px solid var(--secondary)
 }
   
 #content {

@@ -45,14 +45,14 @@
 	<div class="d-flex">
 		<nav id="sidebar">
 			<ul class="list-unstyled">
-				<li class="active">
-					<a href="{% url 'condominio:list' %}"><span class="fa fa-house" data-bs-toggle="tooltip" data-bs-placement="top" title="Home"></span></a>
+				<li data-bs-toggle="tooltip" data-bs-placement="top" title="Home">
+					<a href="{% url 'condominio:list' %}"><span class="fa fa-house"></span></a>
 				</li>
-				<li>
-					<a href="{% url 'condominio:list' %}"><span class="fa fa-building" data-bs-toggle="tooltip" data-bs-placement="top" title="Condomínios"></span></a>
+				<li data-bs-toggle="tooltip" data-bs-placement="top" title="Condomínios">
+					<a href="{% url 'condominio:list' %}"><span class="fa fa-building"></span></a>
 				</li>
-				<li>
-					<a href="{% url 'condominio:pessoa_list' %}"><span class="fa fa-user" data-bs-toggle="tooltip" data-bs-placement="top" title="Pessoas"></span></a>
+				<li data-bs-toggle="tooltip" data-bs-placement="top" title="Pessoas">
+					<a href="{% url 'condominio:pessoa_list' %}"><span class="fa fa-user"></span></a>
 				</li>
 			</ul>
 		</nav>
