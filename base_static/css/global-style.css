@@ -1,22 +1,86 @@
-html {
+:root {
+	--blue: #007bff;
+	--indigo: #6610f2;
+	--purple: #6f42c1;
+	--pink: #e83e8c;
+	--red: #dc3545;
+	--orange: #fd7e14;
+	--yellow: #ffc107;
+	--green: #28a745;
+	--teal: #20c997;
+	--cyan: #17a2b8;
+	--white: #fff;
+	--gray: #6c757d;
+	--gray-dark: #343a40;
+	--primary: #007bff;
+	--secondary: #6c757d;
+	--success: #28a745;
+	--info: #17a2b8;
+	--warning: #ffc107;
+	--danger: #dc3545;
+	--light: #f8f9fa;
+	--dark: #343a40;
+	--breakpoint-xs: 0;
+	--breakpoint-sm: 576px;
+	--breakpoint-md: 768px;
+	--breakpoint-lg: 992px;
+	--breakpoint-xl: 1200px;
+	--font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	--font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; 
+  }
+  
+  html {
 	position: relative;
-	min-height: 100%;
-}
-
-body {
-	/* Margin bottom by footer height */
-	margin-bottom: 60px;
-	background: #f8f9fa;
-}
-
-span {
-	margin: 0.1em;
-}
-
-.bg-light {
-	background-color: #ffffff !important;
-}
-
-.navbar-brand {
+	  min-height: 100%;
+	font-family: sans-serif;
+	line-height: 1.15;
+	-webkit-text-size-adjust: 100%;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0); 
+  }
+  
+  body {
+	margin: 0;
+	font-family: "Poppins", Arial, sans-serif;
+	font-size: 14px;
+	line-height: 1.8;
+	font-weight: normal;
+	background: #fafafa;
+	color: gray; 
+  }
+  
+  #content {
+	width: 100%;
+	-webkit-transition: all 0.3s;
+	-o-transition: all 0.3s;
+	transition: all 0.3s; 
+  }
+  
+  .navbar-brand {
+	display: inline-block;
+	padding-top: 0.3125rem;
+	padding-bottom: 0.3125rem;
 	margin-left: 1rem;
-}
+	font-size: 1.25rem;
+	line-height: inherit;
+  }
+  
+  #sidebar {
+	min-width: 50px;
+	max-width: 50px;
+	text-align: center;
+	background: var(--gray-dark) ;
+	color: #fff;
+	font-size: 14px;
+	height: auto;
+  }
+	
+  #sidebar ul li a {
+	list-style-type: none;
+	padding: 10px 0;
+	display: block;
+	color: white;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+  }
+  
+
+

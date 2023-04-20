@@ -1,5 +1,6 @@
 {% load static %}
 
+<!doctype html>
 <html lang="pt-br">
 
 <head>
@@ -11,6 +12,9 @@
 
 	<!-- Favicon -->
 	<link rel="shortcut icon" href="{% static 'favicon.ico' %}"/>
+
+	<!-- Google -->
+	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
 
 	<!-- Popper -->
 	<script src="https://unpkg.com/@popperjs/core@2"></script>
@@ -32,19 +36,36 @@
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	<a class="navbar-brand" href="{% url 'condominio:list' %}">
-		<img id="logo" src="{% static 'favicon.ico' %}" width="30" height="30" class="d-inline-block align-top" alt="">
-		Administração de Condomínios</a>
-</nav>
+	<header>
+		  <a class="navbar-brand" href="{% url 'condominio:list' %}">
+			<img id="logo" src="{% static 'favicon.ico' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+			Administração de Condomínios</a>
+	</header>
 
-<br>
-
-{% block content %}
+	<div class="d-flex align-items-stretch">
+		<nav id="sidebar">
+		  <ul class="list-unstyled">
+			<li class="active">
+			  <a href="{% url 'condominio:list' %}"><span class="fa fa-house"></span></a>
+			</li>
+			<li>
+			  <a href="{% url 'condominio:list' %}"><span class="fa fa-building"></span></a>
+			</li>
+			<li>
+				<a href="{% url 'condominio:pessoa_list' %}"><span class="fa fa-user"></span></a>
+			</li>
+		  </ul>
+		</nav>
+	
+		<!-- Page Content  -->
+		<div id="content" class="p-2">
+			
+			{% block content %}
 				
-{% endblock %}
-
-<br>
+			{% endblock %}
+		  
+		</div>
+	  </div>
 
 <script>
 	var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
