@@ -11,11 +11,11 @@
       <div class="col-8 m-auto pt-2 pb-2 text-center" >
         <a href="{% url 'condominio:pessoa_create'%}" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Nova Pessoa</a>
       </div>
-      <div class="col-8 m-auto pt-2 pb-2 ">
+      <div class="col-8 m-auto pt-2 pb-2">
         <table class="table">
           <thead class="thead-dark">
             <tr>
-              <th scope="col">Id</th>
+              {% comment %} <th scope="col">Id</th> {% endcomment %}
               <th scope="col">Nome</th>
               <th scope="col">Documento</th>
               <th scope="col">Status</th>
@@ -25,7 +25,7 @@
           <tbody>
             {% for pessoa in object_list %}
             <tr>
-              <th scope="row">{{pessoa.id}}</th>
+              {% comment %} <th scope="row">{{pessoa.id}}</th> {% endcomment %}
               <td>{{pessoa.nome}}</td>
               <td>{{pessoa.documento}}</td>
               <td>{{pessoa.status}}</td>
