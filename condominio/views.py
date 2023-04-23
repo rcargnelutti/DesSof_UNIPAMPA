@@ -44,7 +44,7 @@ def condominio_gestao(request, condominio_id):
 
 def unidade_list(request, condominio_id):
     condominio = Condominio.objects.get(id=condominio_id)
-    unidade = Unidade.objects.order_by("nome").filter(condominio_id=condominio_id)
+    unidade = Unidade.objects.order_by("nome").filter(condominio_id=condominio_id)  # noqa
     return render(request, 'condominio/unidade_list.html', {'unidade': unidade, 'condominio': condominio})  # noqa
 
 
@@ -111,3 +111,13 @@ class PessoaUpdate(UpdateView):
 
 class PessoaDetail(DetailView):
     queryset = Pessoa.objects.all()
+
+
+# Pessoa Unidade - Morador
+
+def morador_list(request):
+    return render(request, 'condominio/morador_list.html')  # noqa
+
+
+def morador_create(request):
+    return render(request, 'condominio/morador_form.html')  # noqa

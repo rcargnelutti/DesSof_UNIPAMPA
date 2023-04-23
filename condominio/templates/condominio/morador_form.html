@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Unidades{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header text-center">
+      <h5><span>Condomínio: [1] Condomínio 1 </span></h5>
+      <div class="col-8 m-auto pt-2 pb-2 text-center">
+        <a href="" class="btn btn-outline-secondary btn-sm">Dashboard</a>
+        <a href="" class="btn btn-outline-secondary btn-sm">Unidades</a>
+        <a href="" class="btn btn-outline-secondary btn-sm">Despesas</a>
+        <a href="" class="btn btn-outline-secondary btn-sm">Faturas</a>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="col-8 m-auto pt-2 pb-2 text-center">
+        {% comment %} <p>Você está salvando uma unidade para o condomínio: [{{ condominio.id }}] {{ condominio.nome }}</p> {% endcomment %}
+        <h5>Unidade: 101 </h5>
+
+          <form method="post" action="." >
+            <input type="hidden" name="csrfmiddlewaretoken" value="ioBpCu4hL6cnNIzyMi9p3cKaAJsNeLBWGzJG5kW3ZaRVGDqPli4gBKkQUyCiBxPJ">
+            <table align="center">
+
+              <tr>
+                <th><label for="id_nome">Pessoa:</label></th>
+                <td> 
+                  <select name="nome" id="id_nome" class="form-control" style="width: 250px;">
+                    <option value="" selected>Selecione uma pessoa</option>
+                    <option value="Pessoa 1">Pessoa 1</option>
+                    <option value="Pessoa 2">Pessoa 2</option>
+                  </select>
+                </td>
+              </tr>
+
+              <tr>
+                <th><label for="id_nome">Vínculo:</label></th>
+                <td> 
+                  <select name="nome" id="id_nome" class="form-control" style="width: 250px;">
+                    <option value="Vínculo" selected>Selecione um vínculo</option>
+                    <option value="Proprietário">Proprietário</option>
+                    <option value="Locatário">Locatário</option>
+                  </select>
+                </td>
+              </tr>
+
+              <tr>
+                <th><label for="id_data_inicio">Data de Início:</label></th>
+                <td><input type="text" class="form-control date-time-mask" placeholder="00/00/0000" name="data_inicio" maxlength="10" required id="id_data_inicio" style="width: 125px;"></td>
+              </tr>
+              <tr>
+                <th><label for="id_data_termino">Data de término:</label></th>
+                <td><input type="text" class="form-control date-time-mask" placeholder="00/00/0000" name="data_termino" maxlength="10" required id="id_data_termino" style="width: 125px;"></td>
+              </tr>
+            </table>
+            </br>
+            <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '/condominios/unidade_list/1/'"><span class="fas fa-arrow-left"></span> Voltar</button>
+            <button type="submit" class="btn btn-outline-success btn-sm"><span class="fas fa-save"></span> Salvar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
