@@ -35,6 +35,10 @@ urlpatterns = [
     path('morador_list/', views.morador_list, name='morador_list'),  # noqa
     path('morador_create/', views.morador_create, name='morador_create'),  # noqa
 
+    # RECEITAS E DESPESAS
+    path('receita_despesa_list/', views.receita_despesa_list, name='receita_despesa_list'),  # noqa
+    path('receita_despesa_create/', views.receita_despesa_create, name='receita_despesa_create'),  # noqa
+
 
     # FAVICON
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico')))  # noqa

@@ -121,3 +121,13 @@ def morador_list(request):
 
 def morador_create(request):
     return render(request, 'condominio/morador_form.html')  # noqa
+
+
+# Pessoa Unidade - Morador
+
+def receita_despesa_list(request):
+    return render(request, 'condominio/receita_despesa_list.html')  # noqa
+
+
+def receita_despesa_create(request):
+    return render(request, 'condominio/receita_despesa_form.html')  # noqa
