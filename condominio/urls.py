@@ -39,6 +39,10 @@ urlpatterns = [
     path('receita_despesa_list/', views.receita_despesa_list, name='receita_despesa_list'),  # noqa
     path('receita_despesa_create/', views.receita_despesa_create, name='receita_despesa_create'),  # noqa
 
+    # FATURA
+    path('fatura_list/', views.fatura_list, name='fatura_list'),  # noqa
+    path('fatura_create/', views.fatura_create, name='fatura_create'),  # noqa
+
 
     # FAVICON
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico')))  # noqa

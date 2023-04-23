@@ -123,7 +123,7 @@ def morador_create(request):
     return render(request, 'condominio/morador_form.html')  # noqa
 
 
-# Pessoa Unidade - Morador
+# Receita/Despesa
 
 def receita_despesa_list(request):
     return render(request, 'condominio/receita_despesa_list.html')  # noqa
@@ -131,3 +131,13 @@ def receita_despesa_list(request):
 
 def receita_despesa_create(request):
     return render(request, 'condominio/receita_despesa_form.html')  # noqa
+
+
+# Despesa
+
+def fatura_list(request):
+    return render(request, 'condominio/fatura_list.html')  # noqa
+
+
+def fatura_create(request):
+    return render(request, 'condominio/fatura_form.html')  # noqa

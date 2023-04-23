@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Faturas{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header text-center">
+      <h5><span>Condomínio: [1] Condomínio 1 </span></h5>
+      <div class="col-8 m-auto pt-2 pb-2 text-center">
+        <a href="" class="btn btn-outline-secondary btn-sm">Dashboard</a>
+        <a href="" class="btn btn-outline-secondary btn-sm">Unidades</a>
+        <a href="" class="btn btn-outline-secondary btn-sm">Despesas</a>
+        <a href="" class="btn btn-outline-secondary btn-sm">Faturas</a>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="col-8 m-auto pb-2">
+        {% comment %} <p>Você está salvando uma unidade para o condomínio: [{{ condominio.id }}] {{ condominio.nome }}</p> {% endcomment %}
+        <h5 class="text-center">Gerar Faturas</h5>
+      </br>
+          <form method="post" action="." >
+            <input type="hidden" name="csrfmiddlewaretoken" value="ioBpCu4hL6cnNIzyMi9p3cKaAJsNeLBWGzJG5kW3ZaRVGDqPli4gBKkQUyCiBxPJ">
+            <table align="center">
+              <tr>
+                <th><label for="id_data">Perído:</label></th>
+                <td>
+                  <input type="text" class="form-control date-time-mask" placeholder="00/00/0000" name="data" maxlength="10" required id="id_data" style="width: 125px;">
+                </td>
+                <td>
+                  <input type="text" class="form-control date-time-mask" placeholder="00/00/0000" name="data" maxlength="10" required id="id_data" style="width: 125px;">
+                </td>
+              </tr>
+
+
+            </table>
+            </br>
+            <div class="text-center">
+              <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '/condominios/unidade_list/1/'"><span class="fas fa-arrow-left"></span> Voltar</button>
+              <button type="submit" class="btn btn-outline-success btn-sm"><span class="fas fa-save"></span> Gerar</button>
+            </br>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

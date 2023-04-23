@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Morador{% endblock %}
+{% block title %}Despesas{% endblock %}
 
 {% block content %}
   <div class="card">
@@ -18,7 +18,7 @@
         <h5>Despesas</h5>
         <a href="" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Nova Despesa</a>
       </div>
-      <div class="col-8 m-auto pt-2 pb-2">
+      <div class="col-12 m-auto pt-2 pb-2">
         <table class="table">
           <thead class="thead-dark">
             <tr>
@@ -38,7 +38,7 @@
             <td>10/04/2023</td>
             <td>
               <a href=" " class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
-              <a href=" " class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar"> <i class="fas fa-trash-alt"></i></a>
+              <a href=" " class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Remover"> <i class="fas fa-trash-alt"></i></a>
             </td>
           </tbody>
 
@@ -50,23 +50,8 @@
             <td>10/04/2023</td>
             <td>
               <a href=" " class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
-              <a href=" " class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar"> <i class="fas fa-trash-alt"></i></a>
+              <a href=" " class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Remover"> <i class="fas fa-trash-alt"></i></a>
             </td>
-
-            {% for morador in morador %}
-            <tr style="text-align: center">
-              {% comment %} <th scope="row">{{unidade.id}}</th> {% endcomment %}
-              <td>{{morador.nome}}</td>
-              <td>{{morador.vinculo}}</td>
-              <td>{{morador.data_inicio}}</td>
-              <td>{{morador.data_fim}}</td>
-              <td>
-                <a href=" {% url 'condominio:unidade_update' unidade.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
-                {% comment %} <a href=" {% url 'condominio:detail' pk=unidade.id %}" class="btn btn-primary"> <i class="fas fa-light fa-eye"></i> Visualizar</a> {% endcomment %}
-                <a href=" {% url 'condominio:unidade_confirm_delete' unidade.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Remover"> <i class="fas fa-trash-alt"></i></a>
-              </td>
-            </tr>
-            {% endfor %}
           </tbody>
         </table>
       </div>
