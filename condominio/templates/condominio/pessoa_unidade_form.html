@@ -19,21 +19,7 @@
         <h5 class="text-center">Unidade: [{{unidade.id}}] {{unidade.nome}} </h5>
           </br>
           <form method="post" action="." >
-            {% csrf_token %}
-            {% comment %} <table class="col-4 m-auto pt-2 pb-2 text-center">
-              <tr>
-                <td><strong><label for="User">Pessoa:</label></strong></td>
-                <td>
-                  <select name="pessoa" id="pessoa" style="width: 300px;">
-                    {% for p in pessoa %}
-                      <option value="{{ p.id }}" {% if p.id == pessoa.id %} selected{%endif %}>{{ p.nome }}</option>
-                    {% endfor %}
-                  </select>
-                </td>
-              </tr>
-            </table> {% endcomment %}
-            
-            
+            {% csrf_token %}         
             <table align="center">
             {{ form.as_table }}
             </table>

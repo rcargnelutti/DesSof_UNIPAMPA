@@ -118,7 +118,6 @@ class PessoaDetail(DetailView):
 def pessoa_unidade_list(request, unidade_id):
     unidade = Unidade.objects.get(id=unidade_id)  # noqa
     pessoa_unidade = PessoaUnidade.objects.order_by("data_fim").filter(unidade_id=unidade_id)  # noqa
-
     return render(request, 'condominio/pessoa_unidade_list.html', {'unidade': unidade, 'pessoa_unidade': pessoa_unidade})  # noqa
 
 
