@@ -130,7 +130,7 @@ def pessoa_unidade_list(request, unidade_id):
 
 def pessoa_unidade_create(request, unidade_id):
     unidade = Unidade.objects.get(id=unidade_id)
-    pessoa = Pessoa.objects.get(id=1)
+    pessoa = Pessoa.objects.get(id=2)
 
     if request.method == "GET":
         form = PessoaUnidadeForm(initial={'unidade': unidade})
