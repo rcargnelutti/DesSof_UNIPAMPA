@@ -34,10 +34,10 @@
             {% for pu in pessoa_unidade %}
             <tr style="text-align: center">
               <th scope="row">{{pu.id}}</th>
-              <td>{{pu.nome}}</td>
+              <td>{{pu.pessoa.nome}}</td>
               <td>{{pu.vinculo}}</td>
-              <td>{{pu.data_inicio}}</td>
-              <td>{{pu.data_fim}}</td>
+              <td>{{pu.data_inicio|date:"d/m/Y"}}</td>
+              <td>{{pu.data_fim|date:"d/m/Y"}}</td>
               <td>
                 {% comment %} <a href=" {% url 'condominio:unidade_update' unidade.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a> {% endcomment %}
               </td>
