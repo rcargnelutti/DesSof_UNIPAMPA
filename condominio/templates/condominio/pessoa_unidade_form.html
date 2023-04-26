@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Unidades{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header text-center">
+      <h5><span>Condomínio: [1] Condomínio 1 </span></h5>
+      <div class="col-8 m-auto pt-2 pb-2 text-center">
+        <a href="" class="btn btn-outline-secondary btn-sm">Dashboard</a>
+        <a href="" class="btn btn-outline-secondary btn-sm">Unidades</a>
+        <a href="" class="btn btn-outline-secondary btn-sm">Despesas</a>
+        <a href="" class="btn btn-outline-secondary btn-sm">Faturas</a>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="col-8 m-auto pt-2 pb-2 text-center">
+        {% comment %} <p>Você está salvando uma unidade para o condomínio: [{{ condominio.id }}] {{ condominio.nome }}</p> {% endcomment %}
+        <h5 class="text-center">Unidade: [{{unidade.id}}] {{unidade.nome}} </h5>
+          </br>
+          <form method="post" action="." >
+            {% csrf_token %}
+            <table align="center">
+            {{ form.as_table }}
+            </table>
+            </br>
+            <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:pessoa_unidade_list' unidade.id%}'"><span class="fas fa-arrow-left"></span> Voltar</button>
+            <button type="submit" class="btn btn-outline-success btn-sm"><span class="fas fa-save"></span> Salvar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

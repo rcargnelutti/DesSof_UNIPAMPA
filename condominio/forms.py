@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 
-from condominio.models import Condominio, Unidade, Pessoa
+from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade
 
 
 class CondominioForm(ModelForm):
@@ -20,3 +20,9 @@ class PessoaForm(ModelForm):
     class Meta:
         model = Pessoa
         fields = ('nome', 'documento', 'status',)
+
+
+class PessoaUnidadeForm(ModelForm):
+    class Meta:
+        model = PessoaUnidade
+        fields = ('vinculo', 'data_inicio', 'data_fim',)  # noqa

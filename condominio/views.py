@@ -1,8 +1,8 @@
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView  # noqa
-from condominio.models import Condominio, Unidade, Pessoa
-from condominio.forms import UnidadeForm
+from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade
+from condominio.forms import UnidadeForm, PessoaUnidadeForm
 
 
 # CONDOMÍNIO
@@ -113,14 +113,37 @@ class PessoaDetail(DetailView):
     queryset = Pessoa.objects.all()
 
 
-# Pessoa Unidade - Morador
+# PESSOAUNIDADE - VINCULO / MORADOR
 
-def morador_list(request):
-    return render(request, 'condominio/morador_list.html')  # noqa
+def pessoa_unidade_list(request, unidade_id):
+    unidade = Unidade.objects.get(id=unidade_id)  # noqa
+    pessoa_unidade = PessoaUnidade.objects.order_by("data_fim").filter(unidade_id=unidade_id)  # noqa
+
+    return render(request, 'condominio/pessoa_unidade_list.html', {'unidade': unidade, 'pessoa_unidade': pessoa_unidade})  # noqa
 
 
-def morador_create(request):
-    return render(request, 'condominio/morador_form.html')  # noqa
+# class PessoaUnidadeCreate(CreateView):
+#    model = PessoaUnidade
+#    fields = ['vinculo', 'data_inicio', 'data_fim']  # noqa
+#    success_url = reverse_lazy('condominio:pessoa_list')
+
+
+def pessoa_unidade_create(request, unidade_id):
+    unidade = Unidade.objects.get(id=unidade_id)
+    pessoa = Pessoa.objects.get(id=1)
+
+    if request.method == "GET":
+        form = PessoaUnidadeForm(initial={'unidade': unidade})
+        return render(request, 'condominio/pessoa_unidade_form.html', {'unidade': unidade, 'form': form})  # noqa
+    else:
+        form = PessoaUnidadeForm(request.POST)
+        if not form.is_valid():
+            return render(request, 'condominio/pessoa_unidade_form.html', {'unidade': unidade, 'form': form})  # noqa
+        pessoa_unidade = form.save(commit=False)
+        pessoa_unidade.unidade = unidade
+        pessoa_unidade.pessoa = pessoa
+        pessoa_unidade.save()
+        return redirect(f'/condominios/pessoa_unidade_list/{unidade_id}/')  # noqa
 
 
 # Receita/Despesa

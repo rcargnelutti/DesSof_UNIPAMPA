@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Vínculo{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header text-center">
+      <h5><span>Condomínio: [1] Condomínio 1 </span></h5>
+      <div class="col-8 m-auto pt-2 pb-2 text-center">
+        <a href="" class="btn btn-outline-secondary btn-sm">Dashboard</a>
+        <a href="" class="btn btn-outline-secondary btn-sm">Unidades</a>
+        <a href="" class="btn btn-outline-secondary btn-sm">Despesas</a>
+        <a href="" class="btn btn-outline-secondary btn-sm">Faturas</a>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="col-8 m-auto pt-2 pb-2 text-center" >
+        <h5>Unidade: [{{unidade.id}}] {{unidade.nome}} </h5>
+        <a href="{% url 'condominio:pessoa_unidade_create' unidade_id=unidade.id %}" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Novo Vínculo</a>
+      </div>
+      <div class="col-8 m-auto pt-2 pb-2 text-center">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr style="text-align: center">
+              <th scope="col">Id</th>
+              <th scope="col">Nome</th>
+              <th scope="col">Vínculo</th>
+              <th scope="col">Data de início</th>
+              <th scope="col">Data de término</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for pu in pessoa_unidade %}
+            <tr style="text-align: center">
+              <th scope="row">{{pu.id}}</th>
+              <td>{{pu.nome}}</td>
+              <td>{{pu.vinculo}}</td>
+              <td>{{pu.data_inicio}}</td>
+              <td>{{pu.data_fim}}</td>
+              <td>
+                {% comment %} <a href=" {% url 'condominio:unidade_update' unidade.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a> {% endcomment %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}
