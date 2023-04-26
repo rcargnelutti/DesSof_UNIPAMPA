@@ -28,7 +28,14 @@ class PessoaForm(ModelForm):
 class PessoaUnidadeForm(ModelForm):
     class Meta:
         model = PessoaUnidade
-        fields = ('vinculo', 'data_inicio', 'data_fim',)  # noqa
+        fields = ('pessoa', 'vinculo', 'data_inicio', 'data_fim',)  # noqa
         data_inicio = forms.DateField(widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=settings.DATE_INPUT_FORMATS)
         data_fim = forms.DateField(widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=settings.DATE_INPUT_FORMATS)
+
+        widgets = {
+            'pessoa': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Pessoa', 'style': 'width: 250px'}),
+            'vinculo': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Vínculo', 'style': 'width: 250px'}),
+            'data_inicio': forms.TextInput (attrs={'class': 'form-control', 'placeholder': '__/__/____', 'style': 'width: 150px'}),
+            'data_fim': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '__/__/____', 'style': 'width: 150px'}),
+        }
 
