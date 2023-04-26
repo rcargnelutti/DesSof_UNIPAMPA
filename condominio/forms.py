@@ -1,4 +1,7 @@
 from django.forms import ModelForm
+from django import forms
+import datetime
+from django.conf import settings
 
 from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade
 
@@ -26,3 +29,6 @@ class PessoaUnidadeForm(ModelForm):
     class Meta:
         model = PessoaUnidade
         fields = ('vinculo', 'data_inicio', 'data_fim',)  # noqa
+        data_inicio = forms.DateField(widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=settings.DATE_INPUT_FORMATS)
+        data_fim = forms.DateField(widget=forms.DateInput(format = '%d/%m/%Y'), input_formats=settings.DATE_INPUT_FORMATS)
+
