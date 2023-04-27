@@ -35,11 +35,9 @@ class Unidade(models.Model):
 
 
 class Pessoa(models.Model):
-
     class Status(models.TextChoices):
         ATIVO = 'Ativo', 'Ativo'
         INATIVO = 'Inativo', 'Inativo'
-
     nome = models.CharField(max_length=200)
     documento = models.CharField('CPF', max_length=20)
     status = models.CharField(choices=Status.choices, default=Status.ATIVO, max_length=10)  # noqa
@@ -51,11 +49,9 @@ class Pessoa(models.Model):
 
 
 class PessoaUnidade(models.Model):
-
     class Morador(models.TextChoices):
         PROPRIETARIO = 'Proprietário', 'Proprietário'
         LOCATARIO = 'Locatário', 'Locatário'
-
     pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name="moradores")  # noqa
     unidade = models.ForeignKey(Unidade, on_delete=models.PROTECT, related_name="moradores")  # noqa
     vinculo = models.CharField(choices=Morador.choices, max_length=15)  # noqa
