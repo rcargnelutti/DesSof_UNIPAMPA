@@ -11,7 +11,7 @@
         <form method="post" action="." >
           {% csrf_token %}
           <table align="center">
-            {{ form.as_table}}
+            {{ form.as_p}}
           </table>
           </br>
           <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:pessoa_list' %}'"><span class="fas fa-arrow-left"></span> Voltar</button>

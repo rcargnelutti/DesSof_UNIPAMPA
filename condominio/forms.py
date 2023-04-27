@@ -24,6 +24,15 @@ class PessoaForm(ModelForm):
         model = Pessoa
         fields = ('nome', 'documento', 'status',)
 
+    #def __init__(self, *args, **kwargs):
+    #    super().__init__(*args, **kwargs)
+    #    self.fields['documento'].widget.attrs.update({'class': 'mask-cpf'})
+
+    widgets = {
+            'nome': forms.TextInput(attrs={'class': 'mask-nome', 'placeholder': 'Nome', 'style': 'width: 250px'}),
+            'documento': forms.TextInput(attrs={'class': 'mask-cpf', 'placeholder': 'CPF', 'style': 'width: 250px'}),
+        }
+
 
 class PessoaUnidadeForm(ModelForm):
     class Meta:
