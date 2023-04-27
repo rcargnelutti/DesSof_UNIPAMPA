@@ -27,6 +27,7 @@
               <th scope="col">Vínculo</th>
               <th scope="col">Data de início</th>
               <th scope="col">Data de término</th>
+              <th scope="col">Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -37,6 +38,9 @@
               <td>{{pu.vinculo}}</td>
               <td>{{pu.data_inicio|date:"d/m/Y"}}</td>
               <td>{{pu.data_fim|date:"d/m/Y"}}</td>
+              <td>
+                <a href=" {% url 'condominio:pessoa_unidade_update' pu.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
+              </td>
             </tr>
             {% endfor %}
           </tbody>
