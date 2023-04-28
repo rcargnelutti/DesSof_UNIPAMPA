@@ -12,7 +12,7 @@ class CondominioForm(ModelForm):
                   'area_comum', 'area_privativa', 'area_total', 'dia_vencimento_boleto']  # noqa
 
 
-class UnidadeForm(ModelForm):
+class UnidadeForm(ModelForm): # SEM CBV MÁSCARA E DEMAIS ATTRS FUNCIONA
     class Meta:
         model = Unidade
         fields = ('nome', 'fracao',)
@@ -20,10 +20,10 @@ class UnidadeForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['nome'].widget.attrs.update({'class': 'form-control', 'placeholder': ''})
-        self.fields['fracao'].widget.attrs.update({'class': 'form-control mask-fracao', 'placeholder': '_.________', 'style': 'width: 150px'})
+        self.fields['fracao'].widget.attrs.update({'class': 'form-control mask-fracao', 'placeholder': '_.________', 'style': 'width: 150px'}) # noqa
 
 
-class PessoaForm(ModelForm):
+class PessoaForm(ModelForm): # COM CBV MÁSCARA NÃO FUNCIONA
     class Meta:
         model = Pessoa
         fields = ('nome', 'documento', 'status',)
