@@ -17,20 +17,21 @@ class UnidadeForm(ModelForm):
         model = Unidade
         fields = ('nome', 'fracao',)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['nome'].widget.attrs.update({'class': 'form-control', 'placeholder': ''})
+        self.fields['fracao'].widget.attrs.update({'class': 'form-control mask-fracao', 'placeholder': '_.________', 'style': 'width: 150px'})
+
 
 class PessoaForm(ModelForm):
     class Meta:
         model = Pessoa
         fields = ('nome', 'documento', 'status',)
 
-    #def __init__(self, *args, **kwargs):
-    #    super().__init__(*args, **kwargs)
-    #    self.fields['documento'].widget.attrs.update({'class': 'mask-cpf'})
-
-    widgets = {
-            'nome': forms.TextInput(attrs={'class': 'mask-nome', 'placeholder': 'Nome', 'style': 'width: 250px'}),
-            'documento': forms.TextInput(attrs={'class': 'mask-cpf', 'placeholder': 'CPF', 'style': 'width: 250px'}),
-        }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['nome'].widget.attrs.update({'class': 'form-control'})
+        self.fields['documento'].widget.attrs.update({'class': 'form-control mask-cpf'})
 
 
 class PessoaUnidadeForm(ModelForm):
@@ -43,6 +44,6 @@ class PessoaUnidadeForm(ModelForm):
         widgets = {
             'pessoa': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Pessoa', 'style': 'width: 250px'}), # noqa
             'vinculo': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Vínculo', 'style': 'width: 250px'}), # noqa
-            'data_inicio': forms.TextInput (attrs={'class': 'form-control', 'placeholder': '__/__/____', 'style': 'width: 150px'}), # noqa
-            'data_fim': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '__/__/____', 'style': 'width: 150px'}), # noqa
+            'data_inicio': forms.TextInput (attrs={'class': 'form-control mask-date', 'placeholder': '__/__/____', 'style': 'width: 150px'}), # noqa
+            'data_fim': forms.TextInput(attrs={'class': 'form-control mask-date', 'placeholder': '__/__/____', 'style': 'width: 150px'}), # noqa
         }
