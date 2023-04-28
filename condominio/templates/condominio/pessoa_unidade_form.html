@@ -5,10 +5,10 @@
 {% block content %}
   <div class="card">
     <div class="card-header text-center">
-      <h5><span>Condomínio: [1] Condomínio 1 </span></h5>
+      <h5><span>Condomínio: {{ unidade.condominio.nome }} </span></h5>
       <div class="col-8 m-auto pt-2 pb-2 text-center">
-        <a href="" class="btn btn-outline-secondary btn-sm">Dashboard</a>
-        <a href="" class="btn btn-outline-secondary btn-sm">Unidades</a>
+        <a href="{% url 'condominio:gestao' condominio_id=unidade.condominio.id %}" class="btn btn-outline-secondary btn-sm">Dashboard</a>
+        <a href="{% url 'condominio:unidade_list' unidade.condominio.id %}" class="btn btn-outline-secondary btn-sm">Unidades</a>
         <a href="" class="btn btn-outline-secondary btn-sm">Despesas</a>
         <a href="" class="btn btn-outline-secondary btn-sm">Faturas</a>
       </div>
@@ -16,7 +16,7 @@
     <div class="card-body">
       <div class="col-8 m-auto pt-2 pb-2 text-center">
         {% comment %} <p>Você está salvando uma unidade para o condomínio: [{{ condominio.id }}] {{ condominio.nome }}</p> {% endcomment %}
-        <h5 class="text-center">Unidade: [{{unidade.id}}] {{unidade.nome}} </h5>
+        <h5 class="text-center">Unidade: {{unidade.nome}} </h5>
           </br>
           <form method="post" action="." >
             {% csrf_token %}         

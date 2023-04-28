@@ -123,8 +123,6 @@ def pessoa_unidade_list(request, unidade_id):
 
 def pessoa_unidade_create(request, unidade_id):
     unidade = Unidade.objects.get(id=unidade_id)
-    #pessoa = Pessoa.objects.get(id=2)
-    #pessoa = Pessoa.objects.all()
 
     if request.method == "GET":
         form = PessoaUnidadeForm(initial={'unidade': unidade})
@@ -135,10 +133,23 @@ def pessoa_unidade_create(request, unidade_id):
             return render(request, 'condominio/pessoa_unidade_form.html', {'unidade': unidade, 'form': form})  # noqa
         pessoa_unidade = form.save(commit=False)
         pessoa_unidade.unidade = unidade
-        #pessoa_unidade.pessoa = form.pessoa
         pessoa_unidade.save()
         return redirect(f'/condominios/pessoa_unidade_list/{unidade_id}/')  # noqa
 
+
+def pessoa_unidade_update(request, pessoa_unidade_id):
+    pessoa_unidade = PessoaUnidade.objects.get(id=pessoa_unidade_id)
+    unidade = pessoa_unidade.unidade
+
+    if request.method == "GET":
+        form = PessoaUnidadeForm(instance=pessoa_unidade)
+        return render(request, 'condominio/pessoa_unidade_form.html', {'unidade': unidade, 'form': form})  # noqa
+    else:
+        form = PessoaUnidadeForm(request.POST, instance=pessoa_unidade)
+        if not form.is_valid():
+            return render(request, 'condominio/pessoa_unidade_form.html', {'unidade': unidade, 'form': form})  # noqa
+        form.save()
+        return redirect(f'/condominios/pessoa_unidade_list/{pessoa_unidade.unidade_id}/')  # noqa
 
 
 # Receita/Despesa
