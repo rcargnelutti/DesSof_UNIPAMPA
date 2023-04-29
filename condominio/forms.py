@@ -43,6 +43,6 @@ class PessoaUnidadeForm(ModelForm):
         widgets = {
             'pessoa': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Pessoa', 'style': 'width: 250px'}), # noqa
             'vinculo': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Vínculo', 'style': 'width: 250px'}), # noqa
-            'data_inicio': forms.TextInput (attrs={'class': 'form-control'}), # noqa
+            #'data_inicio': forms.TextInput (attrs={'class': 'form-control'}), # noqa
             #'data_fim': forms.TextInput(attrs={'class': 'form-control mask-date', 'placeholder': '__/__/____', 'style': 'width: 150px'}), # noqa
         }
