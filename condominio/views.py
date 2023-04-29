@@ -3,7 +3,6 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView  # noqa
 from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade
 from condominio.forms import UnidadeForm, PessoaUnidadeForm
-import datetime
 
 
 # CONDOMÍNIO
@@ -142,10 +141,10 @@ def pessoa_unidade_update(request, pessoa_unidade_id):
     pessoa_unidade = PessoaUnidade.objects.get(id=pessoa_unidade_id)
     unidade = pessoa_unidade.unidade
 
-    if pessoa_unidade.data_inicio:
-        pessoa_unidade.data_inicio = pessoa_unidade.data_inicio.strftime("%d/%m/%Y")
-    if pessoa_unidade.data_fim:
-        pessoa_unidade.data_fim = pessoa_unidade.data_fim.strftime("%d/%m/%Y")
+    # if pessoa_unidade.data_inicio:
+    #    pessoa_unidade.data_inicio = pessoa_unidade.data_inicio.strftime("%d/%m/%Y")  # noqa
+    # if pessoa_unidade.data_fim:
+    #   pessoa_unidade.data_fim = pessoa_unidade.data_fim.strftime("%d/%m/%Y")
 
     if request.method == "GET":
         form = PessoaUnidadeForm(instance=pessoa_unidade)

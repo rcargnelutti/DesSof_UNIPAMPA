@@ -55,8 +55,8 @@ class PessoaUnidade(models.Model):
     pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name="moradores")  # noqa
     unidade = models.ForeignKey(Unidade, on_delete=models.PROTECT, related_name="moradores")  # noqa
     vinculo = models.CharField(choices=Morador.choices, max_length=15)  # noqa
-    data_inicio = models.DateTimeField('data de início', null=True)
-    data_fim = models.DateTimeField('data de fim', blank=True, null=True)
+    data_inicio = models.DateField('data de início', null=True)
+    data_fim = models.DateField('data de fim', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
