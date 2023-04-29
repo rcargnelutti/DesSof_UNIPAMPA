@@ -1,6 +1,4 @@
 from django.forms import ModelForm
-from django import forms
-
 from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade
 
 
@@ -27,11 +25,6 @@ class PessoaForm(ModelForm):  # COM CBV MÁSCARA NÃO FUNCIONA
         model = Pessoa
         fields = ('nome', 'documento', 'status',)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['nome'].widget.attrs.update({'class': 'form-control'})
-        self.fields['documento'].widget.attrs.update({'class': 'form-control mask-cpf'}) # noqa
-
 
 class PessoaUnidadeForm(ModelForm):
     class Meta:
@@ -41,8 +34,8 @@ class PessoaUnidadeForm(ModelForm):
         #data_fim = forms.DateField(widget=forms.DateInput(format ='%d/%m/%Y'), input_formats=settings.DATE_INPUT_FORMATS) # noqa
 
         widgets = {
-            'pessoa': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Pessoa', 'style': 'width: 250px'}), # noqa
-            'vinculo': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Vínculo', 'style': 'width: 250px'}), # noqa
+            #'pessoa': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Pessoa', 'style': 'width: 250px'}), # noqa
+            #'vinculo': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Vínculo', 'style': 'width: 250px'}), # noqa
             #'data_inicio': forms.TextInput (attrs={'class': 'form-control'}), # noqa
             #'data_fim': forms.TextInput(attrs={'class': 'form-control mask-date', 'placeholder': '__/__/____', 'style': 'width: 150px'}), # noqa
         }

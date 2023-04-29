@@ -1,5 +1,6 @@
 asgiref==3.6.0
 backports.zoneinfo==0.2.1
 Django==4.2
+django-widget-tweaks==1.4.12
 fontawesomefree==6.4.0
 sqlparse==0.4.3

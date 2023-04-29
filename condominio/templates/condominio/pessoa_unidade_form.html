@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load widget_tweaks %}
+
 {% block title %}Unidades{% endblock %}
 
 {% block content %}
@@ -14,18 +16,34 @@
       </div>
     </div>
     <div class="card-body">
-      <div class="col-8 m-auto pt-2 pb-2 text-center">
-        {% comment %} <p>Você está salvando uma unidade para o condomínio: [{{ condominio.id }}] {{ condominio.nome }}</p> {% endcomment %}
-        <h5 class="text-center">Unidade: {{unidade.nome}} </h5>
+      <div class="col-3 m-auto pt-2 pb-2">
+        <h5 class="text-center">Vincular pessoa para unidade: {{unidade.nome}} </h5>
+        <form method="post" action="." >
+          {% csrf_token %}
+
+          {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+          {% endfor %}
+      
+          {% for field in form.visible_fields %}
+            <div class="form-group">
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field|add_class:'form-control' }}
+              {% for error in field.errors %}
+                <span class="help-block">{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% endfor %}
           </br>
-          <form method="post" action="." >
-            {% csrf_token %}         
-            <table align="center">
-            {{ form.as_table }}
-            </table>
-            </br>
+          <div class="form-group"> 
+            {{ field.label.data.inicio }}
+            {% render_field form.data_inicio class="form-control mask-date" placeholder="Data de Início" type="text" %} 
+          </div>
+          </br>
+          <div class="col-6 m-auto">
             <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:pessoa_unidade_list' unidade.id%}'"><span class="fas fa-arrow-left"></span> Voltar</button>
             <button type="submit" class="btn btn-outline-success btn-sm"><span class="fas fa-save"></span> Salvar</button>
+          </div>
         </form>
       </div>
     </div>
