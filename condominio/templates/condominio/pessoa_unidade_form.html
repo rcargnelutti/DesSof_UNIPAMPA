@@ -21,7 +21,7 @@
         <form method="post" action="." >
           {% csrf_token %}
 
-          {% for hidden in form.hidden_fields %}
+          {% comment %} {% for hidden in form.hidden_fields %}
             {{ hidden }}
           {% endfor %}
       
@@ -35,9 +35,21 @@
             </div>
           {% endfor %}
           </br>
-          <div class="form-group"> 
-            {{ field.label.data.inicio }}
-            {% render_field form.data_inicio class="form-control mask-date" placeholder="Data de Início" type="text" %} 
+          </br> {% endcomment %}
+          </br>
+          <div class="form-group">
+
+            <p><label for="id_pessoa">{{ form.pessoa.label }}</label> 
+            {% render_field form.pessoa class="form-control" placeholder="" type="text" %}
+
+            <p><label for="id_vinculo">{{ form.vinculo.label }}</label> 
+            {% render_field form.vinculo class="form-control" placeholder="" type="text" %}
+
+            <p><label for="id_data_inicio">{{ form.data_inicio.label }}</label> 
+            {% render_field form.data_inicio class="form-control mask-date" placeholder=form.data_inicio.label type="text" %} 
+
+            <p><label for="id_data_fim">{{ form.data_fim.label }}</label> 
+            {% render_field form.data_fim class="form-control mask-date" placeholder=form.data_fim.label type="text" %}
           </div>
           </br>
           <div class="col-6 m-auto">
