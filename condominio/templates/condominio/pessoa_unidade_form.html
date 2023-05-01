@@ -8,16 +8,16 @@
   <div class="card">
     <div class="card-header text-center">
       <h5><span>Condomínio: {{ unidade.condominio.nome }} </span></h5>
-      <div class="col-8 m-auto pt-2 pb-2 text-center">
+      <div class="card-body d-flex justify-content-center">
         <a href="{% url 'condominio:gestao' condominio_id=unidade.condominio.id %}" class="btn btn-outline-secondary btn-sm">Dashboard</a>
         <a href="{% url 'condominio:unidade_list' unidade.condominio.id %}" class="btn btn-outline-secondary btn-sm">Unidades</a>
         <a href="" class="btn btn-outline-secondary btn-sm">Despesas</a>
         <a href="" class="btn btn-outline-secondary btn-sm">Faturas</a>
       </div>
     </div>
-    <div class="card-body">
-      <div class="col-3 m-auto pt-2 pb-2">
-        <h5 class="text-center">Vincular pessoa para unidade: {{unidade.nome}} </h5>
+    <div class="card-body d-flex justify-content-center">
+      <div>
+        <h5>Vincular pessoa para unidade: {{unidade.nome}} </h5>
         <form method="post" action="." >
           {% csrf_token %}
 
@@ -36,25 +36,31 @@
           {% endfor %}
           </br>
           </br> {% endcomment %}
-          </br>
           <div class="form-group">
-
-            <p><label for="id_pessoa">{{ form.pessoa.label }}</label> 
+            <label for="id_pessoa">{{ form.pessoa.label }}</label> 
             {% render_field form.pessoa class="form-control" placeholder="" type="text" %}
 
-            <p><label for="id_vinculo">{{ form.vinculo.label }}</label> 
+            <label for="id_vinculo">{{ form.vinculo.label }}</label> 
             {% render_field form.vinculo class="form-control" placeholder="" type="text" %}
 
-            <p><label for="id_data_inicio">{{ form.data_inicio.label }}</label> 
+            <label for="id_data_inicio">{{ form.data_inicio.label }}</label> 
             {% render_field form.data_inicio class="form-control mask-date" placeholder=form.data_inicio.label type="text" %} 
 
-            <p><label for="id_data_fim">{{ form.data_fim.label }}</label> 
+            <label for="id_data_fim">{{ form.data_fim.label }}</label> 
             {% render_field form.data_fim class="form-control mask-date" placeholder=form.data_fim.label type="text" %}
+
+            {% comment %} <div class="col-6 m-auto pt-2 pb-2">
+              <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:pessoa_unidade_list' unidade.id%}'"><span class="fas fa-arrow-left"></span> Voltar</button>
+              <button type="submit" class="btn btn-outline-success btn-sm"><span class="fas fa-save"></span> Salvar</button>
+            </div> {% endcomment %}
           </div>
-          </br>
-          <div class="col-6 m-auto">
-            <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:pessoa_unidade_list' unidade.id%}'"><span class="fas fa-arrow-left"></span> Voltar</button>
-            <button type="submit" class="btn btn-outline-success btn-sm"><span class="fas fa-save"></span> Salvar</button>
+          <div class="d-flex justify-content-center">
+            <div class="p-2 bd-highlight">
+              <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:pessoa_unidade_list' unidade.id%}'"><span class="fas fa-arrow-left"></span> Voltar</button>
+            </div>
+            <div class="p-2 bd-highlight">
+              <button type="submit" class="btn btn-outline-success btn-sm"><span class="fas fa-save"></span> Salvar</button>
+            </div>
           </div>
         </form>
       </div>
