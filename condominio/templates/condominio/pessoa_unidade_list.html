@@ -4,9 +4,11 @@
 
 {% block content %}
   <div class="card">
-    <div class="card-header text-center">
-      <h5><span>Condomínio: {{ unidade.condominio.nome }} </span></h5>
-      <div class="col-8 m-auto pt-2 pb-2 text-center">
+    <div class="card-header">
+      <div class="text-center">
+        <h6>Condomínio: <strong> {{unidade.condominio.nome}} </strong><h6>
+      </div>
+      <div class="d-flex justify-content-center">
         <a href="{% url 'condominio:gestao' condominio_id=unidade.condominio.id %}" class="btn btn-outline-secondary btn-sm">Dashboard</a>
         <a href="{% url 'condominio:unidade_list' unidade.condominio.id %}" class="btn btn-outline-secondary btn-sm">Unidades</a>
         <a href="" class="btn btn-outline-secondary btn-sm">Despesas</a>
@@ -14,11 +16,13 @@
       </div>
     </div>
     <div class="card-body">
-      <div class="col-8 m-auto pt-2 pb-2 text-center" >
-        <h5>Pessoas vinculadas a unidade: {{unidade.nome}} </h5>
-        <a href="{% url 'condominio:pessoa_unidade_create' unidade_id=unidade.id %}" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Novo Vínculo</a>
+      <div class="col-8 m-auto text-center" >
+        <div class="text-center">
+          <h6>Pessoas vinculadas a unidade: <strong> {{unidade.nome}} </strong><h6>
+            <a href="{% url 'condominio:pessoa_unidade_create' unidade_id=unidade.id %}" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Novo Vínculo</a>
+        </div>
       </div>
-      <div class="col-8 m-auto pt-2 pb-2 text-center">
+      <div class="col-8 m-auto text-center">
         <table class="table">
           <thead class="thead-dark">
             <tr style="text-align: center">
