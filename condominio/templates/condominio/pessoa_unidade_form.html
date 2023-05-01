@@ -24,22 +24,6 @@
         </div>
         <form method="post" action="." >
           {% csrf_token %}
-
-          {% comment %} {% for hidden in form.hidden_fields %}
-            {{ hidden }}
-          {% endfor %}
-      
-          {% for field in form.visible_fields %}
-            <div class="form-group">
-              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-              {{ field|add_class:'form-control' }}
-              {% for error in field.errors %}
-                <span class="help-block">{{ error }}</span>
-              {% endfor %}
-            </div>
-          {% endfor %}
-          </br>
-          </br> {% endcomment %}
           <div class="form-group">
             <label for="id_pessoa">{{ form.pessoa.label }}</label> 
             {% render_field form.pessoa class="form-control" placeholder="" type="text" %}
@@ -52,11 +36,6 @@
 
             <label for="id_data_fim">{{ form.data_fim.label }}</label> 
             {% render_field form.data_fim class="form-control mask-date" placeholder=form.data_fim.label type="text" %}
-
-            {% comment %} <div class="col-6 m-auto pt-2 pb-2">
-              <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:pessoa_unidade_list' unidade.id%}'"><span class="fas fa-arrow-left"></span> Voltar</button>
-              <button type="submit" class="btn btn-outline-success btn-sm"><span class="fas fa-save"></span> Salvar</button>
-            </div> {% endcomment %}
           </div>
           <div class="d-flex justify-content-center">
             <div class="p-2 bd-highlight">
