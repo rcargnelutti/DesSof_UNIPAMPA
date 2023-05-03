@@ -1,8 +1,8 @@
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView  # noqa
-from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade
-from condominio.forms import UnidadeForm, PessoaUnidadeForm
+from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade, Conta
+from condominio.forms import UnidadeForm, PessoaUnidadeForm, ContaForm
 
 
 # CONDOMÍNIO
@@ -141,11 +141,6 @@ def pessoa_unidade_update(request, pessoa_unidade_id):
     pessoa_unidade = PessoaUnidade.objects.get(id=pessoa_unidade_id)
     unidade = pessoa_unidade.unidade
 
-    # if pessoa_unidade.data_inicio:
-    #    pessoa_unidade.data_inicio = pessoa_unidade.data_inicio.strftime("%d/%m/%Y")  # noqa
-    # if pessoa_unidade.data_fim:
-    #   pessoa_unidade.data_fim = pessoa_unidade.data_fim.strftime("%d/%m/%Y")
-
     if request.method == "GET":
         form = PessoaUnidadeForm(instance=pessoa_unidade)
         return render(request, 'condominio/pessoa_unidade_form.html', {'unidade': unidade, 'form': form})  # noqa
@@ -155,6 +150,47 @@ def pessoa_unidade_update(request, pessoa_unidade_id):
             return render(request, 'condominio/pessoa_unidade_form.html', {'unidade': unidade, 'form': form})  # noqa
         form.save()
         return redirect(f'/condominios/pessoa_unidade_list/{pessoa_unidade.unidade_id}/')  # noqa
+
+
+# CONTA
+
+def conta_list(request, unidade_id):
+    unidade = Unidade.objects.get(id=unidade_id)
+    conta = Conta.objects.order_by("descricao").filter(unidade_id=unidade_id)  # noqa
+    return render(request, 'condominio/conta_list.html', {'unidade': unidade, 'conta': conta})  # noqa
+
+
+def conta_create(request, unidade_id):
+    unidade = Unidade.objects.get(id=unidade_id)
+
+    if request.method == "GET":
+        form = ContaForm(initial={'unidade': unidade})
+        return render(request, 'condominio/conta_form.html', {'unidade': unidade, 'form': form})  # noqa
+    else:
+        form = ContaForm(request.POST)
+        if not form.is_valid():
+            return render(request, 'condominio/conta_form.html', {'unidade': unidade, 'form': form})  # noqa
+        conta = form.save(commit=False)
+        conta.unidade = unidade
+        conta.save()
+        return redirect(f'/condominios/conta_list/{unidade_id}/')
+
+
+def conta_update(request, conta_id):
+    conta = Conta.objects.get(id=conta_id)
+    unidade = conta.unidade
+
+    if request.method == "GET":
+        form = ContaForm(instance=conta)
+        return render(request, 'condominio/conta_form.html', {'unidade': unidade, 'form': form})  # noqa
+    else:
+        form = ContaForm(request.POST, instance=conta)
+        if not form.is_valid():
+            return render(request, 'condominio/conta_form.html', {'unidade': unidade, 'form': form})  # noqa
+        form.save()
+        return redirect(f'/condominios/conta_list/{conta.unidade_id}/')  # noqa
+
+
 
 
 # Receita/Despesa

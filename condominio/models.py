@@ -62,3 +62,17 @@ class PessoaUnidade(models.Model):
 
     def __str__(self):
         return f"{self.pessoa} - {self.unidade}"
+
+
+class Conta(models.Model):
+    class Status(models.TextChoices):
+        ATIVO = 'Ativo', 'Ativo'
+        INATIVO = 'Inativo', 'Inativo'
+    descricao = models.CharField(max_length=200)
+    status = models.CharField(choices=Status.choices, default=Status.ATIVO, max_length=10)  # noqa
+    unidade = models.ForeignKey(Unidade, on_delete=models.PROTECT)  # noqa
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.descricao
