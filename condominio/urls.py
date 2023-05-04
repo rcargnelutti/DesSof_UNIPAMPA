@@ -37,8 +37,8 @@ urlpatterns = [
     path('pessoa_unidade_update/<int:pessoa_unidade_id>/', views.pessoa_unidade_update, name='pessoa_unidade_update'),  # noqa
 
     # CONTA
-    path('conta_list/<int:unidade_id>/', views.conta_list, name='conta_list'),  # noqa
-    path('conta_create/<int:unidade_id>/', views.conta_create, name='conta_create'),  # noqa
+    path('conta_list/<int:condominio_id>/', views.conta_list, name='conta_list'),  # noqa
+    path('conta_create/<int:condominio_id>/', views.conta_create, name='conta_create'),  # noqa
     path('conta_update/<int:conta_id>/', views.conta_update, name='conta_update'),  # noqa
 
     # RECEITAS E DESPESAS
