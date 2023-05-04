@@ -70,7 +70,7 @@ class Conta(models.Model):
         INATIVO = 'Inativo', 'Inativo'
     descricao = models.CharField(max_length=200)
     status = models.CharField(choices=Status.choices, default=Status.ATIVO, max_length=10)  # noqa
-    condominio = models.ForeignKey(Condominio, on_delete=models.CASCADE)  # noqa
+    condominio = models.ForeignKey(Condominio, on_delete=models.CASCADE, related_name='contas')  # noqa
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

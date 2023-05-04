@@ -154,43 +154,41 @@ def pessoa_unidade_update(request, pessoa_unidade_id):
 
 # CONTA
 
-def conta_list(request, unidade_id):
-    unidade = Unidade.objects.get(id=unidade_id)
-    conta = Conta.objects.order_by("descricao").filter(unidade_id=unidade_id)  # noqa
-    return render(request, 'condominio/conta_list.html', {'unidade': unidade, 'conta': conta})  # noqa
+def conta_list(request, condominio_id):
+    condominio = Condominio.objects.get(id=condominio_id)
+    conta = Conta.objects.order_by("descricao").filter(condominio_id=condominio_id)  # noqa
+    return render(request, 'condominio/conta_list.html', {'condominio': condominio, 'conta': conta})  # noqa
 
 
-def conta_create(request, unidade_id):
-    unidade = Unidade.objects.get(id=unidade_id)
+def conta_create(request, condominio_id):
+    condominio = Condominio.objects.get(id=condominio_id)
 
     if request.method == "GET":
-        form = ContaForm(initial={'unidade': unidade})
-        return render(request, 'condominio/conta_form.html', {'unidade': unidade, 'form': form})  # noqa
+        form = ContaForm(initial={'condominio': condominio})
+        return render(request, 'condominio/conta_form.html', {'condominio': condominio, 'form': form})  # noqa
     else:
         form = ContaForm(request.POST)
         if not form.is_valid():
-            return render(request, 'condominio/conta_form.html', {'unidade': unidade, 'form': form})  # noqa
+            return render(request, 'condominio/conta_form.html', {'condominio': condominio, 'form': form})  # noqa
         conta = form.save(commit=False)
-        conta.unidade = unidade
+        conta.condominio = condominio
         conta.save()
-        return redirect(f'/condominios/conta_list/{unidade_id}/')
+        return redirect(f'/condominios/conta_list/{condominio_id}/')
 
 
 def conta_update(request, conta_id):
     conta = Conta.objects.get(id=conta_id)
-    unidade = conta.unidade
+    condominio = conta.condominio
 
     if request.method == "GET":
         form = ContaForm(instance=conta)
-        return render(request, 'condominio/conta_form.html', {'unidade': unidade, 'form': form})  # noqa
+        return render(request, 'condominio/conta_form.html', {'condominio': condominio, 'form': form})  # noqa
     else:
         form = ContaForm(request.POST, instance=conta)
         if not form.is_valid():
-            return render(request, 'condominio/conta_form.html', {'unidade': unidade, 'form': form})  # noqa
+            return render(request, 'condominio/conta_form.html', {'condominio': condominio, 'form': form})  # noqa
         form.save()
-        return redirect(f'/condominios/conta_list/{conta.unidade_id}/')  # noqa
-
-
+        return redirect(f'/condominios/conta_list/{conta.condominio_id}/')  # noqa
 
 
 # Receita/Despesa
