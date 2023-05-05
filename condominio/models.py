@@ -76,3 +76,20 @@ class Conta(models.Model):
 
     def __str__(self):
         return self.descricao
+
+
+class Despesa(models.Model):
+    class Rateio(models.TextChoices):
+        FRACAO = 'Fração', 'Fração'
+        UNIDADE = 'Unidade', 'Unidade'
+    condominio = models.ForeignKey(Condominio, on_delete=models.CASCADE, related_name='despesas')  # noqa
+    conta = models.ForeignKey(Conta, on_delete=models.PROTECT, related_name="despesas")  # noqa
+    rateio = models.CharField(choices=Rateio.choices, default=Rateio.FRACAO, max_length=10)  # noqa
+    valor = models.DecimalField(max_digits=19, decimal_places=10)
+    data = models.DateField(null=True)
+    identificao = models.CharField(max_length=200)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.descrica
