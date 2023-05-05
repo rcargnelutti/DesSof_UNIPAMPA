@@ -1,9 +1,9 @@
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView  # noqa
-from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade, Conta
-from condominio.forms import UnidadeForm, PessoaUnidadeForm, ContaForm
-
+from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade, Conta, Despesa
+from condominio.forms import UnidadeForm, PessoaUnidadeForm, ContaForm, DespesaForm
+import locale
 
 # CONDOMÍNIO
 class CondominioList(ListView):
@@ -173,7 +173,7 @@ def conta_create(request, condominio_id):
         conta = form.save(commit=False)
         conta.condominio = condominio
         conta.save()
-        return redirect(f'/condominios/conta_list/{condominio_id}/')
+        return redirect(f'/condominios/despesa_create/{condominio_id}/')
 
 
 def conta_update(request, conta_id):
@@ -188,14 +188,57 @@ def conta_update(request, conta_id):
         if not form.is_valid():
             return render(request, 'condominio/conta_form.html', {'condominio': condominio, 'form': form})  # noqa
         form.save()
-        return redirect(f'/condominios/conta_list/{conta.condominio_id}/')  # noqa
+        return redirect(f'/condominios/despesa_create/{conta.condominio_id}/')  # noqa
 
 
-# Rateio
+# DESPESA
 
-def rateio(request, condominio_id):
+def despesa_list(request, condominio_id):
+    condominio = Condominio.objects.get(id=condominio_id)  # noqa
+    despesa = Despesa.objects.order_by("data").filter(condominio_id=condominio_id)  # noqa
+    return render(request, 'condominio/despesa_list.html', {'condominio': condominio, 'despesa': despesa})  # noqa
+
+
+def despesa_create(request, condominio_id):
     condominio = Condominio.objects.get(id=condominio_id)
-    return render(request, 'condominio/rateio.html', {'condominio': condominio})  # noqa
+    
+    if request.method == "GET":
+        form = DespesaForm(initial={'condominio': condominio})
+        return render(request, 'condominio/despesa_form.html', {'condominio': condominio, 'form': form})  # noqa
+    else:
+        form = DespesaForm(request.POST)
+        if not form.is_valid():
+            return render(request, 'condominio/despesa_form.html', {'condominio': condominio, 'form': form})  # noqa
+        despesa = form.save(commit=False)
+        despesa.condominio = condominio
+        despesa.save()
+        return redirect(f'/condominios/despesa_list/{condominio_id}/')  # noqa
+
+
+def despesa_update(request, despesa_id):
+    despesa = Despesa.objects.get(id=despesa_id)
+    condominio = despesa.condominio
+
+    if request.method == "GET":
+        form = DespesaForm(instance=despesa)
+        return render(request, 'condominio/despesa_form.html', {'condominio': condominio, 'form': form})  # noqa
+    else:
+        form = DespesaForm(request.POST, instance=despesa)
+        if not form.is_valid():
+            return render(request, 'condominio/despesa_form.html', {'condominio': condominio, 'form': form})  # noqa
+        form.save()
+        return redirect(f'/condominios/despesa_list/{despesa.condominio_id}/')  # noqa
+
+
+def despesa_confirm_delete(request, despesa_id):
+    despesa = Despesa.objects.get(pk=despesa_id)
+    return render(request, 'condominio/despesa_confirm_delete.html', {'despesa': despesa})  # noqa
+
+
+def despesa_delete(request, despesa_id):
+    despesa = Despesa.objects.get(pk=despesa_id)
+    despesa.delete()
+    return redirect(f'/condominios/despesa_list/{despesa.condominio_id}/')  # noqa
 
 # Despesa
 

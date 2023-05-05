@@ -13,7 +13,7 @@
       <div class="d-flex justify-content-center">
         <a href="{% url 'condominio:gestao' condominio_id=unidade.condominio.id %}" class="btn btn-outline-secondary btn-sm">Dashboard</a>
         <a href="{% url 'condominio:unidade_list' unidade.condominio.id %}" class="btn btn-outline-secondary btn-sm">Unidades</a>
-        <a href="" class="btn btn-outline-secondary btn-sm">Despesas</a>
+        <a href="{% url 'condominio:despesa_list' unidade.condominio.id %}" class="btn btn-outline-secondary btn-sm">Despesas</a>
         <a href="" class="btn btn-outline-secondary btn-sm">Faturas</a>
       </div>
     </div>

@@ -1,4 +1,5 @@
 from django.db import models
+from locale import setlocale, currency as moeda, LC_ALL
 
 
 class Condominio(models.Model):
@@ -85,11 +86,16 @@ class Despesa(models.Model):
     condominio = models.ForeignKey(Condominio, on_delete=models.CASCADE, related_name='despesas')  # noqa
     conta = models.ForeignKey(Conta, on_delete=models.PROTECT, related_name="despesas")  # noqa
     rateio = models.CharField(choices=Rateio.choices, default=Rateio.FRACAO, max_length=10)  # noqa
-    valor = models.DecimalField(max_digits=19, decimal_places=10)
+    valor = models.DecimalField(max_digits=10, decimal_places=2)
     data = models.DateField(null=True)
-    identificao = models.CharField(max_length=200)
+    identificacao = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def valor_real(self):
+        #setlocale(LC_ALL,'pt_BR.UTF-8')
+        return moeda(self.valor, grouping=True)
+        #valor_real.short_description = 'Valor'
+
     def __str__(self):
-        return self.descrica
+        return self.conta

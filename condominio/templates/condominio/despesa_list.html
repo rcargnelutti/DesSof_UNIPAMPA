@@ -10,31 +10,35 @@
         <a href="{% url 'condominio:gestao' condominio_id=condominio.id %}" class="btn btn-outline-secondary btn-sm">Dashboard</a>
         <a href="{% url 'condominio:unidade_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Unidades</a>
         <a href="{% url 'condominio:despesa_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Despesas</a>
-        {% comment %} <a href="{% url 'condominio:conta_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Despesas</a> {% endcomment %}
         <a href="" class="btn btn-outline-secondary btn-sm">Faturas</a>
       </div>
     </div>
     <div class="card-body">
-      <div class="col-8 m-auto pt-2 pb-2 text-center" >
-        <h5>Contas</h5>
-        <a href="{% url 'condominio:conta_create' condominio_id=condominio.id %}" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Nova Conta</a>
+      <div class="col-6 m-auto pt-2 pb-2 text-center" >
+        <h5>Despesas</h5>
+        <a href="{% url 'condominio:despesa_create' condominio_id=condominio.id %}" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Nova Despesa</a>
       </div>
-      <div class="col-4 m-auto pt-2 pb-2 text-center">
+      <div class="col-6 m-auto pt-2 pb-2 text-center">
         <table class="table">
           <thead class="thead-dark">
             <tr style="text-align: center">
-              <th scope="col"style="text-align: left">Descrição</th>
-              <th scope="col">Status</th>
+              <th scope="col"style="text-align: left">Conta</th>
+              <th scope="col">Valor</th>
+              <th scope="col">Rateio</th>
+              <th scope="col">Data</th>
               <th scope="col">Ações</th>
             </tr>
           </thead>
           <tbody>
-            {% for c in conta %}
+            {% for d in despesa %}
             <tr style="text-align: center">
-              <td style="text-align: left">{{c.descricao}}</td>
-              <td>{{c.status}}</td>
+              <td style="text-align: left">{{d.conta}}</td>
+              <td>{{d.valor_real}}</td>
+              <td>{{d.rateio}}</td>
+              <td>{{d.data|date:"d/m/Y"}}</td>
               <td>
-                <a href=" {% url 'condominio:conta_update' c.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
+                <a href=" {% url 'condominio:despesa_update' d.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
+                <a href=" {% url 'condominio:despesa_confirm_delete' d.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Remover"> <i class="fas fa-trash-alt"></i></a>
               </td>
             </tr>
             {% endfor %}

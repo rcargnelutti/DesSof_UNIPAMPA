@@ -41,10 +41,14 @@ urlpatterns = [
     path('conta_create/<int:condominio_id>/', views.conta_create, name='conta_create'),  # noqa
     path('conta_update/<int:conta_id>/', views.conta_update, name='conta_update'),  # noqa
 
-    # RATEIO
-    path('rateio/<int:condominio_id>/', views.rateio, name='rateio'),  # noqa
-
     # DESPESAS
+    path('despesa_list/<int:condominio_id>/', views.despesa_list, name='despesa_list'),  # noqa
+    path('despesa_create/<int:condominio_id>/', views.despesa_create, name='despesa_create'),  # noqa
+    path('despesa_update/<int:despesa_id>/', views.despesa_update, name='despesa_update'),  # noqa
+    path('despesa_confirm_delete/<int:despesa_id>/', views.despesa_confirm_delete, name='despesa_confirm_delete'),  # noqa
+    path('despesa_delete/<int:despesa_id>/', views.despesa_delete, name='despesa_delete'),  # noqa
+
+    # RECEITAS E DESPESAS
     path('receita_despesa_list/', views.receita_despesa_list, name='receita_despesa_list'),  # noqa
     path('receita_despesa_create/', views.receita_despesa_create, name='receita_despesa_create'),  # noqa
 

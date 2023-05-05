@@ -1,5 +1,6 @@
 from django.forms import ModelForm
-from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade, Conta
+from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade, Conta, Despesa
+from django import forms
 
 
 class CondominioForm(ModelForm):
@@ -36,3 +37,10 @@ class ContaForm(ModelForm):
     class Meta:
         model = Conta
         fields = ('descricao', 'status',)
+
+
+class DespesaForm(ModelForm):
+    valor = forms.DecimalField(max_digits=8, decimal_places=2, localize=True)
+    class Meta:
+        model = Despesa
+        fields = ('conta', 'rateio', 'valor', 'data', 'identificacao',)  # noqa
