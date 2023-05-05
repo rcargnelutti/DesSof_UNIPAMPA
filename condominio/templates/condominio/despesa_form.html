@@ -8,7 +8,7 @@
   <div class="card">
     <div class="card-header text-center">
       <div class="text-center">
-        <h6>Condomínio: <strong> {{despesa.condominio.nome}} </strong><h6>
+        <h6>Condomínio: <strong> {{condominio.nome}} </strong><h6>
       </div>
       <div class="col-8 m-auto pt-2 pb-2 text-center">
         <a href="{% url 'condominio:gestao' condominio_id=condominio.id %}" class="btn btn-outline-secondary btn-sm">Dashboard</a>
@@ -39,10 +39,11 @@
                   {% render_field form.conta class="form-control" type="text" %}
                 </td>
                 <td>
-                  <button type="reset" class="btn btn-outline-primary btn-sm" onclick="location.href = '{% url 'condominio:conta_create' condominio.id%}'"><span class="fas fa-plus"></span></button>
+                  <button type="reset" class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Nova Conta" onclick="location.href = '{% url 'condominio:conta_create' condominio.id%}'"><span class="fas fa-plus"></span></button>
                 </td>
               </tr>
             </table>
+
 
             {% comment %} <div class="d-flex justify-content-center">
               <div class="p-2 bd-highlight">
