@@ -191,7 +191,13 @@ def conta_update(request, conta_id):
         return redirect(f'/condominios/conta_list/{conta.condominio_id}/')  # noqa
 
 
-# Receita/Despesa
+# Rateio
+
+def rateio(request, condominio_id):
+    condominio = Condominio.objects.get(id=condominio_id)
+    return render(request, 'condominio/rateio.html', {'condominio': condominio})  # noqa
+
+# Despesa
 
 def receita_despesa_list(request):
     return render(request, 'condominio/receita_despesa_list.html')  # noqa
@@ -201,7 +207,7 @@ def receita_despesa_create(request):
     return render(request, 'condominio/receita_despesa_form.html')  # noqa
 
 
-# Despesa
+# Fatura
 
 def fatura_list(request):
     return render(request, 'condominio/fatura_list.html')  # noqa

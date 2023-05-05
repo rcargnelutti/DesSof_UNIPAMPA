@@ -41,7 +41,10 @@ urlpatterns = [
     path('conta_create/<int:condominio_id>/', views.conta_create, name='conta_create'),  # noqa
     path('conta_update/<int:conta_id>/', views.conta_update, name='conta_update'),  # noqa
 
-    # RECEITAS E DESPESAS
+    # RATEIO
+    path('rateio/<int:condominio_id>/', views.rateio, name='rateio'),  # noqa
+
+    # DESPESAS
     path('receita_despesa_list/', views.receita_despesa_list, name='receita_despesa_list'),  # noqa
     path('receita_despesa_create/', views.receita_despesa_create, name='receita_despesa_create'),  # noqa
 

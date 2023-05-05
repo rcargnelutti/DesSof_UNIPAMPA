@@ -9,7 +9,7 @@
       <div class="col-8 m-auto pt-2 pb-2 text-center">
         <a href="{% url 'condominio:gestao' condominio_id=condominio.id %}" class="btn btn-outline-secondary btn-sm">Dashboard</a>
         <a href="{% url 'condominio:unidade_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Unidades</a>
-        <a href="" class="btn btn-outline-secondary btn-sm">Despesas</a>
+        <a href="{% url 'condominio:conta_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Despesas</a>
         <a href="" class="btn btn-outline-secondary btn-sm">Faturas</a>
       </div>
     </div>
@@ -18,12 +18,11 @@
         <h5>Contas</h5>
         <a href="{% url 'condominio:conta_create' condominio_id=condominio.id %}" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Nova Conta</a>
       </div>
-      <div class="col-8 m-auto pt-2 pb-2 text-center">
+      <div class="col-4 m-auto pt-2 pb-2 text-center">
         <table class="table">
           <thead class="thead-dark">
             <tr style="text-align: center">
-              {% comment %} <th scope="col">Id</th> {% endcomment %}
-              <th scope="col">Descrição</th>
+              <th scope="col"style="text-align: left">Descrição</th>
               <th scope="col">Status</th>
               <th scope="col">Ações</th>
             </tr>
@@ -31,8 +30,7 @@
           <tbody>
             {% for c in conta %}
             <tr style="text-align: center">
-              {% comment %} <th scope="row">{{unidade.id}}</th> {% endcomment %}
-              <td>{{c.descricao}}</td>
+              <td style="text-align: left">{{c.descricao}}</td>
               <td>{{c.status}}</td>
               <td>
                 <a href=" {% url 'condominio:conta_update' c.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>

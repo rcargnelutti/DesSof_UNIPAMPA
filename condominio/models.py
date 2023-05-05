@@ -36,11 +36,11 @@ class Unidade(models.Model):
 
 class Pessoa(models.Model):
     class Status(models.TextChoices):
-        ATIVO = 'Ativo', 'Ativo'
-        INATIVO = 'Inativo', 'Inativo'
+        ATIVA = 'Ativa', 'Ativa'
+        INATIVA = 'Inativa', 'Inativa'
     nome = models.CharField(max_length=200)
     documento = models.CharField('CPF', max_length=20)
-    status = models.CharField(choices=Status.choices, default=Status.ATIVO, max_length=10)  # noqa
+    status = models.CharField(choices=Status.choices, default=Status.ATIVA, max_length=10)  # noqa
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -66,10 +66,10 @@ class PessoaUnidade(models.Model):
 
 class Conta(models.Model):
     class Status(models.TextChoices):
-        ATIVO = 'Ativo', 'Ativo'
-        INATIVO = 'Inativo', 'Inativo'
+        ATIVA = 'Ativa', 'Ativa'
+        INATIVA = 'Inativa', 'Inativa'
     descricao = models.CharField(max_length=200)
-    status = models.CharField(choices=Status.choices, default=Status.ATIVO, max_length=10)  # noqa
+    status = models.CharField(choices=Status.choices, default=Status.ATIVA, max_length=10)  # noqa
     condominio = models.ForeignKey(Condominio, on_delete=models.CASCADE, related_name='contas')  # noqa
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
