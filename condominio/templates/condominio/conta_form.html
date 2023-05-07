@@ -32,7 +32,10 @@
           </div>
           <div class="d-flex justify-content-center">
             <div class="p-2 bd-highlight">
-              <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:despesa_create' condominio.id%}'"><span class="fas fa-arrow-left"></span> Voltar</button>
+              <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:conta_list' condominio.id%}'"><span class="fa-solid fa-list"></span> Relação Contas</button>
+            </div>
+            <div class="p-2 bd-highlight">
+              <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:despesa_create' condominio.id%}'"><span class="fas fa-plus"></span> Nova Despesa</button>
             </div>
             <div class="p-2 bd-highlight">
               <button type="submit" class="btn btn-outline-success btn-sm"><span class="fas fa-save"></span> Salvar</button>
