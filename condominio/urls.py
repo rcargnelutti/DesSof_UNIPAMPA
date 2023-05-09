@@ -53,8 +53,8 @@ urlpatterns = [
     path('receita_despesa_create/', views.receita_despesa_create, name='receita_despesa_create'),  # noqa
 
     # FATURA
-    path('fatura_list/', views.fatura_list, name='fatura_list'),  # noqa
-    path('fatura_create/', views.fatura_create, name='fatura_create'),  # noqa
+    path('fatura_list2/', views.fatura_list2, name='fatura_list2'),  # noqa
+    path('fatura_create2/', views.fatura_create2, name='fatura_create2'),  # noqa
 
 
     # FAVICON

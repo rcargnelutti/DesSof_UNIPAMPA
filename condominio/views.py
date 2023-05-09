@@ -252,9 +252,9 @@ def receita_despesa_create(request):
 
 # Fatura
 
-def fatura_list(request):
-    return render(request, 'condominio/fatura_list.html')  # noqa
+def fatura_list2(request):
+    return render(request, 'condominio/fatura_list2.html')  # noqa
 
 
-def fatura_create(request):
-    return render(request, 'condominio/fatura_form.html')  # noqa
+def fatura_create2(request):
+    return render(request, 'condominio/fatura_form2.html')  # noqa
