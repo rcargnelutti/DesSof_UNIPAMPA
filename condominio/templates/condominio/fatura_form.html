@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Faturas{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header text-center">
+      <div class="text-center">
+        <h6>Condomínio: <strong> {{condominio.nome}} </strong><h6>
+      </div>
+      <div class="col-8 m-auto pt-2 pb-2 text-center">
+        <a href="{% url 'condominio:gestao' 3 %}" class="btn btn-outline-secondary btn-sm">Dashboard</a>
+        <a href="{% url 'condominio:unidade_list' 3 %}" class="btn btn-outline-secondary btn-sm">Unidades</a>
+        <a href="{% url 'condominio:despesa_list' 3 %}" class="btn btn-outline-secondary btn-sm">Despesas</a>
+        <a href="{% url 'condominio:fatura_list' 3 %}" class="btn btn-outline-secondary btn-sm">Faturas</a>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="col-8 m-auto pb-2">
+        {% comment %} <p>Você está salvando uma unidade para o condomínio: [{{ condominio.id }}] {{ condominio.nome }}</p> {% endcomment %}
+        <h5 class="text-center">Gerar Faturas</h5>
+      </br>
+          <form method="post" action="." >
+            {% csrf_token %}
+            <table align="center">
+              <tr>
+                <th><label for="id_data">Perído:</label></th>
+                <td>
+                  <input type="date" class="form-control date-time-mask" placeholder="00/00/0000" name="data_inicio" maxlength="10" required>
+                </td>
+                <td>
+                  <input type="date" class="form-control date-time-mask" placeholder="00/00/0000" name="data_fim" maxlength="10" required>
+                </td>
+              </tr>
+            </table>
+            </br>
+            <div class="text-center">
+              <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '/condominios/unidade_list/1/'"><span class="fas fa-arrow-left"></span> Voltar</button>
+              <button type="submit" class="btn btn-outline-success btn-sm"><span class="fas fa-save"></span> Gerar</button>
+            </br>
+          </form>
+      </div>
+
+      Condomínio id = {{ctx.condominio.id}} | nome = {{ctx.condominio.nome}} </br></br>
+      
+      Unidades - Fração </br>
+      {% for unidade in ctx.unidade %}
+        {{unidade.nome}} - {{unidade.fracao}} </br>
+      {% endfor %}
+      Total de {{ctx.unidade.qtd}} unidades </br></br>
+      
+      Contas - Status </br>
+      {% for conta in ctx.conta %}
+        {{conta.descricao}} - {{conta.status}} </br>
+      {% endfor %} </br>
+
+      Despesas - valor - Rateio - data</br>
+      {% for despesa in ctx.despesa %}
+        {{despesa.conta}} - {{despesa.valor}} - {{despesa.rateio}} - {{despesa.data}} </br>
+      {% endfor %}
+      Total de {{ctx.despesa.qtd}} despesas </br></br>
+
+    </div>
+  </div>
+{% endblock %}

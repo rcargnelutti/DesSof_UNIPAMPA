@@ -49,7 +49,8 @@ urlpatterns = [
     path('despesa_delete/<int:despesa_id>/', views.despesa_delete, name='despesa_delete'),  # noqa
 
     # FATURA
-
+    path('fatura_list/<int:condominio_id>/', views.fatura_list, name='fatura_list'),  # noqa
+    path('fatura_create/<int:condominio_id>/', views.fatura_create, name='fatura_create'),  # noqa
 
     # FATURA PROTÓTIPO
     path('fatura_list2/', views.fatura_list2, name='fatura_list2'),  # noqa
