@@ -48,11 +48,10 @@ urlpatterns = [
     path('despesa_confirm_delete/<int:despesa_id>/', views.despesa_confirm_delete, name='despesa_confirm_delete'),  # noqa
     path('despesa_delete/<int:despesa_id>/', views.despesa_delete, name='despesa_delete'),  # noqa
 
-    # RECEITAS E DESPESAS
-    path('receita_despesa_list/', views.receita_despesa_list, name='receita_despesa_list'),  # noqa
-    path('receita_despesa_create/', views.receita_despesa_create, name='receita_despesa_create'),  # noqa
-
     # FATURA
+
+
+    # FATURA PROTÓTIPO
     path('fatura_list2/', views.fatura_list2, name='fatura_list2'),  # noqa
     path('fatura_create2/', views.fatura_create2, name='fatura_create2'),  # noqa
 

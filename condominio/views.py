@@ -240,17 +240,12 @@ def despesa_delete(request, despesa_id):
     despesa.delete()
     return redirect(f'/condominios/despesa_list/{despesa.condominio_id}/')  # noqa
 
-# Despesa
-
-def receita_despesa_list(request):
-    return render(request, 'condominio/receita_despesa_list.html')  # noqa
-
-
-def receita_despesa_create(request):
-    return render(request, 'condominio/receita_despesa_form.html')  # noqa
-
 
 # Fatura
+
+
+
+# Fatura Protótipo
 
 def fatura_list2(request):
     return render(request, 'condominio/fatura_list2.html')  # noqa
