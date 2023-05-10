@@ -262,9 +262,10 @@ def fatura_create(request, condominio_id):
         despesa = Despesa.objects.filter(condominio_id=condominio_id, data__range=(data_inicio, data_fim))  # noqa
         despesa.qtd = despesa.count()
         unidade.qtd = unidade.count()
-        rateios2 = []
+        rateios = {}
         for u in unidade:
             total = 0
+            rateios[u.nome] = u.nome
             pessoa_unidade = PessoaUnidade.objects.filter(unidade_id=u.id, data_fim=None) # noqa
             for pu in pessoa_unidade:
                 # testar se tem proprietário e locatário
@@ -273,7 +274,10 @@ def fatura_create(request, condominio_id):
                 #else:
                     #print("Und", u.nome, "-", pu.pessoa, "-", pu.vinculo)
             
-                rateios2.append({'unidade':u.nome, 'pessoa': pu.pessoa, 'vinculo':pu.vinculo})
+                #rateios.append({'unidade':u.nome, 'pessoa': pu.pessoa, 'vinculo':pu.vinculo})
+                
+                rateios[pu.pessoa]= pu.pessoa
+                rateios[pu.vinculo] = pu.vinculo
         
             for d in despesa:
                 if d.rateio == 'Fração':
@@ -287,11 +291,14 @@ def fatura_create(request, condominio_id):
             #print(total, "- Total")
             #print("-----------------------------------")
 
-            rateios2.append({'valor':total, 'competencia': competencia, 'data_vencimento':data_vencimento})
+            #rateios.append({'valor':total, 'competencia': competencia, 'data_vencimento':data_vencimento})
+            #rateios.valor = total
+            #rateios.competencia = competencia
+            #rateios.data_vencimento = data_vencimento
         
         ctx = {
             'condominio': condominio,
-            'rateios': rateios2,
+            'rateios': rateios,
         }
     #print(rateios2)
     if request.method == "GET":
@@ -305,7 +312,7 @@ def fatura_create(request, condominio_id):
         # despesa.condominio = condominio
         # despesa.save()
         objetos_salvos = []
-        for item in rateios2:
+        for item in rateios:
             print(item['unidade'])
             obj = Fatura(item)
             obj.save()
