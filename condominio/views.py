@@ -1,8 +1,8 @@
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView  # noqa
-from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade, Conta, Despesa  # noqa
-from condominio.forms import UnidadeForm, PessoaUnidadeForm, ContaForm, DespesaForm  # noqa
+from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade, Conta, Despesa, Fatura  # noqa
+from condominio.forms import UnidadeForm, PessoaUnidadeForm, ContaForm, DespesaForm, FaturaForm  # noqa
 from decimal import Decimal
 
 # CONDOMÍNIO
@@ -262,6 +262,69 @@ def fatura_create(request, condominio_id):
         despesa = Despesa.objects.filter(condominio_id=condominio_id, data__range=(data_inicio, data_fim))  # noqa
         despesa.qtd = despesa.count()
         unidade.qtd = unidade.count()
+        rateios2 = []
+        for u in unidade:
+            total = 0
+            pessoa_unidade = PessoaUnidade.objects.filter(unidade_id=u.id, data_fim=None) # noqa
+            for pu in pessoa_unidade:
+                # testar se tem proprietário e locatário
+                #if pu.vinculo == 'Locatário':
+                #    print("Und", u.nome, "-", pu.pessoa, "-", pu.vinculo)
+                #else:
+                    #print("Und", u.nome, "-", pu.pessoa, "-", pu.vinculo)
+            
+                rateios2.append({'unidade':u.nome, 'pessoa': pu.pessoa, 'vinculo':pu.vinculo})
+        
+            for d in despesa:
+                if d.rateio == 'Fração':
+                    valor = ((d.valor) * Decimal(u.fracao)).quantize(Decimal("0.00")) # noqa
+                    #print(d.conta, " - ", valor)  # noqa
+                    total = total + valor
+                if d.rateio == 'Unidade':
+                    valor = (d.valor / unidade.qtd)
+                    #print(d.conta, " - ", valor)
+                    total = total + valor
+            #print(total, "- Total")
+            #print("-----------------------------------")
+
+            rateios2.append({'valor':total, 'competencia': competencia, 'data_vencimento':data_vencimento})
+        
+        ctx = {
+            'condominio': condominio,
+            'rateios': rateios2,
+        }
+    #print(rateios2)
+    if request.method == "GET":
+        form = FaturaForm(initial={})
+        return render(request, 'condominio/fatura_form.html', {'ctx': ctx, 'form': form})  # noqa
+    else:
+        form = FaturaForm(request.POST)
+        if not form.is_valid():
+            return render(request, 'condominio/fatura_form.html', {'ctx': ctx, 'form': form})  # noqa
+        # despesa = form.save(commit=False)
+        # despesa.condominio = condominio
+        # despesa.save()
+        objetos_salvos = []
+        for item in rateios2:
+            print(item['unidade'])
+            obj = Fatura(item)
+            obj.save()
+            objetos_salvos.append(obj)
+        return redirect(f'/condominios/fatura_list/{condominio_id}/')  # noqa
+    
+
+def fatura_create1(request, condominio_id):
+    ctx = {}
+    data_inicio = request.POST.get('data_inicio')
+    data_fim = request.POST.get('data_fim')
+    data_vencimento = request.POST.get('data_vencimento')
+    competencia = data_inicio
+    if data_inicio and data_fim:
+        condominio = Condominio.objects.get(id=condominio_id)  # noqa
+        unidade = Unidade.objects.filter(condominio_id=condominio_id)  # noqa
+        despesa = Despesa.objects.filter(condominio_id=condominio_id, data__range=(data_inicio, data_fim))  # noqa
+        despesa.qtd = despesa.count()
+        unidade.qtd = unidade.count()
         rateios = []
         for u in unidade:
             total = 0
@@ -300,10 +363,10 @@ def fatura_create(request, condominio_id):
         }
 
     if request.method == "GET":
-        form = DespesaForm(initial={})
+        form = FaturaForm(initial={})
         return render(request, 'condominio/fatura_form.html', {'ctx': ctx, 'form': form})  # noqa
     else:
-        form = DespesaForm(request.POST)
+        form = FaturaForm(request.POST)
         if not form.is_valid():
             return render(request, 'condominio/fatura_form.html', {'ctx': ctx, 'form': form})  # noqa
         # despesa = form.save(commit=False)
@@ -361,10 +424,10 @@ def fatura_create2(request, condominio_id):
         }
 
     if request.method == "GET":
-        form = DespesaForm(initial={})
+        form = FaturaForm(initial={})
         return render(request, 'condominio/fatura_form.html', {'ctx': ctx, 'form': form})  # noqa
     else:
-        form = DespesaForm(request.POST)
+        form = FaturaForm(request.POST)
         if not form.is_valid():
             return render(request, 'condominio/fatura_form.html', {'ctx': ctx, 'form': form})  # noqa
         # despesa = form.save(commit=False)
