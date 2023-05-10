@@ -9,16 +9,16 @@
         <h6>Condomínio: <strong> {{condominio.nome}} </strong><h6>
       </div>
       <div class="col-8 m-auto pt-2 pb-2 text-center">
-        <a href="{% url 'condominio:gestao' 3 %}" class="btn btn-outline-secondary btn-sm">Dashboard</a>
-        <a href="{% url 'condominio:unidade_list' 3 %}" class="btn btn-outline-secondary btn-sm">Unidades</a>
-        <a href="{% url 'condominio:despesa_list' 3 %}" class="btn btn-outline-secondary btn-sm">Despesas</a>
-        <a href="{% url 'condominio:fatura_list' 3 %}" class="btn btn-outline-secondary btn-sm">Faturas</a>
+        <a href="{% url 'condominio:gestao' condominio.id %}" class="btn btn-outline-secondary btn-sm">Dashboard</a>
+        <a href="{% url 'condominio:unidade_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Unidades</a>
+        <a href="{% url 'condominio:despesa_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Despesas</a>
+        <a href="{% url 'condominio:fatura_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Faturas</a>
       </div>
     </div>
     <div class="card-body">
       <div class="col-8 m-auto pb-2 text-center">
         <h5>Faturas</h5>
-        <a href="{% url 'condominio:fatura_create' 3%}" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Gerar Faturas</a>
+        <a href="{% url 'condominio:fatura_create' condominio.id%}" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Gerar Faturas</a>
       </div>
       <div class="col-12 m-auto pt-2 pb-2 text-center">
         <table class="table">

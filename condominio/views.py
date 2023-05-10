@@ -4,6 +4,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DetailView, D
 from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade, Conta, Despesa  # noqa
 from condominio.forms import UnidadeForm, PessoaUnidadeForm, ContaForm, DespesaForm  # noqa
 from decimal import Decimal
+from datetime import datetime
 
 # CONDOMÍNIO
 
@@ -252,44 +253,44 @@ def fatura_list(request, condominio_id):
 
 def fatura_create(request, condominio_id):
     ctx = {}
-    # data_inicio = '2023-05-01'
-    # data_fim = '2023-05-31'
     data_inicio = request.POST.get('data_inicio')
     data_fim = request.POST.get('data_fim')
     data_vencimento = request.POST.get('data_vencimento')
+    competencia = data_inicio
     if data_inicio and data_fim:
         condominio = Condominio.objects.get(id=condominio_id)  # noqa
         unidade = Unidade.objects.filter(condominio_id=condominio_id)  # noqa
         despesa = Despesa.objects.filter(condominio_id=condominio_id, data__range=(data_inicio, data_fim))  # noqa
-        despesa.qtd = despesa.count()
         unidade.qtd = unidade.count()
         rateios = []
-        val = [None,None,None,None,None]
         for u in unidade:
             total = 0
-            pessoa_unidade = PessoaUnidade.objects.get(unidade_id=u.id)  # noqa
-            pessoa = pessoa_unidade.pessoa
-            # testar se tem proprietário e locatário
-            print(u.nome, pessoa_unidade.pessoa, pessoa_unidade.vinculo)
+            pessoa_unidade = PessoaUnidade.objects.filter(unidade_id=u.id, data_fim=None) # noqa
+            for pu in pessoa_unidade:
+                # testar se tem proprietário e locatário
+                #if pu.vinculo == 'Locatário':
+                #    print("Und", u.nome, "-", pu.pessoa, "-", pu.vinculo)
+                #else:
+                    print("Und", u.nome, "-", pu.pessoa, "-", pu.vinculo)
+            val = [None,None,None,None,None]
             val[0] = u
-            val[1] = pessoa_unidade
+            val[1] = pu
             for d in despesa:
                 if d.rateio == 'Fração':
-                    print(d.conta, " - ", ((d.valor) *
-                          Decimal(u.fracao)).quantize(Decimal("0.00")))
-                    valor = ((d.valor) * Decimal(u.fracao)
-                             ).quantize(Decimal("0.00"))
+                    print(((d.valor) * Decimal(u.fracao)).quantize(Decimal("0.00")), "-", d.conta) # noqa
+                    valor = ((d.valor) * Decimal(u.fracao)).quantize(Decimal("0.00")) # noqa
                     total = total + valor
                 if d.rateio == 'Unidade':
-                    print(d.conta, " - ", d.valor / unidade.qtd)
+                    print(d.valor / unidade.qtd, "-", d.conta)
                     valor = (d.valor / unidade.qtd)
                     total = total + valor
-            print(total)
+            print(total, "- Total")
+            print("-----------------------------------")
             val[2] = total
-            val[3] = "05/2023"
+            val[3] = competencia
             val[4] = data_vencimento
             rateios.append(val)
-        print("Tipo da lista: ", type(rateios))
+        
         ctx = {
             'condominio': condominio,
             'unidade': unidade,
