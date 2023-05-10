@@ -26,10 +26,18 @@
               <tr>
                 <th><label for="id_data">Perído:</label></th>
                 <td>
-                  <input type="date" class="form-control date-time-mask" placeholder="00/00/0000" name="data_inicio" maxlength="10" required>
+                  <input type="date" class="form-control date-time-mask" placeholder="00/00/0000" name="data_inicio" maxlength="10" required> 
                 </td>
                 <td>
                   <input type="date" class="form-control date-time-mask" placeholder="00/00/0000" name="data_fim" maxlength="10" required>
+                </td>
+              </tr>
+            </table>
+            <table align="center">
+              <tr style="text-align: center" >
+                <th><label for="id_data">Vencimento:</label></th>
+                <td colspan="2">
+                  <input type="date" class="form-control date-time-mask" placeholder="00/00/0000" name="data_vencimento" maxlength="10" required>
                 </td>
               </tr>
             </table>
@@ -41,25 +49,64 @@
           </form>
       </div>
 
-      Condomínio id = {{ctx.condominio.id}} | nome = {{ctx.condominio.nome}} </br></br>
+      {% comment %} Condomínio id = {{ctx.condominio.id}} | nome = {{ctx.condominio.nome}} </br></br>
       
       Id - Unidades - Fração </br>
       {% for unidade in ctx.unidade %}
       {{unidade.id}} - {{unidade.nome}} - {{unidade.fracao}} </br>
       {% endfor %}
       Total de {{ctx.unidade.qtd}} unidades </br></br>
-      
-      Contas - Status </br>
-      {% for conta in ctx.conta %}
-        {{conta.descricao}} - {{conta.status}} </br>
-      {% endfor %} </br>
 
       Despesas - valor - Rateio - data</br>
       {% for despesa in ctx.despesa %}
         {{despesa.conta}} - {{despesa.valor}} - {{despesa.rateio}} - {{despesa.data}} </br>
       {% endfor %}
-      Total de {{ctx.despesa.qtd}} despesas </br></br>
+      Total de {{ctx.despesa.qtd}} despesas </br></br> {% endcomment %}
 
+      {% comment %} RATEIOS </br>
+      {{ctx.rateios}} </br></br>
+      {% for r in ctx.rateios %}
+        {{r.0.nome}}
+        {{r.1.pessoa}}
+        {{r.1.vinculo}}
+        {{r.2}}
+      </br>
+      {% endfor %} {% endcomment %}
+      
+      <div class="col-8 m-auto pt-2 pb-2 text-center">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr style="text-align: center">
+              <th scope="col">Unidade</th>
+              <th scope="col">Pessoa</th>
+              <th scope="col">Vinculo</th>
+              <th scope="col">Valor</th>
+              <th scope="col">Competência</th>
+              <th scope="col">Vencimento</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in ctx.rateios %}
+            <tr style="text-align: center">
+              <td>{{r.0.nome}}</td>
+              <td>{{r.1.pessoa}}</td>
+              <td>{{r.1.vinculo}}</td>
+              <td>{{r.2}}</td>
+              <td>{{r.3}}</td>
+              <td>{{r.4}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      {% comment %} R </br>
+      {{ctx.r}} </br></br>
+      {% for r in ctx.r.items %}
+        {{r.1}} 
+        {{r.2}} 
+      </br>
+      {% endfor %} {% endcomment %}
     </div>
   </div>
 {% endblock %}

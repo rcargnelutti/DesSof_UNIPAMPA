@@ -256,19 +256,23 @@ def fatura_create(request, condominio_id):
     # data_fim = '2023-05-31'
     data_inicio = request.POST.get('data_inicio')
     data_fim = request.POST.get('data_fim')
+    data_vencimento = request.POST.get('data_vencimento')
     if data_inicio and data_fim:
         condominio = Condominio.objects.get(id=condominio_id)  # noqa
         unidade = Unidade.objects.filter(condominio_id=condominio_id)  # noqa
-        conta = Conta.objects.filter(condominio_id=condominio_id)  # noqa
         despesa = Despesa.objects.filter(condominio_id=condominio_id, data__range=(data_inicio, data_fim))  # noqa
         despesa.qtd = despesa.count()
         unidade.qtd = unidade.count()
-
+        rateios = []
+        val = [None,None,None,None,None]
         for u in unidade:
             total = 0
             pessoa_unidade = PessoaUnidade.objects.get(unidade_id=u.id)  # noqa
+            pessoa = pessoa_unidade.pessoa
             # testar se tem proprietário e locatário
             print(u.nome, pessoa_unidade.pessoa, pessoa_unidade.vinculo)
+            val[0] = u
+            val[1] = pessoa_unidade
             for d in despesa:
                 if d.rateio == 'Fração':
                     print(d.conta, " - ", ((d.valor) *
@@ -280,13 +284,17 @@ def fatura_create(request, condominio_id):
                     print(d.conta, " - ", d.valor / unidade.qtd)
                     valor = (d.valor / unidade.qtd)
                     total = total + valor
-                print(total)
-
+            print(total)
+            val[2] = total
+            val[3] = "05/2023"
+            val[4] = data_vencimento
+            rateios.append(val)
+        print("Tipo da lista: ", type(rateios))
         ctx = {
             'condominio': condominio,
             'unidade': unidade,
-            'conta': conta,
             'despesa': despesa,
+            'rateios': rateios,
         }
 
     if request.method == "GET":
