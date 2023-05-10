@@ -63,15 +63,12 @@
       {% endfor %}
       Total de {{ctx.despesa.qtd}} despesas </br></br> {% endcomment %}
 
-      {% comment %} RATEIOS </br>
-      {{ctx.rateios}} </br></br>
+      RATEIOS </br>
+      {% comment %} {{ctx.rateios}} </br></br> {% endcomment %}
       {% for r in ctx.rateios %}
-        {{r.0.nome}}
-        {{r.1.pessoa}}
-        {{r.1.vinculo}}
-        {{r.2}}
-      </br>
-      {% endfor %} {% endcomment %}
+        {{r}}
+        </br>
+      {% endfor %}
       
       <div class="col-8 m-auto pt-2 pb-2 text-center">
         <table class="table">
