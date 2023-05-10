@@ -43,9 +43,9 @@
 
       Condomínio id = {{ctx.condominio.id}} | nome = {{ctx.condominio.nome}} </br></br>
       
-      Unidades - Fração </br>
+      Id - Unidades - Fração </br>
       {% for unidade in ctx.unidade %}
-        {{unidade.nome}} - {{unidade.fracao}} </br>
+      {{unidade.id}} - {{unidade.nome}} - {{unidade.fracao}} </br>
       {% endfor %}
       Total de {{ctx.unidade.qtd}} unidades </br></br>
       
