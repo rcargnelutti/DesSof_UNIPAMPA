@@ -26,7 +26,7 @@
               <tr>
                 <th><label for="id_data">Perído:</label></th>
                 <td>
-                  <input type="date" class="form-control date-time-mask" placeholder="00/00/0000" name="data_inicio" maxlength="10" required> 
+                  <input type="date" class="form-control date-time-mask" placeholder="00/00/0000" name="data_inicio" maxlength="10" required>
                 </td>
                 <td>
                   <input type="date" class="form-control date-time-mask" placeholder="00/00/0000" name="data_fim" maxlength="10" required>
@@ -45,9 +45,15 @@
             <div class="text-center">
               <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '/condominios/unidade_list/1/'"><span class="fas fa-arrow-left"></span> Voltar</button>
               <button type="submit" class="btn btn-outline-success btn-sm"><span class="fas fa-save"></span> Gerar</button>
+            </div>
             </br>
           </form>
       </div>
+
+
+      {% if erro_formulario %}
+          <div>erro formulário</div>
+      {% endif %}
 
       {% comment %} Condomínio id = {{ctx.condominio.id}} | nome = {{ctx.condominio.nome}} </br></br>
       
@@ -104,5 +110,6 @@
       </div> {% endcomment %}
 
     </div>
+
   </div>
 {% endblock %}

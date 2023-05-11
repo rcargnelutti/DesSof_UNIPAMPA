@@ -1,7 +1,10 @@
+from django.db.models import OuterRef, Subquery
 from django.urls import reverse_lazy
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView  # noqa
-from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade, Conta, Despesa, Fatura  # noqa
+from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade, Conta, Despesa, Fatura, Morador, \
+    FaturaDespesa, StatusFatura  # noqa
 from condominio.forms import UnidadeForm, PessoaUnidadeForm, ContaForm, DespesaForm, FaturaForm  # noqa
 from decimal import Decimal
 
@@ -205,10 +208,10 @@ def despesa_create(request, condominio_id):
     condominio = Condominio.objects.get(id=condominio_id)
 
     if request.method == "GET":
-        form = DespesaForm(initial={'condominio': condominio})
+        form = DespesaForm(initial={'condominio': condominio}, condominio_id=condominio_id)
         return render(request, 'condominio/despesa_form.html', {'condominio': condominio, 'form': form})  # noqa
     else:
-        form = DespesaForm(request.POST)
+        form = DespesaForm(request.POST, condominio_id=condominio_id)
         if not form.is_valid():
             return render(request, 'condominio/despesa_form.html', {'condominio': condominio, 'form': form})  # noqa
         despesa = form.save(commit=False)
@@ -246,71 +249,118 @@ def despesa_delete(request, despesa_id):
 # Fatura
 
 def fatura_list(request, condominio_id):
-    condominio = Condominio.objects.get(id=condominio_id)  # noqa
-    return render(request, 'condominio/fatura_list.html', {'condominio': condominio})  # noqa
+    condominio = get_object_or_404(Condominio, pk=condominio_id)
+    ids_unidades = condominio.unidades.all().values('pk')
+    faturas = Fatura.objects\
+        .select_related('unidade', 'proprietario', 'locatario')\
+        .filter(unidade_id__in=ids_unidades)\
+        .order_by('-data_criacao')
+    for fatura in faturas:
+        fatura.despesas_list = fatura.despesas.select_related('despesa__conta').all()
+    context = {'condominio': condominio, 'faturas': faturas}
+    return render(request, 'condominio/fatura_list.html', context)
 
 
 def fatura_create(request, condominio_id):
     ctx = {}
-    if request.method == "GET":
-        # form = FaturaForm(initial={'despesa': despesa})
-        return render(request, 'condominio/fatura_form.html', {'ctx': ctx})  # noqa
-    else:
-        data_inicio = request.POST.get('data_inicio')
-        data_fim = request.POST.get('data_fim')
-        data_vencimento = request.POST.get('data_vencimento')
-        competencia = data_inicio
-        # if data_inicio and data_fim:
-        condominio = Condominio.objects.get(id=condominio_id)  # noqa
-        unidade = Unidade.objects.filter(condominio_id=condominio_id)  # noqa
-        despesa = Despesa.objects.filter(condominio_id=condominio_id, data__range=(data_inicio, data_fim))  # noqa
-        qtd_und = unidade.count()
-        for u in unidade:
-            rateios = Fatura()
-            total_fatura = 0
-            unidade = u.nome
-            pessoa_unidade = PessoaUnidade.objects.filter(unidade_id=u.id) # noqa
-            
-            for pu in pessoa_unidade:
-                # testar se tem proprietário e locatário
-                # if pu.vinculo == 'Locatário':
-                #    print("Und", u.nome, "-", pu.pessoa, "-", pu.vinculo)
-                # else:
-                # rateios.append({'unidade':u.nome, 'pessoa': pu.pessoa, 'vinculo':pu.vinculo}) # noqa
-                pessoa = pu.pessoa.nome
-                vinculo = pu.vinculo
+    condominio = get_object_or_404(Condominio, pk=condominio_id)
+    if request.method == 'POST':
+        form = FaturaForm(request.POST)
+        if not form.is_valid():
+            ctx['erro_formulario'] = "Formulário inválido"
+        else:
+            data_criacao = timezone.now()
+            data_inicio = form.cleaned_data['data_inicio']
+            data_fim = form.cleaned_data['data_fim']
+            data_vencimento = form.cleaned_data['data_vencimento']
+            pessoa_subquery = PessoaUnidade.objects.filter(unidade_id=OuterRef('pk'))
+            # proprietario_subquery = pessoa_subquery.filter(vinculo=Morador.PROPRIETARIO.value)
+            # locatario_subquery = pessoa_subquery.filter(vinculo=Morador.LOCATARIO.value)
+            unidades = condominio.unidades.all()
+            # unidades = condominio.unidades\
+            #     .annotate(proprietario_id=Subquery(proprietario_subquery.values('pessoa_id'))) \
+            #     .annotate(locatario_id=Subquery(locatario_subquery.values('pessoa_id'))) \
+            #     .all()
+            despesas = condominio.despesas.filter(data__gte=data_inicio, data__lte=data_fim)
+            for unidade in unidades:
+                proprietario = PessoaUnidade.objects.filter(unidade=unidade, vinculo=Morador.PROPRIETARIO.value).first()
+                locatario = PessoaUnidade.objects.filter(unidade=unidade, vinculo=Morador.LOCATARIO.value).first()
+                fatura = Fatura()
+                fatura.status = StatusFatura.ABERTO.value
+                fatura.unidade = unidade
+                fatura.data_vencimento = data_vencimento
+                fatura.data_inicio = data_inicio
+                fatura.data_fim = data_fim
+                fatura.data_criacao = data_criacao
+                fatura.competencia_mes = data_inicio.month
+                fatura.competencia_ano = data_inicio.year
+                # fatura.proprietario_id = unidade.proprietario_id
+                # fatura.locatario_id = unidade.locatario_id
+                fatura.proprietario_id = proprietario.pessoa_id
+                if locatario:
+                    fatura.locatario_id = locatario.pessoa_id
+                fatura.valor = Decimal(0)
+                fatura_despesas = []
+                for despesa in despesas:
+                    fatura_despesa = FaturaDespesa()
+                    fatura_despesa.despesa = despesa
+                    is_fracao = despesa.rateio == 'Fração'
+                    if is_fracao:
+                        fatura_despesa.valor = (despesa.valor * Decimal(unidade.fracao)).quantize(Decimal("0.00"))
+                    else:
+                        fatura_despesa.valor = despesa.valor / len(unidades)
+                    fatura_despesas.append(fatura_despesa)
+                    fatura.valor += fatura_despesa.valor
+                fatura.save()
+                for fatura_despesa in fatura_despesas:
+                    fatura_despesa.fatura = fatura
+                    fatura_despesa.save()
+            return redirect('condominio:fatura_list', condominio_id=condominio_id)
+    return render(request, 'condominio/fatura_form.html', ctx)
 
-            for d in despesa:
-                if d.rateio == 'Fração':
-                    valor_rateio = ((d.valor) * Decimal(u.fracao)).quantize(Decimal("0.00")) # noqa
-                    total_fatura = total_fatura + valor_rateio
-                if d.rateio == 'Unidade':
-                    valor_rateio = (d.valor / qtd_und)
-                    total_fatura = total_fatura + valor_rateio
-            # valor = total_fatura
-            # print(unidade, "-", pessoa, "-", vinculo, "-",total_fatura, "-",competencia, "-",data_vencimento) # noqa
-            # print("-----------------------------------")
-            rateios.unidade = unidade
-            rateios.pessoa = pessoa
-            rateios.vinculo = vinculo
-            rateios.valor = total_fatura
-            rateios.competencia = competencia
-            rateios.data_vencimento = data_vencimento
 
-            rateios.save()
-
-        ctx = {
-            'condominio': condominio,
-            'rateios': rateios,
-        }
-
-        # objetos_salvos = []
-        # for item in rateios:
-        #    obj = Fatura(item)
-        #    print("OBJ", obj)
-        #   obj.save()
-        #    objetos_salvos.append(obj)
-        return redirect(f'/condominios/fatura_list/{condominio_id}/')  # noqa
+    # data_inicio = request.POST.get('data_inicio')
+    # data_fim = request.POST.get('data_fim')
+    # data_vencimento = request.POST.get('data_vencimento')
+    # competencia = data_inicio
+    # # if data_inicio and data_fim:
+    # condominio = Condominio.objects.get(id=condominio_id)  # noqa
+    # unidade = Unidade.objects.filter(condominio_id=condominio_id)  # noqa
+    # despesa = Despesa.objects.filter(condominio_id=condominio_id, data__range=(data_inicio, data_fim))  # noqa
+    # qtd_und = unidade.count()
+    # for u in unidade:
+    #     rateios = Fatura()
+    #     total_fatura = 0
+    #     unidade = u.nome
+    #     pessoa_unidade = PessoaUnidade.objects.filter(unidade_id=u.id) # noqa
+    #
+    #     for pu in pessoa_unidade:
+    #         # testar se tem proprietário e locatário
+    #         # if pu.vinculo == 'Locatário':
+    #         #    print("Und", u.nome, "-", pu.pessoa, "-", pu.vinculo)
+    #         # else:
+    #         # rateios.append({'unidade':u.nome, 'pessoa': pu.pessoa, 'vinculo':pu.vinculo}) # noqa
+    #         pessoa = pu.pessoa.nome
+    #         vinculo = pu.vinculo
+    #
+    #     for d in despesa:
+    #         if d.rateio == 'Fração':
+    #             valor_rateio = ((d.valor) * Decimal(u.fracao)).quantize(Decimal("0.00")) # noqa
+    #             total_fatura = total_fatura + valor_rateio
+    #         if d.rateio == 'Unidade':
+    #             valor_rateio = (d.valor / qtd_und)
+    #             total_fatura = total_fatura + valor_rateio
+    #     # valor = total_fatura
+    #     # print(unidade, "-", pessoa, "-", vinculo, "-",total_fatura, "-",competencia, "-",data_vencimento) # noqa
+    #     # print("-----------------------------------")
+    #     rateios.unidade = unidade
+    #     rateios.pessoa = pessoa
+    #     rateios.vinculo = vinculo
+    #     rateios.valor = total_fatura
+    #     rateios.competencia = competencia
+    #     rateios.data_vencimento = data_vencimento
+    #
+    #     rateios.save()
 
 
 def fatura_create1(request, condominio_id):

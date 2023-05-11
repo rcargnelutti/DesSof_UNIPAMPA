@@ -49,10 +49,12 @@ class Pessoa(models.Model):
         return self.nome
 
 
+class Morador(models.TextChoices):
+    PROPRIETARIO = 'Proprietário', 'Proprietário'
+    LOCATARIO = 'Locatário', 'Locatário'
+
+
 class PessoaUnidade(models.Model):
-    class Morador(models.TextChoices):
-        PROPRIETARIO = 'Proprietário', 'Proprietário'
-        LOCATARIO = 'Locatário', 'Locatário'
     pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name="moradores")  # noqa
     unidade = models.ForeignKey(Unidade, on_delete=models.PROTECT, related_name="moradores")  # noqa
     vinculo = models.CharField(choices=Morador.choices, max_length=15)  # noqa
@@ -101,12 +103,33 @@ class Despesa(models.Model):
         return self.conta
 
 
+class StatusFatura(models.TextChoices):
+    ABERTO = 'ABERTO'
+    PAGO = 'PAGO'
+
+
 class Fatura(models.Model):
-    unidade = models.CharField(max_length=20)
-    pessoa = models.CharField(max_length=100)
-    vinculo = models.CharField(max_length=15)
+    data_criacao = models.DateTimeField()
+    data_inicio = models.DateField()
+    data_fim = models.DateField()
+    competencia_ano = models.IntegerField()
+    competencia_mes = models.IntegerField()
+    data_vencimento = models.DateField()
+    unidade = models.ForeignKey(Unidade, related_name='faturas', on_delete=models.PROTECT)
+    proprietario = models.ForeignKey(Pessoa, related_name='faturas_proprietario', on_delete=models.PROTECT)
+    locatario = models.ForeignKey(Pessoa, null=True, blank=True, related_name='faturas_locatario',
+                                  on_delete=models.PROTECT)
     valor = models.DecimalField(max_digits=10, decimal_places=2)
-    competencia = models.CharField(max_length=15)
-    data_vencimento = models.DateField(null=True)
-    # created_at = models.DateTimeField(auto_now_add=True)
-    # updated_at = models.DateTimeField(auto_now=True)
+    status = models.CharField(choices=StatusFatura.choices, max_length=6)
+
+    class Meta:
+        unique_together = ['unidade', 'competencia_ano', 'competencia_mes']
+
+
+class FaturaDespesa(models.Model):
+    fatura = models.ForeignKey(Fatura, related_name='despesas', on_delete=models.CASCADE)
+    despesa = models.ForeignKey(Despesa, related_name='fatura_itens', on_delete=models.PROTECT)
+    valor = models.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        unique_together = ['fatura', 'despesa']

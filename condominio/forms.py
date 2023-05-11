@@ -42,14 +42,17 @@ class ContaForm(ModelForm):
 class DespesaForm(ModelForm):
     valor = forms.DecimalField(max_digits=8, decimal_places=2, localize=True)
 
+    def __init__(self, *args, **kwargs):
+        condominio_id = kwargs.pop('condominio_id')
+        super(DespesaForm, self).__init__(*args, **kwargs)
+        self.fields['conta'].queryset = Conta.objects.filter(condominio_id=condominio_id).order_by('descricao')
+
     class Meta:
         model = Despesa
         fields = ('conta', 'rateio', 'valor', 'data', 'identificacao',)  # noqa
 
 
-class FaturaForm(ModelForm):
-    valor = forms.DecimalField(max_digits=8, decimal_places=2, localize=True)
-
-    class Meta:
-        model = Fatura
-        fields = ('unidade', 'pessoa', 'vinculo', 'valor', 'competencia', 'data_vencimento',)  # noqa
+class FaturaForm(forms.Form):
+    data_inicio = forms.DateField()
+    data_fim = forms.DateField()
+    data_vencimento = forms.DateField()

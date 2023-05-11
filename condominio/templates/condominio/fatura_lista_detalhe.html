@@ -1,0 +1,43 @@
+{% if faturas %}
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Compet&ecirc;ncia</th>
+                <th>Vencimento</th>
+                <th>Unidade</th>
+                <th>Propriet&aacute;rio</th>
+                <th>Locat&aacute;rio</th>
+                <th>Valor</th>
+                <th>Despesas</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fatura in faturas %}
+                <tr>
+                    <td>{{ fatura.pk }}</td>
+                    <td>{{ fatura.competencia_mes }} / {{ fatura.competencia_ano|stringformat:'i' }}</td>
+                    <td>{{ fatura.data_vencimento|date:'d/m/Y' }}</td>
+                    <td>{{ fatura.unidade.nome }}</td>
+                    <td>{{ fatura.proprietario.nome }}</td>
+                    <td>{{ fatura.locatario.nome|default:'-' }}</td>
+                    <td>R$ {{ fatura.valor|floatformat:'2' }}</td>
+                    <td>
+                        <div>
+                            {% for despesa in fatura.despesas_list %}
+                                <div>{{ despesa.despesa.conta.descricao }}</div>
+                                <div>R$ {{ despesa.valor|floatformat:'2' }}</div>
+                            {% endfor %}
+                        </div>
+                    </td>
+                    <td>
+                        {{ fatura.status }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <div>nenhuma fatura encontrada</div>
+{% endif %}

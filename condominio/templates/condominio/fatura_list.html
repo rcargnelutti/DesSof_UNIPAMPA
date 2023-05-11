@@ -20,7 +20,10 @@
         <h5>Faturas</h5>
         <a href="{% url 'condominio:fatura_create' condominio.id%}" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Gerar Faturas</a>
       </div>
-      <div class="col-12 m-auto pt-2 pb-2 text-center">
+
+        {% include 'condominio/fatura_lista_detalhe.html' %}
+
+      {% comment %}<div class="col-12 m-auto pt-2 pb-2 text-center">
         <table class="table">
           <thead class="thead-dark">
             <tr>
@@ -82,9 +85,9 @@
               <a href=" " class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Enviar e-mail"> <i class="fa-solid fa-envelope"></i></a>
             </td>
           </tbody>
-          
+
         </table>
-      </div>
+      </div>{% endcomment %}
     </div>
   </div>
 {% endblock %}
