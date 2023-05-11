@@ -253,14 +253,14 @@ def fatura_list(request, condominio_id):
 def fatura_create(request, condominio_id):
     ctx = {}
     if request.method == "GET":
-        #form = FaturaForm(initial={'despesa': despesa})
+        # form = FaturaForm(initial={'despesa': despesa})
         return render(request, 'condominio/fatura_form.html', {'ctx': ctx})  # noqa
     else:
         data_inicio = request.POST.get('data_inicio')
         data_fim = request.POST.get('data_fim')
         data_vencimento = request.POST.get('data_vencimento')
         competencia = data_inicio
-        #if data_inicio and data_fim:
+        # if data_inicio and data_fim:
         condominio = Condominio.objects.get(id=condominio_id)  # noqa
         unidade = Unidade.objects.filter(condominio_id=condominio_id)  # noqa
         despesa = Despesa.objects.filter(condominio_id=condominio_id, data__range=(data_inicio, data_fim))  # noqa
@@ -273,10 +273,10 @@ def fatura_create(request, condominio_id):
             
             for pu in pessoa_unidade:
                 # testar se tem proprietário e locatário
-                #if pu.vinculo == 'Locatário':
+                # if pu.vinculo == 'Locatário':
                 #    print("Und", u.nome, "-", pu.pessoa, "-", pu.vinculo)
-                #else:
-                #rateios.append({'unidade':u.nome, 'pessoa': pu.pessoa, 'vinculo':pu.vinculo})
+                # else:
+                # rateios.append({'unidade':u.nome, 'pessoa': pu.pessoa, 'vinculo':pu.vinculo}) # noqa
                 pessoa = pu.pessoa.nome
                 vinculo = pu.vinculo
 
@@ -287,30 +287,29 @@ def fatura_create(request, condominio_id):
                 if d.rateio == 'Unidade':
                     valor_rateio = (d.valor / qtd_und)
                     total_fatura = total_fatura + valor_rateio
-            valor = total_fatura
-            #print(unidade, "-", pessoa, "-", vinculo, "-",total_fatura, "-",competencia, "-",data_vencimento)
-            #print("-----------------------------------")
-            
+            # valor = total_fatura
+            # print(unidade, "-", pessoa, "-", vinculo, "-",total_fatura, "-",competencia, "-",data_vencimento) # noqa
+            # print("-----------------------------------")
             rateios.unidade = unidade
             rateios.pessoa = pessoa
             rateios.vinculo = vinculo
             rateios.valor = total_fatura
             rateios.competencia = competencia
             rateios.data_vencimento = data_vencimento
-            
+
             rateios.save()
-            
+
         ctx = {
             'condominio': condominio,
             'rateios': rateios,
         }
-        
-            #objetos_salvos = []
-            #for item in rateios:
-            #    obj = Fatura(item)
-            #    print("OBJ", obj)
-            #   obj.save()
-            #    objetos_salvos.append(obj)
+
+        # objetos_salvos = []
+        # for item in rateios:
+        #    obj = Fatura(item)
+        #    print("OBJ", obj)
+        #   obj.save()
+        #    objetos_salvos.append(obj)
         return redirect(f'/condominios/fatura_list/{condominio_id}/')  # noqa
 
 
@@ -332,15 +331,15 @@ def fatura_create1(request, condominio_id):
             pessoa_unidade = PessoaUnidade.objects.filter(unidade_id=u.id, data_fim=None) # noqa
             for pu in pessoa_unidade:
                 # testar se tem proprietário e locatário
-                #if pu.vinculo == 'Locatário':
+                # if pu.vinculo == 'Locatário':
                 #    print("Und", u.nome, "-", pu.pessoa, "-", pu.vinculo)
-                #else:
-                    print("Und", u.nome, "-", pu.pessoa, "-", pu.vinculo)
-            
+                # else:
+                    print("Und", u.nome, "-", pu.pessoa, "-", pu.vinculo) # noqa
+
             rateios.append(u.nome)
             rateios.append(pu.pessoa)
             rateios.append(pu.vinculo)
-        
+
             for d in despesa:
                 if d.rateio == 'Fração':
                     valor = ((d.valor) * Decimal(u.fracao)).quantize(Decimal("0.00")) # noqa
@@ -357,7 +356,7 @@ def fatura_create1(request, condominio_id):
             rateios.append(total)
             rateios.append(competencia)
             rateios.append(data_vencimento)
-        
+
         ctx = {
             'condominio': condominio,
             'rateios': rateios,
@@ -376,7 +375,7 @@ def fatura_create1(request, condominio_id):
         return redirect(f'/condominios/fatura_list/{condominio_id}/')  # noqa
 
 
-#Cassol
+# Cassol
 def fatura_create2(request, condominio_id):
     ctx = {}
     data_inicio = request.POST.get('data_inicio')
@@ -394,11 +393,11 @@ def fatura_create2(request, condominio_id):
             pessoa_unidade = PessoaUnidade.objects.filter(unidade_id=u.id, data_fim=None) # noqa
             for pu in pessoa_unidade:
                 # testar se tem proprietário e locatário
-                #if pu.vinculo == 'Locatário':
+                # if pu.vinculo == 'Locatário':
                 #    print("Und", u.nome, "-", pu.pessoa, "-", pu.vinculo)
-                #else:
-                    print("Und", u.nome, "-", pu.pessoa, "-", pu.vinculo)
-            val = [None,None,None,None,None]
+                # else:
+                    print("Und", u.nome, "-", pu.pessoa, "-", pu.vinculo) # noqa
+            val = [None, None, None, None, None]
             val[0] = u
             val[1] = pu
             for d in despesa:
@@ -416,7 +415,7 @@ def fatura_create2(request, condominio_id):
             val[3] = competencia
             val[4] = data_vencimento
             rateios.append(val)
-        
+
         ctx = {
             'condominio': condominio,
             'unidade': unidade,
@@ -438,9 +437,10 @@ def fatura_create2(request, condominio_id):
 
 # Fatura Protótipo
 
+
 def fatura_list2(request):
     return render(request, 'condominio/fatura_list2.html')  # noqa
 
 
-def fatura_create2(request):
+def fatura_create22(request):
     return render(request, 'condominio/fatura_form2.html')  # noqa

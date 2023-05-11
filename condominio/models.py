@@ -1,5 +1,5 @@
 from django.db import models
-from locale import setlocale, currency as moeda, LC_ALL
+from locale import setlocale, currency as moeda, LC_ALL # noqa
 
 
 class Condominio(models.Model):
@@ -93,13 +93,13 @@ class Despesa(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def valor_real(self):
-        #setlocale(LC_ALL,'pt_BR.UTF-8')
+        # setlocale(LC_ALL,'pt_BR.UTF-8')
         return moeda(self.valor, grouping=True)
-        #valor_real.short_description = 'Valor'
+        # valor_real.short_description = 'Valor'
 
     def __str__(self):
         return self.conta
-    
+
 
 class Fatura(models.Model):
     unidade = models.CharField(max_length=20)
@@ -108,5 +108,5 @@ class Fatura(models.Model):
     valor = models.DecimalField(max_digits=10, decimal_places=2)
     competencia = models.CharField(max_length=15)
     data_vencimento = models.DateField(null=True)
-    #created_at = models.DateTimeField(auto_now_add=True)
-    #updated_at = models.DateTimeField(auto_now=True)
+    # created_at = models.DateTimeField(auto_now_add=True)
+    # updated_at = models.DateTimeField(auto_now=True)

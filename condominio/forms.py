@@ -53,4 +53,3 @@ class FaturaForm(ModelForm):
     class Meta:
         model = Fatura
         fields = ('unidade', 'pessoa', 'vinculo', 'valor', 'competencia', 'data_vencimento',)  # noqa
-       
