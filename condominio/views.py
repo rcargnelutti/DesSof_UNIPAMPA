@@ -252,73 +252,67 @@ def fatura_list(request, condominio_id):
 
 def fatura_create(request, condominio_id):
     ctx = {}
-    data_inicio = request.POST.get('data_inicio')
-    data_fim = request.POST.get('data_fim')
-    data_vencimento = request.POST.get('data_vencimento')
-    competencia = data_inicio
-    if data_inicio and data_fim:
+    if request.method == "GET":
+        #form = FaturaForm(initial={'despesa': despesa})
+        return render(request, 'condominio/fatura_form.html', {'ctx': ctx})  # noqa
+    else:
+        data_inicio = request.POST.get('data_inicio')
+        data_fim = request.POST.get('data_fim')
+        data_vencimento = request.POST.get('data_vencimento')
+        competencia = data_inicio
+        #if data_inicio and data_fim:
         condominio = Condominio.objects.get(id=condominio_id)  # noqa
         unidade = Unidade.objects.filter(condominio_id=condominio_id)  # noqa
         despesa = Despesa.objects.filter(condominio_id=condominio_id, data__range=(data_inicio, data_fim))  # noqa
-        despesa.qtd = despesa.count()
-        unidade.qtd = unidade.count()
-        rateios = {}
+        qtd_und = unidade.count()
         for u in unidade:
-            total = 0
-            rateios[u.nome] = u.nome
-            pessoa_unidade = PessoaUnidade.objects.filter(unidade_id=u.id, data_fim=None) # noqa
+            rateios = Fatura()
+            total_fatura = 0
+            unidade = u.nome
+            pessoa_unidade = PessoaUnidade.objects.filter(unidade_id=u.id) # noqa
+            
             for pu in pessoa_unidade:
                 # testar se tem proprietário e locatário
                 #if pu.vinculo == 'Locatário':
                 #    print("Und", u.nome, "-", pu.pessoa, "-", pu.vinculo)
                 #else:
-                    #print("Und", u.nome, "-", pu.pessoa, "-", pu.vinculo)
-            
                 #rateios.append({'unidade':u.nome, 'pessoa': pu.pessoa, 'vinculo':pu.vinculo})
-                
-                rateios[pu.pessoa]= pu.pessoa
-                rateios[pu.vinculo] = pu.vinculo
-        
+                pessoa = pu.pessoa.nome
+                vinculo = pu.vinculo
+
             for d in despesa:
                 if d.rateio == 'Fração':
-                    valor = ((d.valor) * Decimal(u.fracao)).quantize(Decimal("0.00")) # noqa
-                    #print(d.conta, " - ", valor)  # noqa
-                    total = total + valor
+                    valor_rateio = ((d.valor) * Decimal(u.fracao)).quantize(Decimal("0.00")) # noqa
+                    total_fatura = total_fatura + valor_rateio
                 if d.rateio == 'Unidade':
-                    valor = (d.valor / unidade.qtd)
-                    #print(d.conta, " - ", valor)
-                    total = total + valor
-            #print(total, "- Total")
+                    valor_rateio = (d.valor / qtd_und)
+                    total_fatura = total_fatura + valor_rateio
+            valor = total_fatura
+            #print(unidade, "-", pessoa, "-", vinculo, "-",total_fatura, "-",competencia, "-",data_vencimento)
             #print("-----------------------------------")
-
-            #rateios.append({'valor':total, 'competencia': competencia, 'data_vencimento':data_vencimento})
-            #rateios.valor = total
-            #rateios.competencia = competencia
-            #rateios.data_vencimento = data_vencimento
-        
+            
+            rateios.unidade = unidade
+            rateios.pessoa = pessoa
+            rateios.vinculo = vinculo
+            rateios.valor = total_fatura
+            rateios.competencia = competencia
+            rateios.data_vencimento = data_vencimento
+            
+            rateios.save()
+            
         ctx = {
             'condominio': condominio,
             'rateios': rateios,
         }
-    #print(rateios2)
-    if request.method == "GET":
-        form = FaturaForm(initial={})
-        return render(request, 'condominio/fatura_form.html', {'ctx': ctx, 'form': form})  # noqa
-    else:
-        form = FaturaForm(request.POST)
-        if not form.is_valid():
-            return render(request, 'condominio/fatura_form.html', {'ctx': ctx, 'form': form})  # noqa
-        # despesa = form.save(commit=False)
-        # despesa.condominio = condominio
-        # despesa.save()
-        objetos_salvos = []
-        for item in rateios:
-            print(item['unidade'])
-            obj = Fatura(item)
-            obj.save()
-            objetos_salvos.append(obj)
+        
+            #objetos_salvos = []
+            #for item in rateios:
+            #    obj = Fatura(item)
+            #    print("OBJ", obj)
+            #   obj.save()
+            #    objetos_salvos.append(obj)
         return redirect(f'/condominios/fatura_list/{condominio_id}/')  # noqa
-    
+
 
 def fatura_create1(request, condominio_id):
     ctx = {}

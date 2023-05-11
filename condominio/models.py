@@ -108,5 +108,5 @@ class Fatura(models.Model):
     valor = models.DecimalField(max_digits=10, decimal_places=2)
     competencia = models.CharField(max_length=15)
     data_vencimento = models.DateField(null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    #created_at = models.DateTimeField(auto_now_add=True)
+    #updated_at = models.DateTimeField(auto_now=True)
