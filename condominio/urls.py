@@ -11,7 +11,7 @@ app_name = 'condominio'
 urlpatterns = [
 
     # FAVICON
-    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico')))  # noqa
+    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico'))),  # noqa
 
     # CONDOMINIO
     path('', views.CondominioList.as_view(), name='list'),
