@@ -1,5 +1,4 @@
 from django.db import models
-from locale import setlocale, currency as moeda, LC_ALL # noqa
 
 
 class Condominio(models.Model):
@@ -93,11 +92,6 @@ class Despesa(models.Model):
     identificacao = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    def valor_real(self):
-        # setlocale(LC_ALL,'pt_BR.UTF-8')
-        return moeda(self.valor, grouping=True)
-        # valor_real.short_description = 'Valor'
 
     def __str__(self):
         return self.conta
