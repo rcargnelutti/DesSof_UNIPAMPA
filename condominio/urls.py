@@ -10,6 +10,9 @@ app_name = 'condominio'
 
 urlpatterns = [
 
+    # FAVICON
+    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico')))  # noqa
+
     # CONDOMINIO
     path('', views.CondominioList.as_view(), name='list'),
     path('create/', views.CondominioCreate.as_view(), name='create'),
@@ -57,8 +60,7 @@ urlpatterns = [
     path('fatura_create2/', views.fatura_create2, name='fatura_create2'),  # noqa
 
 
-    # FAVICON
-    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico')))  # noqa
+    
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
