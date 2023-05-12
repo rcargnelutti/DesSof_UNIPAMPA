@@ -17,7 +17,6 @@
     </div>
     <div class="card-body">
       <div class="col-8 m-auto pb-2">
-        {% comment %} <p>Você está salvando uma unidade para o condomínio: [{{ condominio.id }}] {{ condominio.nome }}</p> {% endcomment %}
         <h5 class="text-center">Gerar Faturas</h5>
       </br>
           <form method="post" action="." >
@@ -43,73 +42,17 @@
             </table>
             </br>
             <div class="text-center">
-              <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '/condominios/unidade_list/1/'"><span class="fas fa-arrow-left"></span> Voltar</button>
+              <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:fatura_list' condominio.id %}'"><span class="fas fa-arrow-left"></span> Voltar</button>
               <button type="submit" class="btn btn-outline-success btn-sm"><span class="fas fa-save"></span> Gerar</button>
             </div>
             </br>
           </form>
       </div>
 
-
       {% if erro_formulario %}
           <div>erro formulário</div>
       {% endif %}
 
-      {% comment %} Condomínio id = {{ctx.condominio.id}} | nome = {{ctx.condominio.nome}} </br></br>
-      
-      Id - Unidades - Fração </br>
-      {% for unidade in ctx.unidade %}
-      {{unidade.id}} - {{unidade.nome}} - {{unidade.fracao}} </br>
-      {% endfor %}
-      Total de {{ctx.unidade.qtd}} unidades </br></br>
-
-      Despesas - valor - Rateio - data</br>
-      {% for despesa in ctx.despesa %}
-        {{despesa.conta}} - {{despesa.valor}} - {{despesa.rateio}} - {{despesa.data}} </br>
-      {% endfor %}
-      Total de {{ctx.despesa.qtd}} despesas </br></br> {% endcomment %}
-
-      {% comment %} RATEIOS </br> {% endcomment %}
-      {% comment %} {{ctx.rateios}} </br></br> {% endcomment %}
-      {% comment %} {% for r in ctx.rateios %}
-        {{r}}
-        </br>
-      {% endfor %} {% endcomment %}
-      
-      {% comment %} <div class="col-8 m-auto pt-2 pb-2 text-center">
-        <table class="table">
-          <thead class="thead-dark">
-            <tr style="text-align: center">
-              <th scope="col">Unidade</th>
-              <th scope="col">Pessoa</th>
-              <th scope="col">Vinculo</th>
-              <th scope="col">Valor</th>
-              <th scope="col">Competência</th>
-              <th scope="col">Vencimento</th>
-              <th scope="col">Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for r in ctx.rateios %}
-            <tr style="text-align: center">
-              <td>{{r.0.nome}}</td>
-              <td>{{r.1.pessoa}}</td>
-              <td>{{r.1.vinculo}}</td>
-              <td>{{r.2}}</td>
-              <td>{{r.3}}</td>
-              <td>{{r.4}}</td>
-              <td>
-                <a href=" " class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar"><i class="fas fa-light fa-eye"></i></a>
-                <a href=" " class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Imprimir"><i class="fa-solid fa-print"></i></a>
-                <a href=" " class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Enviar e-mail"> <i class="fa-solid fa-envelope"></i></a>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div> {% endcomment %}
-
     </div>
-
   </div>
 {% endblock %}
