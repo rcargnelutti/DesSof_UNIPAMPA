@@ -316,6 +316,7 @@ def fatura_create(request, condominio_id):
                     fatura_despesa.fatura = fatura
                     fatura_despesa.save()
             return redirect('condominio:fatura_list', condominio_id=condominio_id)
+    ctx = {'condominio': condominio}
     return render(request, 'condominio/fatura_form.html', ctx)
 
 
