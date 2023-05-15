@@ -1,10 +1,9 @@
-from django.db.models import OuterRef, Subquery
+#from django.db.models import OuterRef, Subquery
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView  # noqa
-from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade, Conta, Despesa, Fatura, Morador, \
-    FaturaDespesa, StatusFatura  # noqa
+from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade, Conta, Despesa, Fatura, Morador, FaturaDespesa, StatusFatura  # noqa
 from condominio.forms import UnidadeForm, PessoaUnidadeForm, ContaForm, DespesaForm, FaturaForm  # noqa
 from decimal import Decimal
 
@@ -208,7 +207,7 @@ def despesa_create(request, condominio_id):
     condominio = Condominio.objects.get(id=condominio_id)
 
     if request.method == "GET":
-        form = DespesaForm(initial={'condominio': condominio}, condominio_id=condominio_id)
+        form = DespesaForm(initial={'condominio': condominio}, condominio_id=condominio_id) # noqa
         return render(request, 'condominio/despesa_form.html', {'condominio': condominio, 'form': form})  # noqa
     else:
         form = DespesaForm(request.POST, condominio_id=condominio_id)
@@ -225,10 +224,10 @@ def despesa_update(request, despesa_id):
     condominio = despesa.condominio
 
     if request.method == "GET":
-        form = DespesaForm(instance=despesa)
+        form = DespesaForm(instance=despesa, condominio_id=condominio)
         return render(request, 'condominio/despesa_form.html', {'condominio': condominio, 'form': form})  # noqa
     else:
-        form = DespesaForm(request.POST, instance=despesa)
+        form = DespesaForm(request.POST, instance=despesa, condominio_id=condominio) # noqa
         if not form.is_valid():
             return render(request, 'condominio/despesa_form.html', {'condominio': condominio, 'form': form})  # noqa
         form.save()
@@ -273,7 +272,7 @@ def fatura_create(request, condominio_id):
             data_inicio = form.cleaned_data['data_inicio']
             data_fim = form.cleaned_data['data_fim']
             data_vencimento = form.cleaned_data['data_vencimento']
-            pessoa_subquery = PessoaUnidade.objects.filter(unidade_id=OuterRef('pk'))
+            #pessoa_subquery = PessoaUnidade.objects.filter(unidade_id=OuterRef('pk'))
             # proprietario_subquery = pessoa_subquery.filter(vinculo=Morador.PROPRIETARIO.value)
             # locatario_subquery = pessoa_subquery.filter(vinculo=Morador.LOCATARIO.value)
             unidades = condominio.unidades.all()
