@@ -56,3 +56,9 @@ class FaturaForm(forms.Form):
     data_inicio = forms.DateField()
     data_fim = forms.DateField()
     data_vencimento = forms.DateField()
+
+
+class FaturaPagarForm(forms.Form):
+    class Meta:
+        model = Fatura
+        fields = ('status')

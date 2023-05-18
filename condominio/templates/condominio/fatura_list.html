@@ -37,13 +37,13 @@
               <th scope="col">Vencimento</th>
               {% comment %} <th scope="col">Despesas</th> {% endcomment %}
               <th scope="col">Status</th>
-              {% comment %} <th scope="col">Ações</th> {% endcomment %}
+              <th scope="col">Ações</th>
             </tr>
           </thead>
           <tbody>
             {% for fatura in faturas %}
-                <tr href="#collapseExample_{{ fatura.pk }}" data-bs-toggle="collapse" data-bs-placement="top">
-                    <td data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Despesas"><i class="fas fa-light fa-eye"></i></td>
+                <tr>
+                    <td href="#collapseExample_{{ fatura.pk }}" data-bs-toggle="collapse" data-bs-placement="top" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Despesas"><i class="fas fa-light fa-eye"></i></td>
                     <td>{{ fatura.pk }}</td>
                     <td>{{ fatura.unidade.nome }}</td>
                     <td>{{ fatura.proprietario.nome }}</td>
@@ -74,17 +74,17 @@
                     <td>
                         {{ fatura.status }}
                     </td>
-                    {% comment %} <td>
-                      <a href=" " class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar"><i class="fas fa-light fa-eye"></i></a>
-                    </td> {% endcomment %}
+                    <td>
+                      <a href="{% url 'condominio:fatura_pagar' fatura.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Pagar"><i class="fa-solid fa-money-check-dollar"></i></a>
+                    </td>
                 </tr>
                 <tr>
-                    {% for despesa in fatura.despesas_list %}
-                      <tr style="text-align: center"class="collapse" id="collapseExample_{{ fatura.pk }}">
-                          <td colspan="5"><div>{{ despesa.despesa.conta.descricao }}</div></td>
-                          <td colspan="5"><div>R$ {{ despesa.valor|floatformat:'2' }}</div></td>
-                      </tr>
-                    {% endfor %}
+                  {% for despesa in fatura.despesas_list %}
+                    <tr style="text-align: center"class="collapse" id="collapseExample_{{ fatura.pk }}">
+                        <td colspan="5"><div>{{ despesa.despesa.conta.descricao }}</div></td>
+                        <td colspan="5"><div>R$ {{ despesa.valor|floatformat:'2' }}</div></td>
+                    </tr>
+                  {% endfor %}
                 </tr>
             {% endfor %}
           </tbody>
