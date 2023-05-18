@@ -67,7 +67,7 @@ header {
 	max-width: 50px;
 	text-align: center;
 	background: var(--gray-dark) ;
-	color: #fff;
+	color: white;
 	font-size: 14px;
 	height: 95vh;
 }
@@ -79,3 +79,22 @@ header {
 	color: white;
 	border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
 }
+
+.dashboard {
+	text-align: center;
+}
+
+.box {
+	width: 400px;
+	height: 400px;
+	display: inline-block;
+	text-align: center;
+}
+
+/* #div1 {
+	background-color: gray;
+}
+
+#div2 {
+	background-color: gray;
+} */
