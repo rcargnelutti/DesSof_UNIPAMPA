@@ -20,9 +20,7 @@
         <h5>Faturas</h5>
         <a href="{% url 'condominio:fatura_create' condominio.id%}" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Gerar Faturas</a>
       </div>
-
       {% comment %} {% include 'condominio/fatura_lista_detalhe.html' %} {% endcomment %}
-
       <div class="col-8 m-auto pt-2 pb-2 text-center">
         <table class="table">
           <thead class="thead-dark">
@@ -35,7 +33,6 @@
               <th scope="col">Valor</th>
               <th scope="col">Competência</th>
               <th scope="col">Vencimento</th>
-              {% comment %} <th scope="col">Despesas</th> {% endcomment %}
               <th scope="col">Status</th>
               <th scope="col">Ações</th>
             </tr>
@@ -51,38 +48,20 @@
                     <td>R$ {{ fatura.valor|floatformat:'2' }}</td>
                     <td>{{ fatura.competencia_mes }}/{{ fatura.competencia_ano|stringformat:'i' }}</td>
                     <td>{{ fatura.data_vencimento|date:'d/m/Y' }}</td>
-                    {% comment %} <td ><i class="fas fa-light fa-eye"></i> {% endcomment %}
-
-                      {% comment %} <span data-bs-toggle="tooltip" data-bs-placement="top" title=" 
-                        {% for despesa in fatura.despesas_list %}
-                          {{ despesa.despesa.conta.descricao }} - R$ {{ despesa.valor }}
-                        {% endfor %}
-                      "><i class="fas fa-light fa-eye"></i></span> {% endcomment %}
-
-                        {% comment %} <div class="collapse" id="collapseExample_{{ fatura.pk }}">
-                            <table>
-                              {% for despesa in fatura.despesas_list %}
-                                  <tr>
-                                    <td><div>{{ despesa.despesa.conta.descricao }}</div></td>
-                                    <td><div>R$ {{ despesa.valor|floatformat:'2' }}</div></td>
-                                  <tr>
-                              {% endfor %}
-                            </table>
-                        </div> {% endcomment %}
-
-                    {% comment %} </td> {% endcomment %}
+                    <td>{{ fatura.status }}</td>
                     <td>
-                        {{ fatura.status }}
-                    </td>
-                    <td>
-                      <a href="{% url 'condominio:fatura_pagar' fatura.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Pagar"><i class="fa-solid fa-money-check-dollar"></i></a>
+                      {% if fatura.status == "ABERTO" %}
+                        <a href="{% url 'condominio:fatura_pagar' fatura.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Pagar"><i class="fa-solid fa-money-check-dollar"></i></a>
+                      {% else %}
+                        <a href="{% url 'condominio:fatura_pagar' fatura.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar"><i class="fas fa-light fa-eye"></i></a>
+                      {% endif %}
                     </td>
                 </tr>
                 <tr>
                   {% for despesa in fatura.despesas_list %}
                     <tr style="text-align: center"class="collapse" id="collapseExample_{{ fatura.pk }}">
-                        <td colspan="5"><div>{{ despesa.despesa.conta.descricao }}</div></td>
-                        <td colspan="5"><div>R$ {{ despesa.valor|floatformat:'2' }}</div></td>
+                      <td colspan="5"><div>{{ despesa.despesa.conta.descricao }}</div></td>
+                      <td colspan="5"><div>R$ {{ despesa.valor|floatformat:'2' }}</div></td>
                     </tr>
                   {% endfor %}
                 </tr>

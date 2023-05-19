@@ -327,27 +327,6 @@ def fatura_create(request, condominio_id):
     return render(request, 'condominio/fatura_form.html', ctx)
 
 
-def faturas_em_atraso(condominio_id):
-    condominio = Condominio.objects.get(id=condominio_id)
-    ids_unidades = condominio.unidades.all().values('pk')
-    faturas = Fatura.objects\
-        .filter(unidade_id__in=ids_unidades)\
-        .filter(data_vencimento__lt=timezone.now())\
-        .filter(status = StatusFatura.ABERTO.value)
-    faturas_em_atraso = len(faturas)
-    return faturas_em_atraso
-
-
-def faturas_em_aberto(condominio_id):
-    condominio = Condominio.objects.get(id=condominio_id)
-    ids_unidades = condominio.unidades.all().values('pk')
-    faturas = Fatura.objects\
-        .filter(unidade_id__in=ids_unidades)\
-        .filter(status = 'ABERTO')
-    faturas_todas = len(faturas)
-    return faturas_todas
-
-
 def fatura_pagar(request, fatura_id):
     fatura = Fatura.objects.get(id=fatura_id)
     unidade = Unidade.objects.get(id=fatura.unidade.id)
@@ -367,6 +346,27 @@ def fatura_pagar(request, fatura_id):
             fatura.save()
             return redirect('condominio:fatura_list', unidade.condominio.id)
     return render(request, 'condominio/fatura_pagar.html', context)
+
+
+def faturas_em_atraso(condominio_id):
+    condominio = Condominio.objects.get(id=condominio_id)
+    ids_unidades = condominio.unidades.all().values('pk')
+    faturas = Fatura.objects\
+        .filter(unidade_id__in=ids_unidades)\
+        .filter(data_vencimento__lt=timezone.now())\
+        .filter(status = StatusFatura.ABERTO.value)
+    faturas_em_atraso = len(faturas)
+    return faturas_em_atraso
+
+
+def faturas_em_aberto(condominio_id):
+    condominio = Condominio.objects.get(id=condominio_id)
+    ids_unidades = condominio.unidades.all().values('pk')
+    faturas = Fatura.objects\
+        .filter(unidade_id__in=ids_unidades)\
+        .filter(status = 'ABERTO')
+    faturas_todas = len(faturas)
+    return faturas_todas
 
 
 # Fatura Protótipo
