@@ -106,6 +106,7 @@ class Fatura(models.Model):
     data_criacao = models.DateTimeField()
     data_inicio = models.DateField()
     data_fim = models.DateField()
+    data_pagamento = models.DateField(blank=True, null=True)
     competencia_ano = models.IntegerField()
     competencia_mes = models.IntegerField()
     data_vencimento = models.DateField()

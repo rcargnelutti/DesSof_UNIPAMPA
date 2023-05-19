@@ -51,9 +51,9 @@
                     <td>{{ fatura.status }}</td>
                     <td>
                       {% if fatura.status == "ABERTO" %}
-                        <a href="{% url 'condominio:fatura_pagar' fatura.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Pagar"><i class="fa-solid fa-money-check-dollar"></i></a>
+                        <a href="{% url 'condominio:fatura_pagamento' fatura.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Pagar"><i class="fa-solid fa-money-check-dollar"></i></a>
                       {% else %}
-                        <a href="{% url 'condominio:fatura_pagar' fatura.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar"><i class="fas fa-light fa-eye"></i></a>
+                        <a href="{% url 'condominio:fatura_pagamento_detalhe' fatura.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar"><i class="fas fa-light fa-eye"></i></a>
                       {% endif %}
                     </td>
                 </tr>

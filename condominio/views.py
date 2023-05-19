@@ -327,7 +327,7 @@ def fatura_create(request, condominio_id):
     return render(request, 'condominio/fatura_form.html', ctx)
 
 
-def fatura_pagar(request, fatura_id):
+def fatura_pagamento(request, fatura_id):
     fatura = Fatura.objects.get(id=fatura_id)
     unidade = Unidade.objects.get(id=fatura.unidade.id)
     condominio = unidade.condominio
@@ -342,10 +342,24 @@ def fatura_pagar(request, fatura_id):
         if not form.is_valid():
             context['erro_formulario'] = "Formulário inválido"
         else:
+            data_pagamento = form.cleaned_data['data_pagamento']
+            print("Data pagamento", data_pagamento)
+            fatura.data_pagamento = data_pagamento
             fatura.status = StatusFatura.PAGO.value
             fatura.save()
             return redirect('condominio:fatura_list', unidade.condominio.id)
-    return render(request, 'condominio/fatura_pagar.html', context)
+    return render(request, 'condominio/fatura_pagamento.html', context)
+
+
+def fatura_pagamento_detalhe(request, fatura_id):
+    fatura = Fatura.objects.get(id=fatura_id)
+    unidade = Unidade.objects.get(id=fatura.unidade.id)
+    condominio = unidade.condominio
+    context = {
+        'fatura': fatura,
+        'condominio': condominio,
+    }
+    return render(request, 'condominio/fatura_pagamento_detalhe.html', context)
 
 
 def faturas_em_atraso(condominio_id):
