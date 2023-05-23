@@ -98,3 +98,7 @@ header {
 #div2 {
 	background-color: gray;
 } */
+
+.fatura_vencida_calculo {
+	display: none;
+}

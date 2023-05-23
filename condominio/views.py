@@ -6,6 +6,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DetailView, D
 from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade, Conta, Despesa, Fatura, Morador, FaturaDespesa, StatusFatura  # noqa
 from condominio.forms import UnidadeForm, PessoaUnidadeForm, ContaForm, DespesaForm, FaturaForm, FaturaPagarForm  # noqa
 from decimal import Decimal
+from django.http import JsonResponse
 
 # CONDOMÍNIO
 
@@ -381,6 +382,16 @@ def faturas_em_aberto(condominio_id):
         .filter(status = 'ABERTO')
     faturas_todas = len(faturas)
     return faturas_todas
+
+
+def fatura_vencida_calculo(request):
+
+    data_pagamento = request.GET.get('data_pagamento')
+
+    data = {
+        'data_pagamento': data_pagamento,
+    }
+    return JsonResponse(data)
 
 
 # Fatura Protótipo
