@@ -36,7 +36,7 @@
           <tr style="text-align: center" >
             <th><label for="id_data">Data do pagamento:</label></th>
             <td>
-              <input type="date" class="form-control date-time-mask" value={% now "Y-m-d" %} placeholder="00/00/0000" name="data_pagamento" id="id_data_pagamento" maxlength="10" required>
+              <input type="date" class="form-control date-time-mask" placeholder="00/00/0000" name="data_pagamento" id="id_data_pagamento" maxlength="10" required>
             </td>
           </tr>
         </table>
@@ -44,19 +44,22 @@
         <div class="fatura_vencida_calculo">
           <table align="center" style="text-align: center">
             <tr>
+              <td colspan="3"><label>Fatura com <strong id="dias_atraso">  </strong> dias em atraso.</label></td>
+            </tr>
+            <tr>
               <th><label for="id_multa">Multa</label></th>
-              <th><label for="id_juros">Juros</label></th>
+              <th><label for="id_juros">Juro</label></th>
               <th><label for="id_total_pagar">Total a Pagar</label></th>
             </tr>
             <tr>
-              <td style="width:150px"> 
-                <input type="text" class="form-control" placeholder="" name="multa" maxlength="20" required readonly="readonly"> 
+              <td style="width:125px"> 
+                <input type="text" class="form-control" style="text-align: center" placeholder="" name="multa" id="id_multa" maxlength="20" required readonly="readonly"> 
+              </td>
+              <td style="width:125px"> 
+                <input type="text" class="form-control" style="text-align: center"placeholder="" name="juro" id="id_juro" maxlength="20" required readonly="readonly"> 
               </td>
               <td style="width:150px"> 
-                <input type="text" class="form-control" placeholder="" name="juros" maxlength="20" required readonly="readonly"> 
-              </td>
-              <td style="width:150px"> 
-                <input type="text" class="form-control" placeholder="" name="total_pagar" maxlength="20" required readonly="readonly"> 
+                <input type="text" class="form-control" style="text-align: center"placeholder="" name="total_pagar" id="id_total_pagar" maxlength="20" required readonly="readonly"> 
               </td>
             </tr>
           </table>
@@ -87,12 +90,21 @@
             dataType: 'json',
             success: function (data) {
               if (data) {
-                alert("Data pagamento = " + data.data_pagamento + " | Id Fatura = " + fatura_id + " | Dias em atraso = " + data.dias_atraso);
+                //alert("Data pagamento = " + data.data_pagamento + " | Id Fatura = " + fatura_id +
+                // " | Dias em atraso = " + data.dias_atraso + " | Valor da multa = " + data.valor_multa +
+                // " | Valor do juro = " + data.valor_juro + " | Total a pagar = " + data.total_pagar);
+                if (data.dias_atraso > 0) {
+                  document.getElementById("dias_atraso").innerText = data.dias_atraso;
+                  $("#id_multa").val(data.valor_multa);
+                  $("#id_juro").val(data.valor_juro);
+                  $("#id_total_pagar").val(data.total_pagar);
+                  $(".fatura_vencida_calculo").show();
+                } else {
+                  $(".fatura_vencida_calculo").hide();
+                }
               }
             }
           });
-          // RETORNO DO BACKEND EXIBE A CLASS E OS DADOS
-          $(".fatura_vencida_calculo").show();
         });
       </script>
 

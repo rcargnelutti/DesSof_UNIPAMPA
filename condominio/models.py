@@ -117,17 +117,17 @@ class Fatura(models.Model):
     locatario = models.ForeignKey(Pessoa, null=True, blank=True, related_name='faturas_locatario', on_delete=models.PROTECT) # noqa
     valor = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(choices=StatusFatura.choices, max_length=6)
-    valor_multa = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    valor_juro = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    valor_pago = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    valor_multa = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True) # noqa
+    valor_juro = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True) # noqa
+    valor_pago = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True) # noqa
 
     class Meta:
         unique_together = ['unidade', 'competencia_ano', 'competencia_mes']
 
 
 class FaturaDespesa(models.Model):
-    fatura = models.ForeignKey(Fatura, related_name='despesas', on_delete=models.CASCADE)
-    despesa = models.ForeignKey(Despesa, related_name='fatura_itens', on_delete=models.PROTECT)
+    fatura = models.ForeignKey(Fatura, related_name='despesas', on_delete=models.CASCADE) # noqa
+    despesa = models.ForeignKey(Despesa, related_name='fatura_itens', on_delete=models.PROTECT) # noqa
     valor = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:

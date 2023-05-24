@@ -45,11 +45,11 @@ class DespesaForm(ModelForm):
     def __init__(self, *args, **kwargs):
         condominio_id = kwargs.pop('condominio_id')
         super(DespesaForm, self).__init__(*args, **kwargs)
-        self.fields['conta'].queryset = Conta.objects.filter(condominio_id=condominio_id).order_by('descricao')
+        self.fields['conta'].queryset = Conta.objects.filter(condominio_id=condominio_id).order_by('descricao') # noqa
 
     class Meta:
         model = Despesa
-        fields = ('conta', 'rateio', 'valor', 'data', 'identificacao',)  # noqa
+        fields = ('conta', 'rateio', 'valor', 'data', 'identificacao',) # noqa
 
 
 class FaturaForm(forms.Form):
@@ -60,6 +60,10 @@ class FaturaForm(forms.Form):
 
 class FaturaPagarForm(forms.Form):
     data_pagamento = forms.DateField()
+    valor_multa = forms.DecimalField()
+    valor_juro = forms.DecimalField()
+    valor_pago = forms.DecimalField()
+
     class Meta:
         model = Fatura
-        fields = ('status', 'data_pagamento')
+        fields = ('status', 'data_pagamento', 'valor_multa', 'valor_juro', 'valor_pago',) # noqa

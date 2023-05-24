@@ -62,8 +62,6 @@ urlpatterns = [
     path('fatura_list2/', views.fatura_list2, name='fatura_list2'),  # noqa
     path('fatura_create2/', views.fatura_create2, name='fatura_create2'),  # noqa
 
-
-    
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
