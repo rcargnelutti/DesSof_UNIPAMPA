@@ -7,6 +7,7 @@ from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade, Conta,
 from condominio.forms import UnidadeForm, PessoaUnidadeForm, ContaForm, DespesaForm, FaturaForm, FaturaPagarForm  # noqa
 from decimal import Decimal
 from django.http import JsonResponse
+from django.utils.dateparse import parse_date
 
 # CONDOMÍNIO
 
@@ -385,11 +386,33 @@ def faturas_em_aberto(condominio_id):
 
 
 def fatura_vencida_calculo(request):
+    data_pagamento = parse_date(request.GET.get('data_pagamento'))
+    fatura_id = int(request.GET.get('fatura_id'))
+    fatura = Fatura.objects.get(id=fatura_id)
+    unidade = Unidade.objects.get(id=fatura.unidade.id)
+    condominio = Condominio.objects.get(id=unidade.condominio.id)
+    print("Valor Fatura", fatura.valor)
+    print("Multa em % = ", condominio.multa)
+    print("Juro em % = ", condominio.juro)
 
-    data_pagamento = request.GET.get('data_pagamento')
+    print("Data pagamento", data_pagamento)
+    print("Data vencimento",fatura.data_vencimento)
+
+    dias_atraso = 0
+    if data_pagamento > fatura.data_vencimento:
+        dias_atraso = str(data_pagamento - fatura.data_vencimento)
+        print(dias_atraso)
+        #valor_juros = 
+
+        valor_multa = ((condominio.multa * fatura.valor) / 100)
+        print("Valor Multa = ", valor_multa)
+
+        #total = valor_juros + valor_multa
 
     data = {
+        'fatura_id': fatura_id,
         'data_pagamento': data_pagamento,
+        'dias_atraso': dias_atraso,
     }
     return JsonResponse(data)
 

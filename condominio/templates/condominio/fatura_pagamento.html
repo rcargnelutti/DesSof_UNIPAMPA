@@ -20,7 +20,7 @@
         <h5 class="text-center">Pagar Fatura</h5>
       </br>
       <table style="margin:auto">
-        <tr><td>Fatura: <strong>{{ fatura.id }}</strong></td></tr>
+        <tr><td>Fatura: <strong id="fatura_id"> {{ fatura.id }} </strong></td></tr>
         <tr><td>Unidade: <strong>{{ fatura.unidade.nome }}</strong></td></tr>
         <tr><td>Proprietário: <strong>{{ fatura.proprietario.nome }}</strong></td></tr>
         <tr><td>Locatário: <strong>{{ fatura.locatario.nome|default:'-' }}</strong></td></tr>
@@ -77,15 +77,17 @@
       <script>
         $("#id_data_pagamento").change(function () {
           var data_pagamento = $(this).val();
+          var fatura_id = document.getElementById("fatura_id").innerText;
           $.ajax({
             url: '/condominios/ajax/fatura_vencida_calculo/',
             data: {
-              'data_pagamento': data_pagamento
+              'data_pagamento': data_pagamento,
+              'fatura_id': fatura_id,
             },
             dataType: 'json',
             success: function (data) {
               if (data) {
-                alert("Data pagamento = " + data.data_pagamento);
+                alert("Data pagamento = " + data.data_pagamento + " | Id Fatura = " + fatura_id + " | Dias em atraso = " + data.dias_atraso);
               }
             }
           });
