@@ -60,9 +60,9 @@ class FaturaForm(forms.Form):
 
 class FaturaPagarForm(forms.Form):
     data_pagamento = forms.DateField()
-    valor_multa = forms.DecimalField()
-    valor_juro = forms.DecimalField()
-    valor_pago = forms.DecimalField()
+    valor_multa = forms.DecimalField(max_digits=8, decimal_places=2, localize=True) # noqa
+    valor_juro = forms.DecimalField(max_digits=8, decimal_places=2, localize=True) # noqa
+    valor_pago = forms.DecimalField(max_digits=8, decimal_places=2, localize=True) # noqa
 
     class Meta:
         model = Fatura
