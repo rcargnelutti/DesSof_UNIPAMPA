@@ -216,7 +216,7 @@ def despesa_create(request, condominio_id):
     condominio = Condominio.objects.get(id=condominio_id)
 
     if request.method == "GET":
-        form = DespesaForm(initial={'condominio': condominio}, condominio_id=condominio_id) # noqa
+        form = DespesaForm(initial={'condominio': condominio}, condominio_id=condominio_id)  # noqa
         return render(request, 'condominio/despesa_form.html', {'condominio': condominio, 'form': form})  # noqa
     else:
         form = DespesaForm(request.POST, condominio_id=condominio_id)
@@ -236,7 +236,7 @@ def despesa_update(request, despesa_id):
         form = DespesaForm(instance=despesa, condominio_id=condominio)
         return render(request, 'condominio/despesa_form.html', {'condominio': condominio, 'form': form})  # noqa
     else:
-        form = DespesaForm(request.POST, instance=despesa, condominio_id=condominio) # noqa
+        form = DespesaForm(request.POST, instance=despesa, condominio_id=condominio)  # noqa
         if not form.is_valid():
             return render(request, 'condominio/despesa_form.html', {'condominio': condominio, 'form': form})  # noqa
         form.save()
@@ -264,9 +264,9 @@ def fatura_list(request, condominio_id):
         .filter(unidade_id__in=ids_unidades)\
         .order_by('status', '-data_vencimento')
     for fatura in faturas:
-        fatura.despesas_list = fatura.despesas.select_related('despesa__conta').all() # noqa
+        fatura.despesas_list = fatura.despesas.select_related('despesa__conta').all()  # noqa
     total_faturas = len(faturas)
-    context = {'condominio': condominio, 'faturas': faturas, 'total_faturas': total_faturas} # noqa
+    context = {'condominio': condominio, 'faturas': faturas, 'total_faturas': total_faturas}  # noqa
     return render(request, 'condominio/fatura_list.html', context)
 
 
@@ -282,7 +282,7 @@ def fatura_create(request, condominio_id):
             data_inicio = form.cleaned_data['data_inicio']
             data_fim = form.cleaned_data['data_fim']
             data_vencimento = form.cleaned_data['data_vencimento']
-            #pessoa_subquery = PessoaUnidade.objects.filter(unidade_id=OuterRef('pk')) # noqa
+            # pessoa_subquery = PessoaUnidade.objects.filter(unidade_id=OuterRef('pk')) # noqa
             # proprietario_subquery = pessoa_subquery.filter(vinculo=Morador.PROPRIETARIO.value) # noqa
             # locatario_subquery = pessoa_subquery.filter(vinculo=Morador.LOCATARIO.value) # noqa
             unidades = condominio.unidades.all()
@@ -290,10 +290,10 @@ def fatura_create(request, condominio_id):
             #     .annotate(proprietario_id=Subquery(proprietario_subquery.values('pessoa_id'))) \ # noqa
             #     .annotate(locatario_id=Subquery(locatario_subquery.values('pessoa_id'))) \ # noqa
             #     .all()
-            despesas = condominio.despesas.filter(data__gte=data_inicio, data__lte=data_fim) # noqa
+            despesas = condominio.despesas.filter(data__gte=data_inicio, data__lte=data_fim)  # noqa
             for unidade in unidades:
-                proprietario = PessoaUnidade.objects.filter(unidade=unidade, vinculo=Morador.PROPRIETARIO.value).first() # noqa
-                locatario = PessoaUnidade.objects.filter(unidade=unidade, vinculo=Morador.LOCATARIO.value).first() # noqa
+                proprietario = PessoaUnidade.objects.filter(unidade=unidade, vinculo=Morador.PROPRIETARIO.value).first()  # noqa
+                locatario = PessoaUnidade.objects.filter(unidade=unidade, vinculo=Morador.LOCATARIO.value).first()  # noqa
                 fatura = Fatura()
                 fatura.status = StatusFatura.ABERTO.value
                 fatura.unidade = unidade
@@ -315,7 +315,7 @@ def fatura_create(request, condominio_id):
                     fatura_despesa.despesa = despesa
                     is_fracao = despesa.rateio == 'Fração'
                     if is_fracao:
-                        fatura_despesa.valor = (despesa.valor * Decimal(unidade.fracao)).quantize(Decimal("0.00")) # noqa
+                        fatura_despesa.valor = (despesa.valor * Decimal(unidade.fracao)).quantize(Decimal("0.00"))  # noqa
                     else:
                         fatura_despesa.valor = despesa.valor / len(unidades)
                     fatura_despesas.append(fatura_despesa)
@@ -324,7 +324,7 @@ def fatura_create(request, condominio_id):
                 for fatura_despesa in fatura_despesas:
                     fatura_despesa.fatura = fatura
                     fatura_despesa.save()
-            return redirect('condominio:fatura_list', condominio_id=condominio_id) # noqa
+            return redirect('condominio:fatura_list', condominio_id=condominio_id)  # noqa
     ctx = {'condominio': condominio}
     return render(request, 'condominio/fatura_form.html', ctx)
 
@@ -345,8 +345,14 @@ def fatura_pagamento(request, fatura_id):
             context['erro_formulario'] = "Formulário inválido"
         else:
             data_pagamento = form.cleaned_data['data_pagamento']
-            print("Data pagamento", data_pagamento)
+            valor_multa = form.cleaned_data['multa']
+            valor_juro = form.cleaned_data['juro']
+            valor_juro = form.cleaned_data['total_pagar']
+
             fatura.data_pagamento = data_pagamento
+            fatura.valor_multa = valor_multa
+            fatura.valor_juro = valor_juro
+            fatura.valor_juro = valor_juro
             fatura.status = StatusFatura.PAGO.value
             fatura.save()
             return redirect('condominio:fatura_list', unidade.condominio.id)
@@ -386,7 +392,6 @@ def faturas_em_aberto(condominio_id):
 
 
 def fatura_vencida_calculo(request):
-    # data_inicio = form.cleaned_data['data_inicio']
     data_pagamento = parse_date(request.GET.get('data_pagamento'))
     fatura_id = int(request.GET.get('fatura_id'))
     fatura = Fatura.objects.get(id=fatura_id)
@@ -399,11 +404,11 @@ def fatura_vencida_calculo(request):
     total_pagar = 0
     if data_pagamento > fatura.data_vencimento:
         dias_atraso = abs((data_pagamento - fatura.data_vencimento).days)
-        valor_juro = ((condominio.juro/30) * dias_atraso).quantize(Decimal("0.00")) # noqa
+        valor_juro = ((condominio.juro/30) * dias_atraso).quantize(Decimal("0.00"))  # noqa
 
-        valor_multa = ((condominio.multa * fatura.valor) / 100).quantize(Decimal("0.00")) # noqa
+        valor_multa = ((condominio.multa * fatura.valor) / 100).quantize(Decimal("0.00"))  # noqa
 
-        total_pagar = (fatura.valor + valor_juro + valor_multa).quantize(Decimal("0.00")) # noqa
+        total_pagar = (fatura.valor + valor_juro + valor_multa).quantize(Decimal("0.00"))  # noqa
 
     data = {
         'dias_atraso': dias_atraso,
