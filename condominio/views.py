@@ -345,14 +345,23 @@ def fatura_pagamento(request, fatura_id):
             context['erro_formulario'] = "Formulário inválido"
         else:
             data_pagamento = form.cleaned_data['data_pagamento']
-            valor_multa = form.cleaned_data['multa']
-            valor_juro = form.cleaned_data['juro']
-            valor_juro = form.cleaned_data['total_pagar']
+            valor_multa = form.cleaned_data['valor_multa']
+            valor_juro = form.cleaned_data['valor_juro']
+            valor_pago = form.cleaned_data['valor_pago']
+
+            # valor_multa = request.GET.get('multa')
+            # valor_juro = request.GET.get('juro')
+            # valor_pago = request.GET.get('valor_pago')
+
+            print("Data = ", data_pagamento)
+            print("Multa = ", valor_multa)
+            print("Juro = ", valor_juro)
+            print("Pagar = ", valor_pago)
 
             fatura.data_pagamento = data_pagamento
             fatura.valor_multa = valor_multa
             fatura.valor_juro = valor_juro
-            fatura.valor_juro = valor_juro
+            fatura.valor_pago = valor_pago
             fatura.status = StatusFatura.PAGO.value
             fatura.save()
             return redirect('condominio:fatura_list', unidade.condominio.id)
@@ -401,20 +410,20 @@ def fatura_vencida_calculo(request):
     dias_atraso = 0
     valor_multa = 0
     valor_juro = 0
-    total_pagar = 0
+    valor_pago = 0
     if data_pagamento > fatura.data_vencimento:
         dias_atraso = abs((data_pagamento - fatura.data_vencimento).days)
         valor_juro = ((condominio.juro/30) * dias_atraso).quantize(Decimal("0.00"))  # noqa
 
         valor_multa = ((condominio.multa * fatura.valor) / 100).quantize(Decimal("0.00"))  # noqa
 
-        total_pagar = (fatura.valor + valor_juro + valor_multa).quantize(Decimal("0.00"))  # noqa
+        valor_pago = (fatura.valor + valor_juro + valor_multa).quantize(Decimal("0.00"))  # noqa
 
     data = {
         'dias_atraso': dias_atraso,
         'valor_multa': valor_multa,
         'valor_juro': valor_juro,
-        'total_pagar': total_pagar,
+        'valor_pago': valor_pago,
     }
     return JsonResponse(data)
 

@@ -47,19 +47,19 @@
               <td colspan="3"><label>Fatura com <strong id="dias_atraso">  </strong> dias em atraso.</label></td>
             </tr>
             <tr>
-              <th><label for="id_multa">Multa</label></th>
-              <th><label for="id_juros">Juro</label></th>
-              <th><label for="id_total_pagar">Total a Pagar</label></th>
+              <th><label>Multa</label></th>
+              <th><label>Juro</label></th>
+              <th><label>Total a Pagar</label></th>
             </tr>
             <tr>
               <td style="width:125px"> 
-                <input type="text" class="form-control" style="text-align: center" placeholder="" name="multa" id="id_multa" maxlength="20" required readonly="readonly"> 
+                <input type="text" class="form-control" style="text-align: center" placeholder="" name="valor_multa" id="id_valor_multa" maxlength="20" required readonly="readonly"> 
               </td>
               <td style="width:125px"> 
-                <input type="text" class="form-control" style="text-align: center"placeholder="" name="juro" id="id_juro" maxlength="20" required readonly="readonly"> 
+                <input type="text" class="form-control" style="text-align: center"placeholder="" name="valor_juro" id="id_valor_juro" maxlength="20" required readonly="readonly"> 
               </td>
               <td style="width:150px"> 
-                <input type="text" class="form-control" style="text-align: center"placeholder="" name="total_pagar" id="id_total_pagar" maxlength="20" required readonly="readonly"> 
+                <input type="text" class="form-control" style="text-align: center"placeholder="" name="valor_pago" id="id_valor_pago" maxlength="20" required readonly="readonly"> 
               </td>
             </tr>
           </table>
@@ -92,12 +92,12 @@
               if (data) {
                 //alert("Data pagamento = " + data.data_pagamento + " | Id Fatura = " + fatura_id +
                 // " | Dias em atraso = " + data.dias_atraso + " | Valor da multa = " + data.valor_multa +
-                // " | Valor do juro = " + data.valor_juro + " | Total a pagar = " + data.total_pagar);
+                // " | Valor do juro = " + data.valor_juro + " | Total a pagar = " + data.valor_pago);
                 if (data.dias_atraso > 0) {
                   document.getElementById("dias_atraso").innerText = data.dias_atraso;
-                  $("#id_multa").val(data.valor_multa);
-                  $("#id_juro").val(data.valor_juro);
-                  $("#id_total_pagar").val(data.total_pagar);
+                  $("#id_valor_multa").val(data.valor_multa);
+                  $("#id_valor_juro").val(data.valor_juro);
+                  $("#id_valor_pago").val(data.valor_pago);
                   $(".fatura_vencida_calculo").show();
                 } else {
                   $(".fatura_vencida_calculo").hide();
