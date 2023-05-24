@@ -386,6 +386,7 @@ def faturas_em_aberto(condominio_id):
 
 
 def fatura_vencida_calculo(request):
+    # data_inicio = form.cleaned_data['data_inicio']
     data_pagamento = parse_date(request.GET.get('data_pagamento'))
     fatura_id = int(request.GET.get('fatura_id'))
     fatura = Fatura.objects.get(id=fatura_id)
