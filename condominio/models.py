@@ -14,15 +14,12 @@ class Condominio(models.Model):
     area_comum = models.CharField('área comum', max_length=50, blank=True, null=True)  # noqa
     area_privativa = models.CharField('área privativa', max_length=50, blank=True, null=True)  # noqa
     area_total = models.CharField('área total', max_length=50, blank=True, null=True)  # noqa
-
     dia_vencimento_boleto = models.CharField('Dia de vencimento da fatura', max_length=2)  # noqa
     multa = models.DecimalField('multa (%):', max_digits=10, decimal_places=0)  # noqa
     juro = models.DecimalField('juro ao mês (%):', max_digits=10, decimal_places=0)  # noqa
-
     status = models.BooleanField(default=True, blank=True, null=True)
     data_inicio_contrato = models.DateTimeField(blank=True, null=True)
     data_fim_contrato = models.DateTimeField(blank=True, null=True)
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
