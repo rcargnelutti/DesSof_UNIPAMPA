@@ -7,7 +7,7 @@ class CondominioForm(ModelForm):
     class Meta:
         model = Condominio
         fields = ['nome', 'documento', 'cep', 'endereco', 'numero', 'bairro', 'cidade', 'estado', 'pais',  # noqa
-                  'area_comum', 'area_privativa', 'area_total', 'dia_vencimento_boleto']  # noqa
+                  'area_comum', 'area_privativa', 'area_total', 'dia_vencimento_boleto', 'multa', 'juro']  # noqa
 
 
 class UnidadeForm(ModelForm):  # SEM CBV MÁSCARA E DEMAIS ATTRS FUNCIONA
@@ -66,4 +66,4 @@ class FaturaPagarForm(forms.Form):
 
     class Meta:
         model = Fatura
-        fields = ('status', 'data_pagamento', 'valor_multa', 'valor_juro', 'valor_pago',)  # noqa
+        fields = ('status', 'data_pagamento', 'valor_multa', 'valor_juro', 'valor_pago', 'dias_atraso_pagamento')  # noqa

@@ -20,14 +20,14 @@ class CondominioList(ListView):
 class CondominioCreate(CreateView):
     model = Condominio
     fields = ['nome', 'documento', 'cep', 'endereco', 'numero', 'bairro', 'cidade', 'estado', 'pais',  # noqa
-              'area_comum', 'area_privativa', 'area_total', 'dia_vencimento_boleto']  # noqa
+              'area_comum', 'area_privativa', 'area_total', 'dia_vencimento_boleto', 'multa', 'juro',]  # noqa
     success_url = reverse_lazy('condominio:list')
 
 
 class CondominioUpdate(UpdateView):
     model = Condominio
     fields = fields = ['nome', 'documento', 'cep', 'endereco', 'numero', 'bairro', 'cidade', 'estado', 'pais',  # noqa
-                       'area_comum', 'area_privativa', 'area_total', 'dia_vencimento_boleto']  # noqa
+                       'area_comum', 'area_privativa', 'area_total', 'dia_vencimento_boleto', 'multa', 'juro',]  # noqa
     success_url = reverse_lazy('condominio:list')
 
 
@@ -345,23 +345,19 @@ def fatura_pagamento(request, fatura_id):
             context['erro_formulario'] = "Formulário inválido"
         else:
             data_pagamento = form.cleaned_data['data_pagamento']
+            fatura.data_pagamento = data_pagamento
+
             valor_multa = form.cleaned_data['valor_multa']
             valor_juro = form.cleaned_data['valor_juro']
             valor_pago = form.cleaned_data['valor_pago']
+            dias_atraso_pagamento = fatura_dias_atraso(data_pagamento, fatura.data_vencimento)  # noqa
 
-            # valor_multa = request.GET.get('multa')
-            # valor_juro = request.GET.get('juro')
-            # valor_pago = request.GET.get('valor_pago')
-
-            print("Data = ", data_pagamento)
-            print("Multa = ", valor_multa)
-            print("Juro = ", valor_juro)
-            print("Pagar = ", valor_pago)
-
-            fatura.data_pagamento = data_pagamento
-            fatura.valor_multa = valor_multa
-            fatura.valor_juro = valor_juro
-            fatura.valor_pago = valor_pago
+            if valor_multa and valor_juro and valor_pago:
+                fatura.valor_multa = valor_multa
+                fatura.valor_juro = valor_juro
+                fatura.valor_pago = valor_pago
+                fatura.dias_atraso_pagamento = dias_atraso_pagamento
+                print(fatura.dias_atraso_pagamento)
             fatura.status = StatusFatura.PAGO.value
             fatura.save()
             return redirect('condominio:fatura_list', unidade.condominio.id)
@@ -372,6 +368,7 @@ def fatura_pagamento_detalhe(request, fatura_id):
     fatura = Fatura.objects.get(id=fatura_id)
     unidade = Unidade.objects.get(id=fatura.unidade.id)
     condominio = unidade.condominio
+    condominio.juro_dia = condominio.juro/30
     context = {
         'fatura': fatura,
         'condominio': condominio,
@@ -400,6 +397,11 @@ def faturas_em_aberto(condominio_id):
     return faturas_todas
 
 
+def fatura_dias_atraso(data1, data2):
+    dias_atraso = abs((data1 - data2).days)
+    return dias_atraso
+
+
 def fatura_vencida_calculo(request):
     data_pagamento = parse_date(request.GET.get('data_pagamento'))
     fatura_id = int(request.GET.get('fatura_id'))
@@ -412,11 +414,10 @@ def fatura_vencida_calculo(request):
     valor_juro = 0
     valor_pago = 0
     if data_pagamento > fatura.data_vencimento:
-        dias_atraso = abs((data_pagamento - fatura.data_vencimento).days)
-        valor_juro = ((condominio.juro/30) * dias_atraso).quantize(Decimal("0.00"))  # noqa
-
+        # dias_atraso = abs((data_pagamento - fatura.data_vencimento).days)
+        dias_atraso = fatura_dias_atraso(data_pagamento, fatura.data_vencimento)  # noqa
+        valor_juro = ((((condominio.juro/30) * dias_atraso) * fatura.valor) / 100).quantize(Decimal("0.00"))  # noqa
         valor_multa = ((condominio.multa * fatura.valor) / 100).quantize(Decimal("0.00"))  # noqa
-
         valor_pago = (fatura.valor + valor_juro + valor_multa).quantize(Decimal("0.00"))  # noqa
 
     data = {

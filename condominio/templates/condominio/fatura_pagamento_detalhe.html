@@ -27,7 +27,16 @@
         <tr><td>Valor: R$ <strong>{{ fatura.valor|floatformat:'2' }}</strong></td></tr>
         <tr><td>Competência: <strong>{{ fatura.competencia_mes }}/{{ fatura.competencia_ano|stringformat:'i' }}</strong></td></tr>
         <tr><td>Vencimento: <strong>{{ fatura.data_vencimento|date:'d/m/Y' }}</strong></td></tr>
-        <tr><td>Status: <strong>Pagamento realizado em {{ fatura.data_pagamento }}.</strong></td></tr>
+        <tr><td>Status: <strong>Paga em {{ fatura.data_pagamento|date:'d/m/Y' }} </strong> 
+          {% if fatura.dias_atraso_pagamento %}
+            ({{ fatura.dias_atraso_pagamento }} dias em atraso)
+          {% endif %} 
+        </td></tr>
+        {% if fatura.valor_multa and fatura.valor_juro and fatura.valor_pago %}
+          <tr><td>Multa ({{ condominio.multa }}%): <strong> {{ fatura.valor_multa }}</strong></td></tr>
+          <tr><td>Juro ({{ condominio.juro_dia|floatformat:'4' }}% ao dia): <strong> {{ fatura.valor_juro }}</strong></td></tr>
+          <tr><td>Valor Pago: <strong> {{ fatura.valor_pago }}</strong></td></tr>
+        {% endif %}
       </table>
       </br>
       <div class="text-center">

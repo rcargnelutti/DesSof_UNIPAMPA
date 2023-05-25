@@ -33,6 +33,8 @@
               <strong>Área privativa:</strong> {{ condominio.area_privativa }} m²<br />
               <strong>Área total:</strong> {{ condominio.area_total }} m²<br />
               <strong>Dia de vencimento da fatura:</strong> {{ condominio.dia_vencimento_boleto }} <br />
+              <strong>Multa:</strong> {{ condominio.multa|floatformat:'0' }}%<br />
+              <strong>Juro ao mês:</strong> {{ condominio.juro|floatformat:'0' }}%<br />
             </div>
           </td>  
           <td>
