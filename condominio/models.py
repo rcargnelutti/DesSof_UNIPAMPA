@@ -11,13 +11,13 @@ class Condominio(models.Model):
     cidade = models.CharField(max_length=50)
     estado = models.CharField(max_length=50)
     pais = models.CharField('País', max_length=50)
-    area_comum = models.CharField('área comum', max_length=50, blank=True, null=True) # noqa
-    area_privativa = models.CharField('área privativa', max_length=50, blank=True, null=True) # noqa
-    area_total = models.CharField('área total', max_length=50, blank=True, null=True) # noqa
+    area_comum = models.CharField('área comum', max_length=50, blank=True, null=True)  # noqa
+    area_privativa = models.CharField('área privativa', max_length=50, blank=True, null=True)  # noqa
+    area_total = models.CharField('área total', max_length=50, blank=True, null=True)  # noqa
 
-    dia_vencimento_boleto = models.CharField('Dia de vencimento da fatura', default='10', max_length=2) # noqa
-    multa = models.DecimalField('multa (em percentual %):', default=2, max_digits=10, decimal_places=2) # noqa
-    juro = models.DecimalField('juro ao mês (em percentual %):', default=1, max_digits=10, decimal_places=2) # noqa
+    dia_vencimento_boleto = models.CharField('Dia de vencimento da fatura', max_length=2)  # noqa
+    multa = models.DecimalField('multa (%):', max_digits=10, decimal_places=0)  # noqa
+    juro = models.DecimalField('juro ao mês (%):', max_digits=10, decimal_places=0)  # noqa
 
     status = models.BooleanField(default=True, blank=True, null=True)
     data_inicio_contrato = models.DateTimeField(blank=True, null=True)
@@ -112,22 +112,23 @@ class Fatura(models.Model):
     competencia_ano = models.IntegerField()
     competencia_mes = models.IntegerField()
     data_vencimento = models.DateField()
-    unidade = models.ForeignKey(Unidade, related_name='faturas', on_delete=models.PROTECT) # noqa
-    proprietario = models.ForeignKey(Pessoa, related_name='faturas_proprietario', on_delete=models.PROTECT) # noqa
-    locatario = models.ForeignKey(Pessoa, null=True, blank=True, related_name='faturas_locatario', on_delete=models.PROTECT) # noqa
+    unidade = models.ForeignKey(Unidade, related_name='faturas', on_delete=models.PROTECT)  # noqa
+    proprietario = models.ForeignKey(Pessoa, related_name='faturas_proprietario', on_delete=models.PROTECT)  # noqa
+    locatario = models.ForeignKey(Pessoa, null=True, blank=True, related_name='faturas_locatario', on_delete=models.PROTECT)  # noqa
     valor = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(choices=StatusFatura.choices, max_length=6)
-    valor_multa = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True) # noqa
-    valor_juro = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True) # noqa
-    valor_pago = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True) # noqa
+    valor_multa = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)  # noqa
+    valor_juro = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)  # noqa
+    valor_pago = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)  # noqa
+    dias_atraso_pagamento = models.IntegerField(blank=True, null=True)
 
     class Meta:
         unique_together = ['unidade', 'competencia_ano', 'competencia_mes']
 
 
 class FaturaDespesa(models.Model):
-    fatura = models.ForeignKey(Fatura, related_name='despesas', on_delete=models.CASCADE) # noqa
-    despesa = models.ForeignKey(Despesa, related_name='fatura_itens', on_delete=models.PROTECT) # noqa
+    fatura = models.ForeignKey(Fatura, related_name='despesas', on_delete=models.CASCADE)  # noqa
+    despesa = models.ForeignKey(Despesa, related_name='fatura_itens', on_delete=models.PROTECT)  # noqa
     valor = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:
