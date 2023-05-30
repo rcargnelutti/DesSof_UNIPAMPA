@@ -58,6 +58,9 @@ urlpatterns = [
     path('fatura_pagamento_detalhe/<int:fatura_id>/', views.fatura_pagamento_detalhe, name='fatura_pagamento_detalhe'),  # noqa
     path('ajax/fatura_vencida_calculo/', views.fatura_vencida_calculo, name='fatura_vencida_calculo'),  # noqa
 
+    # RELATÓRIOS
+    path('relatorio_list/<int:condominio_id>/', views.relatorio_list, name='relatorio_list'),  # noqa
+
     # FATURA PROTÓTIPO
     path('fatura_list2/', views.fatura_list2, name='fatura_list2'),  # noqa
     path('fatura_create2/', views.fatura_create2, name='fatura_create2'),  # noqa

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Faturas{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header text-center">
+      <div class="text-center">
+        <h6>Condomínio: <strong> {{condominio.nome}} </strong><h6>
+      </div>
+      <div class="col-8 m-auto pt-2 pb-2 text-center">
+        <a href="{% url 'condominio:gestao' condominio.id %}" class="btn btn-outline-secondary btn-sm">Dashboard</a>
+        <a href="{% url 'condominio:unidade_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Unidades</a>
+        <a href="{% url 'condominio:despesa_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Despesas</a>
+        <a href="{% url 'condominio:fatura_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Faturas</a>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="col-8 m-auto pb-2 text-center">
+        <h5>Faturas</h5>
+        <a href="{% url 'condominio:fatura_create' condominio.id%}" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Gerar Faturas</a>
+      </div>
+      {% comment %} {% include 'condominio/fatura_lista_detalhe.html' %} {% endcomment %}
+      <div class="col-8 m-auto pt-2 pb-2 text-center">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Nome</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr onclick="location.href = '{% url 'condominio:fatura_create' condominio.id%}';" style="cursor: hand;">
+                <td>01</td>
+                <td>Demonstrativo de Despesas</td>
+                {% comment %} <td> <a href="{% url 'condominio:fatura_create' condominio.id%}" >  Demonstrativo de Despesas</a></td> {% endcomment %}
+                <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}

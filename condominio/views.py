@@ -429,6 +429,16 @@ def fatura_vencida_calculo(request):
     return JsonResponse(data)
 
 
+
+# Relatórios
+
+
+def relatorio_list(request, condominio_id):
+    condominio = Condominio.objects.get(id=condominio_id)
+    context = {'condominio': condominio}
+    return render(request, 'condominio/relatorio_list.html', context)  # noqa
+
+
 # Fatura Protótipo
 
 
