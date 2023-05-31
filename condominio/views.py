@@ -457,22 +457,24 @@ def relatorio_despesa_filtro(request, condominio_id):
             data_inicio = form.cleaned_data['data_inicio']
             data_fim = form.cleaned_data['data_fim']
 
+            #despesas = condominio.despesas.order_by("-data").filter(data__gte=data_inicio, data__lte=data_fim).aggregate(Sum('valor'))
+            #print ('{}'.format(despesas['valor__sum']))
+            #total_periodo = ('{}'.format(despesas['valor__sum']))
+
+            #despesas = condominio.despesas.order_by("-data").filter(data__gte=data_inicio, data__lte=data_fim).annotate(total_periodo=Sum('valor'))  # noqa
+
             despesas = condominio.despesas.order_by("-data").filter(data__gte=data_inicio, data__lte=data_fim)  # noqa
+            total_periodo = 0
+            for despesa in despesas:
+                total_periodo += despesa.valor
 
-            #despesas = condominio.despesas.order_by("-data").filter(data__gte=data_inicio, data__lte=data_fim).aggregate(Sum('valor'))  # noqa
-
-            #despesas = condominio.despesas.all().aggregate(Sum('valor'))  # noqa
-
-            #total = despesas.valor__sum
-            #print("Total = ", total)
-            
-            # return redirect('condominio:relatorio_list', condominio_id=condominio_id)  # noqa
             ctx = {
                 'condominio': condominio,
                 'despesas': despesas,
                 'data_geracao': data_geracao,
                 'data_inicio': data_inicio,
                 'data_fim': data_fim,
+                'total_periodo': total_periodo,
                 }
             return render(request, 'condominio/relatorio_despesa_list.html', ctx)
     return render(request, 'condominio/relatorio_despesa_form.html', {'condominio': condominio})

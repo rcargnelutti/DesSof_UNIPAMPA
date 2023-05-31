@@ -20,26 +20,31 @@
         <h5>Demonstrativo de Despesas</h5>
         Período: <strong> {{data_inicio|date:"d/m/Y"}} - {{data_fim|date:"d/m/Y"}} </strong>
       </div>
-      <div class="col-6 m-auto pt-2 pb-2 text-center">
+      <div class="col-4 m-auto pt-2 pb-2 text-center">
         <table class="table">
           <thead class="thead-dark">
             <tr style="text-align: center">
-              <th scope="col">Data</th>
-              <th scope="col"style="text-align: left">Conta</th>
-              <th scope="col">Valor</th>
+              <th scope="col" style="text-align: left">Data</th>
+              <th scope="col" style="text-align: left">Conta</th>
+              <th scope="col" style="text-align: right">Valor (R$)</th>
             </tr>
           </thead>
           <tbody>
             {% for d in despesas %}
             <tr style="text-align: center">
-              <td>{{d.data|date:"d/m/Y"}}</td>
+              <td style="text-align: left">{{d.data|date:"d/m/Y"}}</td>
               <td style="text-align: left">{{d.conta}}</td>
-              <td>{{d.valor}}</td>
-              {% comment %} <td>{{d.valor__sum}}</td> {% endcomment %}
+              <td style="text-align: right">{{d.valor}}</td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
+        <div style="text-align: right; padding-right: 10px">
+          <strong > Total no período: {{total_periodo}}</strong>
+        </div>
+        <div class="text-center">
+          <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:relatorio_despesa_filtro' condominio.id %}'"><span class="fas fa-arrow-left"></span> Voltar</button>
+        </div>
       </div>
     </div>
   </div>
