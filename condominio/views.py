@@ -4,10 +4,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView  # noqa
 from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade, Conta, Despesa, Fatura, Morador, FaturaDespesa, StatusFatura  # noqa
-from condominio.forms import UnidadeForm, PessoaUnidadeForm, ContaForm, DespesaForm, FaturaForm, FaturaPagarForm  # noqa
+from condominio.forms import UnidadeForm, PessoaUnidadeForm, ContaForm, DespesaForm, FaturaForm, FaturaPagarForm, RelatorioForm  # noqa
 from decimal import Decimal
 from django.http import JsonResponse
 from django.utils.dateparse import parse_date
+from django.db.models import Sum
 
 # CONDOMÍNIO
 
@@ -429,7 +430,6 @@ def fatura_vencida_calculo(request):
     return JsonResponse(data)
 
 
-
 # Relatórios
 
 
@@ -439,12 +439,40 @@ def relatorio_list(request, condominio_id):
     return render(request, 'condominio/relatorio_list.html', context)  # noqa
 
 
-# Fatura Protótipo
+def relatorio_despesa_filtro2(request, condominio_id):
+    condominio = Condominio.objects.get(id=condominio_id)
+    context = {'condominio': condominio}
+    return render(request, 'condominio/relatorio_despesa_form.html', context)  # noqa
 
 
-def fatura_list2(request):
-    return render(request, 'condominio/fatura_list2.html')  # noqa
+def relatorio_despesa_filtro(request, condominio_id):
+    ctx = {}
+    condominio = get_object_or_404(Condominio, pk=condominio_id)
+    if request.method == 'POST':
+        form = RelatorioForm(request.POST)
+        if not form.is_valid():
+            ctx['erro_formulario'] = "Formulário inválido"
+        else:
+            data_geracao = timezone.now()
+            data_inicio = form.cleaned_data['data_inicio']
+            data_fim = form.cleaned_data['data_fim']
 
+            despesas = condominio.despesas.order_by("-data").filter(data__gte=data_inicio, data__lte=data_fim)  # noqa
 
-def fatura_create2(request):
-    return render(request, 'condominio/fatura_form2.html')  # noqa
+            #despesas = condominio.despesas.order_by("-data").filter(data__gte=data_inicio, data__lte=data_fim).aggregate(Sum('valor'))  # noqa
+
+            #despesas = condominio.despesas.all().aggregate(Sum('valor'))  # noqa
+
+            #total = despesas.valor__sum
+            #print("Total = ", total)
+            
+            # return redirect('condominio:relatorio_list', condominio_id=condominio_id)  # noqa
+            ctx = {
+                'condominio': condominio,
+                'despesas': despesas,
+                'data_geracao': data_geracao,
+                'data_inicio': data_inicio,
+                'data_fim': data_fim,
+                }
+            return render(request, 'condominio/relatorio_despesa_list.html', ctx)
+    return render(request, 'condominio/relatorio_despesa_form.html', {'condominio': condominio})

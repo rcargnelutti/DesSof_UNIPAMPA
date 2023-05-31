@@ -60,10 +60,7 @@ urlpatterns = [
 
     # RELATÓRIOS
     path('relatorio_list/<int:condominio_id>/', views.relatorio_list, name='relatorio_list'),  # noqa
-
-    # FATURA PROTÓTIPO
-    path('fatura_list2/', views.fatura_list2, name='fatura_list2'),  # noqa
-    path('fatura_create2/', views.fatura_create2, name='fatura_create2'),  # noqa
+    path('relatorio_despesa_filtro/<int:condominio_id>/', views.relatorio_despesa_filtro, name='relatorio_despesa_filtro'),  # noqa
 
 ]
 

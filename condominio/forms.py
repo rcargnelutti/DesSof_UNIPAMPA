@@ -67,3 +67,8 @@ class FaturaPagarForm(forms.Form):
     class Meta:
         model = Fatura
         fields = ('status', 'data_pagamento', 'valor_multa', 'valor_juro', 'valor_pago', 'dias_atraso_pagamento')  # noqa
+
+
+class RelatorioForm(forms.Form):
+    data_inicio = forms.DateField()
+    data_fim = forms.DateField()

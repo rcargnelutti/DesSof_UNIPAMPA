@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Faturas{% endblock %}
+{% block title %}Contas{% endblock %}
 
 {% block content %}
   <div class="card">
@@ -9,30 +9,35 @@
         <h6>Condomínio: <strong> {{condominio.nome}} </strong><h6>
       </div>
       <div class="col-8 m-auto pt-2 pb-2 text-center">
-        <a href="{% url 'condominio:gestao' condominio.id %}" class="btn btn-outline-secondary btn-sm">Dashboard</a>
+        <a href="{% url 'condominio:gestao' condominio_id=condominio.id %}" class="btn btn-outline-secondary btn-sm">Dashboard</a>
         <a href="{% url 'condominio:unidade_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Unidades</a>
         <a href="{% url 'condominio:despesa_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Despesas</a>
         <a href="{% url 'condominio:fatura_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Faturas</a>
       </div>
     </div>
     <div class="card-body">
-      <div class="col-8 m-auto pb-2 text-center">
-        <h5>Relatórios</h5>
+      <div class="col-6 m-auto pt-2 pb-2 text-center" >
+        <h5>Demonstrativo de Despesas</h5>
+        Período: <strong> {{data_inicio|date:"d/m/Y"}} - {{data_fim|date:"d/m/Y"}} </strong>
       </div>
       <div class="col-6 m-auto pt-2 pb-2 text-center">
         <table class="table">
           <thead class="thead-dark">
-            <tr>
-              <th scope="col">Id</th>
-              <th scope="col">Relatório</th>
+            <tr style="text-align: center">
+              <th scope="col">Data</th>
+              <th scope="col"style="text-align: left">Conta</th>
+              <th scope="col">Valor</th>
             </tr>
           </thead>
           <tbody>
-            <tr onclick="location.href = '{% url 'condominio:relatorio_despesa_filtro' condominio.id%}';" style="cursor: hand;">
-                <td>01</td>
-                <td>Demonstrativo de Despesas</td>
-                {% comment %} <td> <a href="{% url 'condominio:fatura_create' condominio.id%}" >  Demonstrativo de Despesas</a></td> {% endcomment %}
+            {% for d in despesas %}
+            <tr style="text-align: center">
+              <td>{{d.data|date:"d/m/Y"}}</td>
+              <td style="text-align: left">{{d.conta}}</td>
+              <td>{{d.valor}}</td>
+              {% comment %} <td>{{d.valor__sum}}</td> {% endcomment %}
             </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>
