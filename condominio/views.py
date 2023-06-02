@@ -8,7 +8,6 @@ from condominio.forms import UnidadeForm, PessoaUnidadeForm, ContaForm, DespesaF
 from decimal import Decimal
 from django.http import JsonResponse
 from django.utils.dateparse import parse_date
-from django.db.models import Sum
 
 # CONDOMÍNIO
 
@@ -132,19 +131,20 @@ class PessoaDetail(DetailView):
 def pessoa_unidade_list(request, unidade_id):
     unidade = Unidade.objects.get(id=unidade_id)  # noqa
     pessoa_unidade = PessoaUnidade.objects.order_by("data_fim").filter(unidade_id=unidade_id)  # noqa
-    return render(request, 'condominio/pessoa_unidade_list.html', {'unidade': unidade, 'pessoa_unidade': pessoa_unidade})  # noqa
+    condominio = Condominio.objects.get(id=unidade.condominio.id)  # noqa
+    return render(request, 'condominio/pessoa_unidade_list.html', {'unidade': unidade, 'pessoa_unidade': pessoa_unidade, 'condominio': condominio})  # noqa
 
 
 def pessoa_unidade_create(request, unidade_id):
     unidade = Unidade.objects.get(id=unidade_id)
-
+    condominio = Condominio.objects.get(id=unidade.condominio.id)  # noqa
     if request.method == "GET":
         form = PessoaUnidadeForm(initial={'unidade': unidade})
-        return render(request, 'condominio/pessoa_unidade_form.html', {'unidade': unidade, 'form': form})  # noqa
+        return render(request, 'condominio/pessoa_unidade_form.html', {'unidade': unidade, 'condominio': condominio, 'form': form})  # noqa
     else:
         form = PessoaUnidadeForm(request.POST)
         if not form.is_valid():
-            return render(request, 'condominio/pessoa_unidade_form.html', {'unidade': unidade, 'form': form})  # noqa
+            return render(request, 'condominio/pessoa_unidade_form.html', {'unidade': unidade, 'condominio': condominio, 'form': form})  # noqa
         pessoa_unidade = form.save(commit=False)
         pessoa_unidade.unidade = unidade
         pessoa_unidade.save()
@@ -153,15 +153,15 @@ def pessoa_unidade_create(request, unidade_id):
 
 def pessoa_unidade_update(request, pessoa_unidade_id):
     pessoa_unidade = PessoaUnidade.objects.get(id=pessoa_unidade_id)
-    unidade = pessoa_unidade.unidade
-
+    unidade = Unidade.objects.get(id=pessoa_unidade.unidade.id)  # noqa
+    condominio = Condominio.objects.get(id=unidade.condominio.id)  # noqa
     if request.method == "GET":
         form = PessoaUnidadeForm(instance=pessoa_unidade)
-        return render(request, 'condominio/pessoa_unidade_form.html', {'unidade': unidade, 'form': form})  # noqa
+        return render(request, 'condominio/pessoa_unidade_form.html', {'unidade': unidade, 'condominio': condominio, 'form': form})  # noqa
     else:
         form = PessoaUnidadeForm(request.POST, instance=pessoa_unidade)
         if not form.is_valid():
-            return render(request, 'condominio/pessoa_unidade_form.html', {'unidade': unidade, 'form': form})  # noqa
+            return render(request, 'condominio/pessoa_unidade_form.html', {'unidade': unidade, 'condominio': condominio, 'form': form})  # noqa
         form.save()
         return redirect(f'/condominios/pessoa_unidade_list/{pessoa_unidade.unidade_id}/')  # noqa
 
