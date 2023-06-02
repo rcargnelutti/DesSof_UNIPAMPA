@@ -15,7 +15,6 @@
         <table class="table">
           <thead class="thead-dark">
             <tr>
-              {% comment %} <th scope="col">Id</th> {% endcomment %}
               <th scope="col">Nome</th>
               <th scope="col">Documento</th>
               <th scope="col" style="text-align: center">Ações</th>
@@ -24,7 +23,6 @@
           <tbody>
             {% for condominio in object_list %}
             <tr>
-              {% comment %} <th scope="row">{{condominio.id}}</th> {% endcomment %}
               <td>{{condominio.nome}}</td>
               <td>{{condominio.documento}}</td>
               <td style="text-align: center">
