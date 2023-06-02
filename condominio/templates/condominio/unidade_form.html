@@ -9,11 +9,12 @@
         <h6>Condomínio: <strong> {{condominio.nome}} </strong><h6>
       </div>
       <div class="col-8 m-auto pt-2 pb-2 text-center">
-        <a href="{% url 'condominio:gestao' condominio_id=condominio.id %}" class="btn btn-outline-secondary btn-sm">Dashboard</a>
+        {% include 'condominio/condominio_gestao_menu.html' %}
+        {% comment %} <a href="{% url 'condominio:gestao' condominio_id=condominio.id %}" class="btn btn-outline-secondary btn-sm">Dashboard</a>
         <a href="{% url 'condominio:unidade_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Unidades</a>
         <a href="{% url 'condominio:despesa_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Despesas</a>
         <a href="{% url 'condominio:fatura_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Faturas</a>
-        <a href="{% url 'condominio:relatorio_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Relatórios</a>
+        <a href="{% url 'condominio:relatorio_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Relatórios</a> {% endcomment %}
       </div>
     </div>
     <div class="card-body">
