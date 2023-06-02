@@ -439,13 +439,7 @@ def relatorio_list(request, condominio_id):
     return render(request, 'condominio/relatorio_list.html', context)  # noqa
 
 
-def relatorio_despesa_filtro2(request, condominio_id):
-    condominio = Condominio.objects.get(id=condominio_id)
-    context = {'condominio': condominio}
-    return render(request, 'condominio/relatorio_despesa_form.html', context)  # noqa
-
-
-def relatorio_despesa_filtro(request, condominio_id):
+def relatorio_despesa(request, condominio_id):
     ctx = {}
     condominio = get_object_or_404(Condominio, pk=condominio_id)
     if request.method == 'POST':
