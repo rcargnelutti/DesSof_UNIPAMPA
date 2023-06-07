@@ -18,20 +18,20 @@
       </div>
       <div class="col-6 m-auto pt-2 pb-2 text-center">
         <table class="table">
-          <thead class="thead-dark">
+          {% comment %} <thead class="thead-dark">
             <tr>
               <th scope="col">Id</th>
               <th scope="col">Relatório</th>
             </tr>
-          </thead>
+          </thead> {% endcomment %}
           <tbody>
             <tr onclick="location.href = '{% url 'condominio:relatorio_despesa' condominio.id%}';" style="cursor: pointer;">
-                <td>01</td>
+                {% comment %} <td>01</td> {% endcomment %}
                 <td> <a href="{% url 'condominio:relatorio_despesa' condominio.id%}" >  Demonstrativo de Despesas</a></td>
             </tr>
             <tr onclick="location.href = '{% url 'condominio:relatorio_pessoa_unidade' condominio.id%}';" style="cursor: pointer;">
-              <td>02</td>
-              <td> <a href="{% url 'condominio:relatorio_pessoa_unidade' condominio.id%}" >  Pessoa Unidade</a></td>
+              {% comment %} <td>02</td> {% endcomment %}
+              <td> <a href="{% url 'condominio:relatorio_pessoa_unidade' condominio.id%}" > Vínculos de Unidades e Pessoas (Proprietário/Locatário)</a></td>
           </tr>
           </tbody>
         </table>
