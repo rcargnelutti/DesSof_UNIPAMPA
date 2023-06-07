@@ -472,3 +472,23 @@ def relatorio_despesa(request, condominio_id):
                 }
             return render(request, 'condominio/relatorio_despesa_list.html', ctx)
     return render(request, 'condominio/relatorio_despesa_form.html', {'condominio': condominio})
+
+
+def relatorio_pessoa_unidadeFatura(request, condominio_id):
+    condominio = get_object_or_404(Condominio, pk=condominio_id)
+    ids_unidades = condominio.unidades.all().values('pk')
+    faturas = Fatura.objects\
+        .select_related('unidade', 'proprietario', 'locatario')\
+        .filter(unidade_id__in=ids_unidades)
+    context = {'condominio': condominio, 'faturas': faturas}  # noqa
+    return render(request, 'condominio/relatorio_pessoa_unidade.html', context)
+
+
+def relatorio_pessoa_unidade(request, condominio_id):
+    condominio = get_object_or_404(Condominio, pk=condominio_id)
+    ids_unidades = condominio.unidades.all().values('pk')
+    faturas = PessoaUnidade.objects\
+        .select_related('unidade', 'pessoa')\
+        .filter(unidade_id__in=ids_unidades)
+    context = {'condominio': condominio, 'faturas': faturas}  # noqa
+    return render(request, 'condominio/relatorio_pessoa_unidade.html', context)

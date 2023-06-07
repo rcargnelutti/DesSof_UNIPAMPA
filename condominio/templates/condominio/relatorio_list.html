@@ -29,6 +29,10 @@
                 <td>01</td>
                 <td> <a href="{% url 'condominio:relatorio_despesa' condominio.id%}" >  Demonstrativo de Despesas</a></td>
             </tr>
+            <tr onclick="location.href = '{% url 'condominio:relatorio_pessoa_unidade' condominio.id%}';" style="cursor: pointer;">
+              <td>02</td>
+              <td> <a href="{% url 'condominio:relatorio_pessoa_unidade' condominio.id%}" >  Pessoa Unidade</a></td>
+          </tr>
           </tbody>
         </table>
       </div>

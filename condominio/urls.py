@@ -62,6 +62,8 @@ urlpatterns = [
     path('relatorio_list/<int:condominio_id>/', views.relatorio_list, name='relatorio_list'),  # noqa
     path('relatorio_despesa/<int:condominio_id>/', views.relatorio_despesa, name='relatorio_despesa'),  # noqa
 
+    path('relatorio_pessoa_unidade/<int:condominio_id>/', views.relatorio_pessoa_unidade, name='relatorio_pessoa_unidade'),  # noqa
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
