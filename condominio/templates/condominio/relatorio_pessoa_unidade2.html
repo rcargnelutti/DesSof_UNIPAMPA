@@ -23,21 +23,21 @@
               <th scope="col">Id</th>
               <th scope="col">Unidade</th>
               <th scope="col">Fração</th>
-              <th scope="col" style="text-align: left">Proprietário</th>
-              <th scope="col" style="text-align: left">Locatário</th>
+              <th scope="col">Vínculo</th>
+              <th scope="col" style="text-align: left">Pessoa</th>
               <th scope="col">Data Início</th>
               {% comment %} <th scope="col">Data Término</th> {% endcomment %}
             </tr>
           </thead>
           <tbody>
-            {% for u in unidades %}
+            {% for pu in pessoa_unidade %}
                 <tr style="text-align: center">
-                  <td>{{u.id}}</td>
-                  <td>{{u.nome}}</td>
-                  <td>{{u.fracao}}</td>
-                  <td style="text-align: left">{{u.nome_proprietario}} - {{pu.pessoa.documento}}</td>
-                  <td style="text-align: left">{{u.nome_locatario}} - {{pu.pessoa.documento}}</td>
-                  <td>{{u.data_inicio|date:'d/m/Y'}}</td>
+                  <td>{{pu.id}}</td>
+                  <td>{{pu.unidade.nome}}</td>
+                  <td>{{pu.unidade.fracao}}</td>
+                  <td>{{pu.vinculo}}</td>
+                  <td style="text-align: left">{{pu.pessoa}} - {{pu.pessoa.documento}}</td>
+                  <td>{{pu.data_inicio|date:'d/m/Y'}}</td>
                   {% comment %} <td>{{pu.data_fim|date:'d/m/Y'|default:'-'}}</td> {% endcomment %}
                 </tr>
             {% endfor %}
