@@ -1,4 +1,5 @@
 # from django.db.models import OuterRef, Subquery
+from django.db.models import OuterRef, Subquery
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
@@ -496,9 +497,19 @@ def relatorio_pessoa_unidade2(request, condominio_id):
 
 def relatorio_pessoa_unidade(request, condominio_id):
     condominio = get_object_or_404(Condominio, pk=condominio_id)
-    ids_unidades = condominio.unidades.all().values('pk')
-    pessoa_unidade = PessoaUnidade.objects\
-        .filter(unidade_id__in=ids_unidades)\
-        .filter(data_fim=None)
-    context = {'condominio': condominio, 'pessoa_unidade': pessoa_unidade}  # noqa
+    pesssoas_query = PessoaUnidade.objects\
+        .select_related('pessoa')\
+        .filter(unidade_id=OuterRef('pk'), data_fim__isnull=True)
+    proprietario_query = pesssoas_query.filter(vinculo=Morador.PROPRIETARIO.value)
+    locatario_query = pesssoas_query.filter(vinculo=Morador.LOCATARIO.value)
+    unidades = condominio.unidades\
+        .annotate(nome_proprietario=Subquery(proprietario_query.values('pessoa__nome'))) \
+        .annotate(nome_locatario=Subquery(locatario_query.values('pessoa__nome'))) \
+        .all()
+    # ids_unidades = condominio.unidades.all().values('pk')
+    # pessoa_unidade = PessoaUnidade.objects\
+    #     .filter(unidade_id__in=ids_unidades)\
+    #     .filter(data_fim=None)
+    # context = {'condominio': condominio, 'pessoa_unidade': pessoa_unidade}
+    context = {'condominio': condominio, 'unidades': unidades}
     return render(request, 'condominio/relatorio_pessoa_unidade.html', context)
