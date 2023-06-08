@@ -452,11 +452,11 @@ def relatorio_despesa(request, condominio_id):
             data_inicio = form.cleaned_data['data_inicio']
             data_fim = form.cleaned_data['data_fim']
 
-            #despesas = condominio.despesas.order_by("-data").filter(data__gte=data_inicio, data__lte=data_fim).aggregate(Sum('valor'))
-            #print ('{}'.format(despesas['valor__sum']))
-            #total_periodo = ('{}'.format(despesas['valor__sum']))
+            # despesas = condominio.despesas.order_by("-data").filter(data__gte=data_inicio, data__lte=data_fim).aggregate(Sum('valor'))
+            # print ('{}'.format(despesas['valor__sum']))
+            # total_periodo = ('{}'.format(despesas['valor__sum']))
 
-            #despesas = condominio.despesas.order_by("-data").filter(data__gte=data_inicio, data__lte=data_fim).annotate(total_periodo=Sum('valor'))  # noqa
+            # despesas = condominio.despesas.order_by("-data").filter(data__gte=data_inicio, data__lte=data_fim).annotate(total_periodo=Sum('valor'))  # noqa
 
             despesas = condominio.despesas.order_by("-data").filter(data__gte=data_inicio, data__lte=data_fim)  # noqa
             total_periodo = 0
@@ -470,7 +470,7 @@ def relatorio_despesa(request, condominio_id):
                 'data_inicio': data_inicio,
                 'data_fim': data_fim,
                 'total_periodo': total_periodo,
-                }
+            }
             return render(request, 'condominio/relatorio_despesa_list.html', ctx)
     return render(request, 'condominio/relatorio_despesa_form.html', {'condominio': condominio})
 
@@ -500,16 +500,13 @@ def relatorio_pessoa_unidade(request, condominio_id):
     pesssoas_query = PessoaUnidade.objects\
         .select_related('pessoa')\
         .filter(unidade_id=OuterRef('pk'), data_fim__isnull=True)
-    proprietario_query = pesssoas_query.filter(vinculo=Morador.PROPRIETARIO.value)
+    proprietario_query = pesssoas_query.filter(vinculo=Morador.PROPRIETARIO.value)  # noqa
     locatario_query = pesssoas_query.filter(vinculo=Morador.LOCATARIO.value)
     unidades = condominio.unidades\
         .annotate(nome_proprietario=Subquery(proprietario_query.values('pessoa__nome'))) \
         .annotate(nome_locatario=Subquery(locatario_query.values('pessoa__nome'))) \
+        .annotate(data_inicio=Subquery(pesssoas_query.values('data_inicio'))) \
+        .annotate(documento=Subquery(pesssoas_query.values('pessoa__documento'))) \
         .all()
-    # ids_unidades = condominio.unidades.all().values('pk')
-    # pessoa_unidade = PessoaUnidade.objects\
-    #     .filter(unidade_id__in=ids_unidades)\
-    #     .filter(data_fim=None)
-    # context = {'condominio': condominio, 'pessoa_unidade': pessoa_unidade}
     context = {'condominio': condominio, 'unidades': unidades}
     return render(request, 'condominio/relatorio_pessoa_unidade.html', context)
