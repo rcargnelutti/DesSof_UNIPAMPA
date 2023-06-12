@@ -488,10 +488,10 @@ def relatorio_pessoa_unidadeFatura(request, condominio_id):
 def relatorio_pessoa_unidade2(request, condominio_id):
     condominio = get_object_or_404(Condominio, pk=condominio_id)
     ids_unidades = condominio.unidades.all().values('pk')
-    faturas = PessoaUnidade.objects\
-        .select_related('unidade', 'pessoa')\
-        .filter(unidade_id__in=ids_unidades)
-    context = {'condominio': condominio, 'faturas': faturas}  # noqa
+    pessoa_unidade = PessoaUnidade.objects\
+        .filter(unidade_id__in=ids_unidades)\
+        .filter(data_fim=None)
+    context = {'condominio': condominio, 'pessoa_unidade': pessoa_unidade}  # noqa
     return render(request, 'condominio/relatorio_pessoa_unidade.html', context)
 
 
