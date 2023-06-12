@@ -505,8 +505,10 @@ def relatorio_pessoa_unidade(request, condominio_id):
     unidades = condominio.unidades\
         .annotate(nome_proprietario=Subquery(proprietario_query.values('pessoa__nome'))) \
         .annotate(nome_locatario=Subquery(locatario_query.values('pessoa__nome'))) \
-        .annotate(data_inicio=Subquery(pesssoas_query.values('data_inicio'))) \
-        .annotate(documento=Subquery(pesssoas_query.values('pessoa__documento'))) \
+        .annotate(data_inicio_proprietario=Subquery(proprietario_query.values('data_inicio'))) \
+        .annotate(data_inicio_locatario=Subquery(locatario_query.values('data_inicio'))) \
+        .annotate(documento_proprietario=Subquery(proprietario_query.values('pessoa__documento'))) \
+        .annotate(documento_locatario=Subquery(locatario_query.values('pessoa__documento'))) \
         .all()
     context = {'condominio': condominio, 'unidades': unidades}
     return render(request, 'condominio/relatorio_pessoa_unidade.html', context)

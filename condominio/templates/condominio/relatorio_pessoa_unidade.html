@@ -25,8 +25,6 @@
               <th scope="col">Fração</th>
               <th scope="col" style="text-align: left">Proprietário</th>
               <th scope="col" style="text-align: left">Locatário</th>
-              <th scope="col">Data Início</th>
-              {% comment %} <th scope="col">Data Término</th> {% endcomment %}
             </tr>
           </thead>
           <tbody>
@@ -35,14 +33,12 @@
                   <td>{{u.id}}</td>
                   <td>{{u.nome}}</td>
                   <td>{{u.fracao}}</td>
-                  <td style="text-align: left">{{u.nome_proprietario}} - [{{u.documento}}]</td>
+                  <td style="text-align: left">{{u.nome_proprietario}} - [{{u.documento_proprietario}}] - {{u.data_inicio_proprietario|date:'d/m/Y'}}</td>
                   <td style="text-align: left">{{u.nome_locatario|default:'-'}} 
                     {% if u.nome_locatario %}
-                      [{{u.documento}}]
+                      [{{u.documento_locatario}}] - {{u.data_inicio_locatario|date:'d/m/Y'}}
                     {% endif %}
                   </td>
-                  <td>{{u.data_inicio|date:'d/m/Y'}}</td>
-                  {% comment %} <td>{{pu.data_fim|date:'d/m/Y'|default:'-'}}</td> {% endcomment %}
                 </tr>
             {% endfor %}
           </tbody>
