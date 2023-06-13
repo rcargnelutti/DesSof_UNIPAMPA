@@ -130,3 +130,25 @@ class FaturaDespesa(models.Model):
 
     class Meta:
         unique_together = ['fatura', 'despesa']
+
+
+class Telefone(models.Model):
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name="contato_telefone")  # noqa
+    descricao = models.CharField(max_length=200)
+    numero = models.CharField('Número', max_length=20) 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.pessoa} - {self.descricao} - {self.numero}"
+    
+
+class Email(models.Model):
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name="contato_email")  # noqa
+    descricao = models.CharField(max_length=200)
+    email = models.CharField('Número', max_length=100) 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.pessoa} - {self.descricao} - {self.email}"
