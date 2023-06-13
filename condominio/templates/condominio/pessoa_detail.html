@@ -14,6 +14,8 @@
     </div>
     <div class="col-8 m-auto pt-2 pb-2 text-center" >
       <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:pessoa_list' %}'"><span class="fas fa-arrow-left"></span> Voltar</button>
+      <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:pessoa_update' pk=pessoa.id %}'"><span class="fas fa-edit"></span> Editar</button>
+      <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:pessoa_update' pk=pessoa.id %}'"><span class="fas fa-address-card"></span> Contatos</button>
     </div>
   </div>
 {% endblock %}
