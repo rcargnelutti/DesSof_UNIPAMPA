@@ -4,8 +4,8 @@ from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView  # noqa
-from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade, Conta, Despesa, Fatura, Morador, FaturaDespesa, StatusFatura  # noqa
-from condominio.forms import UnidadeForm, PessoaUnidadeForm, ContaForm, DespesaForm, FaturaForm, FaturaPagarForm, RelatorioForm  # noqa
+from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade, Conta, Despesa, Fatura, Morador, FaturaDespesa, StatusFatura, Telefone, Email  # noqa
+from condominio.forms import UnidadeForm, PessoaUnidadeForm, ContaForm, DespesaForm, FaturaForm, FaturaPagarForm, RelatorioForm, TelefoneForm, EmailForm  # noqa
 from decimal import Decimal
 from django.http import JsonResponse
 from django.utils.dateparse import parse_date
@@ -452,7 +452,7 @@ def relatorio_despesa(request, condominio_id):
             data_inicio = form.cleaned_data['data_inicio']
             data_fim = form.cleaned_data['data_fim']
 
-            # despesas = condominio.despesas.order_by("-data").filter(data__gte=data_inicio, data__lte=data_fim).aggregate(Sum('valor'))
+            # despesas = condominio.despesas.order_by("-data").filter(data__gte=data_inicio, data__lte=data_fim).aggregate(Sum('valor')) # noqa
             # print ('{}'.format(despesas['valor__sum']))
             # total_periodo = ('{}'.format(despesas['valor__sum']))
 
@@ -471,8 +471,8 @@ def relatorio_despesa(request, condominio_id):
                 'data_fim': data_fim,
                 'total_periodo': total_periodo,
             }
-            return render(request, 'condominio/relatorio_despesa_list.html', ctx)
-    return render(request, 'condominio/relatorio_despesa_form.html', {'condominio': condominio})
+            return render(request, 'condominio/relatorio_despesa_list.html', ctx) # noqa
+    return render(request, 'condominio/relatorio_despesa_form.html', {'condominio': condominio}) # noqa
 
 
 def relatorio_pessoa_unidadeFatura(request, condominio_id):
@@ -512,3 +512,18 @@ def relatorio_pessoa_unidade(request, condominio_id):
         .all()
     context = {'condominio': condominio, 'unidades': unidades}
     return render(request, 'condominio/relatorio_pessoa_unidade.html', context)
+
+
+# Contatos
+
+
+def contato_list(request, pessoa_id):
+    pessoa = Pessoa.objects.get(id=pessoa_id)
+    telefone = Telefone.objects.filter(id=pessoa_id)
+    email = Email.objects.filter(id=pessoa_id)
+    ctx = {
+        'pessoa': pessoa,
+        'telefone': telefone,
+        'email': email,
+    }
+    return render(request, 'condominio/contato_list.html', ctx)  # noqa

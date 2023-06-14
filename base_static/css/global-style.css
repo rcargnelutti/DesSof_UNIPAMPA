@@ -91,6 +91,13 @@ header {
 	text-align: center;
 }
 
+.box-contato {
+	width: 400px;
+	height: 200px;
+	display: inline-block;
+	text-align: center;
+}
+
 /* #div1 {
 	background-color: gray;
 }

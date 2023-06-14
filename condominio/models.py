@@ -141,7 +141,7 @@ class Telefone(models.Model):
 
     def __str__(self):
         return f"{self.pessoa} - {self.descricao} - {self.numero}"
-    
+
 
 class Email(models.Model):
     pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name="contato_email")  # noqa

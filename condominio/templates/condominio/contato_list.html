@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Condomínios{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header text-center">
+      <h4>Contatos - {{ pessoa.nome }}</h4>
+    </div>
+    <div class="card-body">
+      <table style="margin:auto">
+        <tr>
+          <td style="padding: 10px">
+            <div class="card col-8 m-auto pt-2 pb-2 text-center box-contato" id="div1">
+              <h5>Telefone</h5>
+              <a href="" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Novo Telefone</a>
+            </div>
+          </td>  
+          <td>
+            <div class="card col-8 m-auto pt-2 pb-2 text-center box-contato" id="div2">
+              <h5>E-mail</h5>
+              <a href="" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Novo E-mail</a>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+{% endblock %}

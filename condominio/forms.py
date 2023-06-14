@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade, Conta, Despesa, Fatura  # noqa
+from condominio.models import Condominio, Unidade, Pessoa, PessoaUnidade, Conta, Despesa, Fatura, Telefone, Email  # noqa
 from django import forms
 
 
@@ -72,3 +72,15 @@ class FaturaPagarForm(forms.Form):
 class RelatorioForm(forms.Form):
     data_inicio = forms.DateField()
     data_fim = forms.DateField()
+
+
+class TelefoneForm(ModelForm):
+    class Meta:
+        model = Telefone
+        fields = ('pessoa', 'descricao', 'numero',)  # noqa
+
+
+class EmailForm(ModelForm):
+    class Meta:
+        model = Email
+        fields = ('pessoa', 'descricao', 'email',)  # noqa
