@@ -77,10 +77,10 @@ class RelatorioForm(forms.Form):
 class TelefoneForm(ModelForm):
     class Meta:
         model = Telefone
-        fields = ('pessoa', 'descricao', 'numero',)  # noqa
+        fields = ('descricao', 'numero',)  # noqa
 
 
 class EmailForm(ModelForm):
     class Meta:
         model = Email
-        fields = ('pessoa', 'descricao', 'email',)  # noqa
+        fields = ('descricao', 'email',)  # noqa

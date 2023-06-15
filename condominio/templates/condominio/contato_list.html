@@ -22,7 +22,7 @@
                       <tr style="text-align: center">
                         <th scope="col">Descrição</th>
                         <th scope="col">Número</th>
-                        {% comment %} <th scope="col">Status</th> {% endcomment %}
+                        <th scope="col">Ação</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -31,8 +31,7 @@
                         <td>{{t.descricao}}</td>
                         <td>{{t.numero}}</td>
                         <td>
-                          {% comment %} <a huef=" {% url 'condominio:unidade_update' unidade.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a> {% endcomment %}
-                          {% comment %} <a href=" {% url 'condominio:unidade_confirm_delete' unidade.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Remover"> <i class="fas fa-trash-alt"></i></a> {% endcomment %}
+                          <a href=" " class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
                         </td>
                       </tr>
                       {% endfor %}
