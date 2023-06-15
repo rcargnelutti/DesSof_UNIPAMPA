@@ -519,11 +519,28 @@ def relatorio_pessoa_unidade(request, condominio_id):
 
 def contato_list(request, pessoa_id):
     pessoa = Pessoa.objects.get(id=pessoa_id)
-    telefone = Telefone.objects.filter(id=pessoa_id)
+    telefone = Telefone.objects.filter(pessoa_id=pessoa_id)
     email = Email.objects.filter(id=pessoa_id)
+    print(telefone)
     ctx = {
         'pessoa': pessoa,
         'telefone': telefone,
         'email': email,
     }
     return render(request, 'condominio/contato_list.html', ctx)  # noqa
+
+
+def contato_telefone_create(request, pessoa_id):
+    pessoa = Pessoa.objects.get(id=pessoa_id)
+
+    if request.method == "GET":
+        form = TelefoneForm(initial={'pessoa': pessoa})
+        return render(request, 'condominio/contato_telefone_form.html', {'pessoa': pessoa, 'form': form})  # noqa
+    else:
+        form = TelefoneForm(request.POST)
+        if not form.is_valid():
+            return render(request, 'condominio/contato_telefone_form.html', {'pessoa': pessoa, 'form': form})  # noqa
+        telefone = form.save(commit=False)
+        telefone.pessoa = pessoa
+        telefone.save()
+        return redirect(f'/condominios/contato_list/{pessoa_id}/')  # noqa
