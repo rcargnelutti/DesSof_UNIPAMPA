@@ -67,6 +67,7 @@ urlpatterns = [
     # CONTATOS
     path('contato_list/<int:pessoa_id>/', views.contato_list, name='contato_list'),  # noqa
     path('contato_telefone_create/<int:pessoa_id>/', views.contato_telefone_create, name='contato_telefone_create'),  # noqa
+    path('contato_telefone_update/<int:telefone_id>/', views.contato_telefone_update, name='contato_telefone_update'),  # noqa
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

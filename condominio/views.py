@@ -544,3 +544,18 @@ def contato_telefone_create(request, pessoa_id):
         telefone.pessoa = pessoa
         telefone.save()
         return redirect(f'/condominios/contato_list/{pessoa_id}/')  # noqa
+
+
+def contato_telefone_update(request, telefone_id):
+    telefone = Telefone.objects.get(id=telefone_id)
+    pessoa = telefone.pessoa
+
+    if request.method == "GET":
+        form = TelefoneForm(instance=telefone)
+        return render(request, 'condominio/contato_telefone_form.html', {'pessoa': pessoa, 'form': form})  # noqa
+    else:
+        form = TelefoneForm(request.POST, instance=telefone)
+        if not form.is_valid():
+            return render(request, 'condominio/contato_telefone_form.html', {'pessoa': pessoa, 'form': form})  # noqa
+        form.save()
+        return redirect(f'/condominios/contato_list/{telefone.pessoa_id}/')  # noqa
