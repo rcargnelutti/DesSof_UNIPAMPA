@@ -83,4 +83,4 @@ class TelefoneForm(ModelForm):
 class EmailForm(ModelForm):
     class Meta:
         model = Email
-        fields = ('descricao', 'email',)  # noqa
+        fields = ('descricao', 'endereco',)  # noqa

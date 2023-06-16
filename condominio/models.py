@@ -135,7 +135,7 @@ class FaturaDespesa(models.Model):
 class Telefone(models.Model):
     pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name="contato_telefone")  # noqa
     descricao = models.CharField(max_length=200)
-    numero = models.CharField('Número', max_length=20) 
+    numero = models.CharField('Número', max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -146,7 +146,7 @@ class Telefone(models.Model):
 class Email(models.Model):
     pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name="contato_email")  # noqa
     descricao = models.CharField(max_length=200)
-    email = models.CharField('Número', max_length=100) 
+    endereco = models.CharField('E-mail', max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

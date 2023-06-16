@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Contato{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header text-center">
+      <h4>Remover E-mail</h4>
+    </div>
+      <div class="col-8 m-auto pt-4 pb-2 text-center">
+        Tem certeza que deseja remover o e-mail <strong> '{{ email.descricao }} - {{ email.endereco }}' </strong>? 
+        </br></br>
+        <a href=" {% url 'condominio:contato_list' email.pessoa_id %}" class="btn btn-outline-info btn-sm"> <span class="fas fa-arrow-left"></span> Não quero remover</a>
+        <a href=" {% url 'condominio:contato_email_delete' email.id %}" class="btn btn-outline-danger btn-sm"> <span class="fas fa-trash-alt"></span> Sim, quero remover</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}

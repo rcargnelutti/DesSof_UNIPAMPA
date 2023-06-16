@@ -40,6 +40,7 @@
                   </table>
                 </div>
               {% else %}
+                </br>
                 <div>Não há telefone cadastrado.</div>
               {% endif %}
             </div>
@@ -47,13 +48,36 @@
           <td>
             <div class="card col-8 m-auto pt-2 pb-2 text-center box-contato" id="div2">
               <h5>E-mail</h5>
-              <a href="" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Novo E-mail</a>
-            </br></br>
-            {% if email %}
-              <div>emails...</div>
-            {% else %}
-              <div>Não há e-mail cadastrado.</div>
-            {% endif %}
+              <a href="{% url 'condominio:contato_email_create' pessoa.id %}" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Novo E-mail</a>
+              </br>
+              {% if email %}
+                <div class="col-10 m-auto pt-2 pb-2 text-center">
+                  <table class="table">
+                    <thead class="thead-dark">
+                      <tr style="text-align: center">
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Número</th>
+                        <th scope="col">Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for e in email %}
+                      <tr style="text-align: center">
+                        <td>{{e.descricao}}</td>
+                        <td>{{e.endereco}}</td>
+                        <td>
+                          <a href="{% url 'condominio:contato_email_update' e.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
+                          <a href="{% url 'condominio:contato_email_confirm_delete' e.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Remover"><i class="fas fa-trash"></i></a>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              {% else %}
+                </br>
+                <div>Não há e-mail cadastrado.</div>
+              {% endif %}
             </div>
           </td>
         </tr>

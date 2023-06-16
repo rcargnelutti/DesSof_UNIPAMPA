@@ -471,8 +471,8 @@ def relatorio_despesa(request, condominio_id):
                 'data_fim': data_fim,
                 'total_periodo': total_periodo,
             }
-            return render(request, 'condominio/relatorio_despesa_list.html', ctx) # noqa
-    return render(request, 'condominio/relatorio_despesa_form.html', {'condominio': condominio}) # noqa
+            return render(request, 'condominio/relatorio_despesa_list.html', ctx)  # noqa
+    return render(request, 'condominio/relatorio_despesa_form.html', {'condominio': condominio})  # noqa
 
 
 def relatorio_pessoa_unidadeFatura(request, condominio_id):
@@ -520,7 +520,7 @@ def relatorio_pessoa_unidade(request, condominio_id):
 def contato_list(request, pessoa_id):
     pessoa = Pessoa.objects.get(id=pessoa_id)
     telefone = Telefone.objects.filter(pessoa_id=pessoa_id)
-    email = Email.objects.filter(id=pessoa_id)
+    email = Email.objects.filter(pessoa_id=pessoa_id)
     print(telefone)
     ctx = {
         'pessoa': pessoa,
@@ -528,6 +528,9 @@ def contato_list(request, pessoa_id):
         'email': email,
     }
     return render(request, 'condominio/contato_list.html', ctx)  # noqa
+
+
+# Contatos telefone
 
 
 def contato_telefone_create(request, pessoa_id):
@@ -570,3 +573,48 @@ def contato_telefone_delete(request, telefone_id):
     telefone = Telefone.objects.get(pk=telefone_id)
     telefone.delete()
     return redirect(f'/condominios/contato_list/{telefone.pessoa_id}/')  # noqa
+
+
+# Contatos email
+
+
+def contato_email_create(request, pessoa_id):
+    pessoa = Pessoa.objects.get(id=pessoa_id)
+
+    if request.method == "GET":
+        form = EmailForm(initial={'pessoa': pessoa})
+        return render(request, 'condominio/contato_email_form.html', {'pessoa': pessoa, 'form': form})  # noqa
+    else:
+        form = EmailForm(request.POST)
+        if not form.is_valid():
+            return render(request, 'condominio/contato_email_form.html', {'pessoa': pessoa, 'form': form})  # noqa
+        email = form.save(commit=False)
+        email.pessoa = pessoa
+        email.save()
+        return redirect(f'/condominios/contato_list/{pessoa_id}/')  # noqa
+
+
+def contato_email_update(request, email_id):
+    email = Email.objects.get(id=email_id)
+    pessoa = email.pessoa
+
+    if request.method == "GET":
+        form = EmailForm(instance=email)
+        return render(request, 'condominio/contato_email_form.html', {'pessoa': pessoa, 'form': form})  # noqa
+    else:
+        form = EmailForm(request.POST, instance=email)
+        if not form.is_valid():
+            return render(request, 'condominio/contato_email_form.html', {'pessoa': pessoa, 'form': form})  # noqa
+        form.save()
+        return redirect(f'/condominios/contato_list/{email.pessoa_id}/')  # noqa
+
+
+def contato_email_confirm_delete(request, email_id):
+    email = Email.objects.get(pk=email_id)
+    return render(request, 'condominio/contato_email_confirm_delete.html', {'email': email})  # noqa
+
+
+def contato_email_delete(request, email_id):
+    email = Email.objects.get(pk=email_id)
+    email.delete()
+    return redirect(f'/condominios/contato_list/{email.pessoa_id}/')  # noqa
