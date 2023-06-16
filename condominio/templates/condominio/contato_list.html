@@ -32,7 +32,7 @@
                         <td>{{t.numero}}</td>
                         <td>
                           <a href="{% url 'condominio:contato_telefone_update' t.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
-                          <a href=" " class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Remover"><i class="fas fa-trash"></i></a>
+                          <a href="{% url 'condominio:contato_telefone_confirm_delete' t.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Remover"><i class="fas fa-trash"></i></a>
                         </td>
                       </tr>
                       {% endfor %}

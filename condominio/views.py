@@ -559,3 +559,14 @@ def contato_telefone_update(request, telefone_id):
             return render(request, 'condominio/contato_telefone_form.html', {'pessoa': pessoa, 'form': form})  # noqa
         form.save()
         return redirect(f'/condominios/contato_list/{telefone.pessoa_id}/')  # noqa
+
+
+def contato_telefone_confirm_delete(request, telefone_id):
+    telefone = Telefone.objects.get(pk=telefone_id)
+    return render(request, 'condominio/contato_telefone_confirm_delete.html', {'telefone': telefone})  # noqa
+
+
+def contato_telefone_delete(request, telefone_id):
+    telefone = Telefone.objects.get(pk=telefone_id)
+    telefone.delete()
+    return redirect(f'/condominios/contato_list/{telefone.pessoa_id}/')  # noqa

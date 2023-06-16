@@ -68,6 +68,8 @@ urlpatterns = [
     path('contato_list/<int:pessoa_id>/', views.contato_list, name='contato_list'),  # noqa
     path('contato_telefone_create/<int:pessoa_id>/', views.contato_telefone_create, name='contato_telefone_create'),  # noqa
     path('contato_telefone_update/<int:telefone_id>/', views.contato_telefone_update, name='contato_telefone_update'),  # noqa
+    path('contato_telefone_confirm_delete/<int:telefone_id>/', views.contato_telefone_confirm_delete, name='contato_telefone_confirm_delete'),  # noqa
+    path('contato_telefone_delete/<int:telefone_id>/', views.contato_telefone_delete, name='contato_telefone_delete'),  # noqa
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
