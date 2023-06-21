@@ -22,12 +22,12 @@
           <strong>Unidade:</strong> {{u.nome}}</br>
           <strong>Proprietário:</strong> {{u.nome_proprietario}}</br>
           <strong>Contatos:</strong></br>
-          {% comment %} Percorrer contatos telefone e email {% endcomment %}
+          Percorrer contatos telefone e email para exibir aqui</br>
 
           {% if u.nome_locatario %}
             </br><strong>Locatário:</strong> {{u.nome_locatario}}</br>
             <strong>Contatos:</strong></br>
-            {% comment %} Percorrer contatos telefone e email {% endcomment %}
+            Percorrer contatos telefone e email para exibir aqui
           {% endif %}
           <hr>
         {% endfor %}
