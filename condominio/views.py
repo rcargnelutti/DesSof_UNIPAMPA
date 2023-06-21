@@ -123,8 +123,20 @@ class PessoaUpdate(UpdateView):
     success_url = reverse_lazy('condominio:pessoa_list')
 
 
-class PessoaDetail(DetailView):
-    queryset = Pessoa.objects.all()
+#class PessoaDetail(DetailView):
+#    queryset = Pessoa.objects.all()
+
+
+def pessoa_detail(request, pessoa_id):
+    pessoa = Pessoa.objects.get(id=pessoa_id)
+    telefone = Telefone.objects.filter(pessoa_id=pessoa_id)
+    email = Email.objects.filter(pessoa_id=pessoa_id)
+    ctx = {
+        'pessoa': pessoa,
+        'telefone': telefone,
+        'email': email,
+    }
+    return render(request, 'condominio/pessoa_detail.html', ctx)  # noqa
 
 
 # PESSOAUNIDADE - VINCULO / MORADOR
@@ -359,7 +371,6 @@ def fatura_pagamento(request, fatura_id):
                 fatura.valor_juro = valor_juro
                 fatura.valor_pago = valor_pago
                 fatura.dias_atraso_pagamento = dias_atraso_pagamento
-                print(fatura.dias_atraso_pagamento)
             fatura.status = StatusFatura.PAGO.value
             fatura.save()
             return redirect('condominio:fatura_list', unidade.condominio.id)
@@ -540,7 +551,6 @@ def contato_list(request, pessoa_id):
     pessoa = Pessoa.objects.get(id=pessoa_id)
     telefone = Telefone.objects.filter(pessoa_id=pessoa_id)
     email = Email.objects.filter(pessoa_id=pessoa_id)
-    print(telefone)
     ctx = {
         'pessoa': pessoa,
         'telefone': telefone,

@@ -32,7 +32,8 @@ urlpatterns = [
     path('pessoa_list/', views.PessoaList.as_view(), name='pessoa_list'),  # noqa
     path('pessoa_create/', views.PessoaCreate.as_view(), name='pessoa_create'),
     path('pessoa_update/<int:pk>/', views.PessoaUpdate.as_view(), name='pessoa_update'),  # noqa
-    path('pessoa_detail/<int:pk>/', views.PessoaDetail.as_view(), name='pessoa_detail'),  # noqa
+    #path('pessoa_detail/<int:pk>/', views.PessoaDetail.as_view(), name='pessoa_detail'),  # noqa
+    path('pessoa_detail/<int:pessoa_id>/', views.pessoa_detail, name='pessoa_detail'),  # noqa
 
     # PESSOA UNIDADE - VINCULO / MORADOR
     path('pessoa_unidade_list/<int:unidade_id>/', views.pessoa_unidade_list, name='pessoa_unidade_list'),  # noqa
