@@ -514,6 +514,25 @@ def relatorio_pessoa_unidade(request, condominio_id):
     return render(request, 'condominio/relatorio_pessoa_unidade.html', context)
 
 
+def relatorio_pessoa_contato(request, condominio_id):
+    condominio = get_object_or_404(Condominio, pk=condominio_id)
+    pesssoas_query = PessoaUnidade.objects\
+        .select_related('pessoa')\
+        .filter(unidade_id=OuterRef('pk'), data_fim__isnull=True)
+    proprietario_query = pesssoas_query.filter(vinculo=Morador.PROPRIETARIO.value)  # noqa
+    locatario_query = pesssoas_query.filter(vinculo=Morador.LOCATARIO.value)
+    unidades = condominio.unidades\
+        .annotate(nome_proprietario=Subquery(proprietario_query.values('pessoa__nome'))) \
+        .annotate(nome_locatario=Subquery(locatario_query.values('pessoa__nome'))) \
+        .annotate(data_inicio_proprietario=Subquery(proprietario_query.values('data_inicio'))) \
+        .annotate(data_inicio_locatario=Subquery(locatario_query.values('data_inicio'))) \
+        .annotate(documento_proprietario=Subquery(proprietario_query.values('pessoa__documento'))) \
+        .annotate(documento_locatario=Subquery(locatario_query.values('pessoa__documento'))) \
+        .all()
+    context = {'condominio': condominio, 'unidades': unidades}
+    return render(request, 'condominio/relatorio_pessoa_contato.html', context)
+
+
 # Contatos
 
 

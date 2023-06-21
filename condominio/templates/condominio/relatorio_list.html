@@ -31,6 +31,9 @@
             <tr onclick="location.href = '{% url 'condominio:relatorio_pessoa_unidade' condominio.id%}';" style="cursor: pointer;">
               <td> <a href="{% url 'condominio:relatorio_pessoa_unidade' condominio.id%}" > Unidades e Vínculos (Proprietário/Locatário)</a></td>
             </tr>
+            <tr onclick="location.href = '{% url 'condominio:relatorio_pessoa_contato' condominio.id%}';" style="cursor: pointer;">
+              <td> <a href="{% url 'condominio:relatorio_pessoa_contato' condominio.id%}" > Contatos (Proprietário/Locatário)</a></td>
+            </tr>
           </tbody>
         </table>
       </div>
