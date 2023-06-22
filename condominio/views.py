@@ -222,7 +222,7 @@ def conta_update(request, conta_id):
 
 def despesa_list(request, condominio_id):
     condominio = Condominio.objects.get(id=condominio_id)  # noqa
-    despesa = Despesa.objects.order_by("data").filter(condominio_id=condominio_id)  # noqa
+    despesa = Despesa.objects.order_by("data").filter(condominio_id=condominio_id, unidade__isnull=True)  # noqa
     return render(request, 'condominio/despesa_list.html', {'condominio': condominio, 'despesa': despesa})  # noqa
 
 
@@ -240,7 +240,7 @@ def despesa_create(request, condominio_id):
         despesa.condominio = condominio
         despesa.save()
         return redirect(f'/condominios/despesa_list/{condominio_id}/')  # noqa
-
+    
 
 def despesa_update(request, despesa_id):
     despesa = Despesa.objects.get(id=despesa_id)
@@ -266,6 +266,47 @@ def despesa_delete(request, despesa_id):
     despesa = Despesa.objects.get(pk=despesa_id)
     despesa.delete()
     return redirect(f'/condominios/despesa_list/{despesa.condominio_id}/')  # noqa
+
+
+def despesa_unidade_list(request, unidade_id):
+    unidade = Unidade.objects.get(id=unidade_id)
+    condominio = Condominio.objects.get(id=unidade.condominio.id)  # noqa
+    despesa = Despesa.objects.order_by("data").filter(condominio_id=condominio, unidade_id=unidade, unidade__isnull=False)  # noqa
+    return render(request, 'condominio/despesa_unidade_list.html', {'condominio': condominio, 'unidade': unidade, 'despesa': despesa})  # noqa
+
+
+def despesa_unidade_create(request, unidade_id):
+    unidade = Unidade.objects.get(id=unidade_id)
+    condominio = unidade.condominio
+
+    if request.method == "GET":
+        form = DespesaForm(initial={'condominio': condominio, 'unidade': unidade}, condominio_id=condominio)  # noqa
+        return render(request, 'condominio/despesa_unidade_form.html', {'condominio': condominio, 'unidade': unidade, 'form': form})  # noqa
+    else:
+        form = DespesaForm(request.POST, condominio_id=condominio)
+        if not form.is_valid():
+            return render(request, 'condominio/despesa_unidade_form.html', {'condominio': condominio, 'unidade': unidade, 'form': form})  # noqa
+        despesa = form.save(commit=False)
+        despesa.condominio = condominio
+        despesa.unidade = unidade
+        despesa.save()
+        return redirect(f'/condominios/despesa_unidade_list/{unidade_id}/')  # noqa
+    
+
+def despesa_unidade_update(request, despesa_id):
+    despesa = Despesa.objects.get(id=despesa_id)
+    condominio = despesa.condominio
+    unidade = despesa.unidade
+
+    if request.method == "GET":
+        form = DespesaForm(instance=despesa, condominio_id=condominio)
+        return render(request, 'condominio/despesa_unidade_form.html', {'condominio': condominio, 'unidade': unidade, 'form': form})  # noqa
+    else:
+        form = DespesaForm(request.POST, instance=despesa, condominio_id=condominio)  # noqa
+        if not form.is_valid():
+            return render(request, 'condominio/despesa_unidade_form.html', {'condominio': condominio, 'unidade': unidade, 'form': form})  # noqa
+        form.save()
+        return redirect(f'/condominios/despesa_unidade_list/{unidade.id}/')  # noqa
 
 
 # Fatura

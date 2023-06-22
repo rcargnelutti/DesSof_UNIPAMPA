@@ -8,7 +8,7 @@
       <h4>Remover Despesa</h4>
     </div>
       <div class="col-8 m-auto pt-4 pb-2 text-center">
-        Tem certeza que deseja remover a despesa de<strong> '{{ despesa.conta }} - {{ despesa.valor_real }}' </strong>? 
+        Tem certeza que deseja remover a despesa de<strong> '{{ despesa.conta }} - {{ despesa.valor }}' </strong>? 
         </br></br>
         <a href=" {% url 'condominio:despesa_list' despesa.condominio_id %}" class="btn btn-outline-info btn-sm"> <span class="fas fa-arrow-left"></span> Não quero remover</a>
         <a href=" {% url 'condominio:despesa_delete' despesa.id %}" class="btn btn-outline-danger btn-sm"> <span class="fas fa-trash-alt"></span> Sim, quero remover</a>

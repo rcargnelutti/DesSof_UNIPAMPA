@@ -33,6 +33,7 @@
               <td>{{unidade.fracao}}</td>
               <td>
                 <a href=" {% url 'condominio:pessoa_unidade_list' unidade.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Vincular pessoa"><i class="fas fa-users-cog"></i></a>
+                <a href=" {% url 'condominio:despesa_unidade_list' unidade.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Vincular pessoa"><i class="fa-solid fa-dollar-sign"></i></a>
                 <a href=" {% url 'condominio:unidade_update' unidade.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
                 <a href=" {% url 'condominio:unidade_confirm_delete' unidade.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Remover"> <i class="fas fa-trash-alt"></i></a>
               </td>

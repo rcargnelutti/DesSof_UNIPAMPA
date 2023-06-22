@@ -84,8 +84,9 @@ class Despesa(models.Model):
         FRACAO = 'Fração', 'Fração'
         UNIDADE = 'Unidade', 'Unidade'
     condominio = models.ForeignKey(Condominio, on_delete=models.CASCADE, related_name='despesas')  # noqa
+    unidade = models.ForeignKey(Unidade, on_delete=models.CASCADE, related_name='despesas', blank=True, null=True)  # noqa
     conta = models.ForeignKey(Conta, on_delete=models.PROTECT, related_name="despesas")  # noqa
-    rateio = models.CharField(choices=Rateio.choices, default=Rateio.FRACAO, max_length=10)  # noqa
+    rateio = models.CharField(choices=Rateio.choices, max_length=10, blank=True, null=True)  # noqa
     valor = models.DecimalField(max_digits=10, decimal_places=2)
     data = models.DateField(null=True)
     identificacao = models.CharField(max_length=200)

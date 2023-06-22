@@ -46,5 +46,8 @@
         </table>
       </div>
     </div>
+    <div class="col-8 m-auto pt-2 pb-2 text-center" >
+      <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:unidade_list' unidade.id%}'"><span class="fas fa-arrow-left"></span> Voltar</button>
+    </div>
   </div>
 {% endblock %}

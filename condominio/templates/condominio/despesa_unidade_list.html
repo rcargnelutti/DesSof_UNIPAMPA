@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Contas{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header text-center">
+      <div class="text-center">
+        <h6>Condomínio: <strong> {{condominio.nome}} </strong><h6>
+      </div>
+      <div class="col-8 m-auto pt-2 pb-2 text-center">
+        {% include 'condominio/condominio_gestao_menu.html' %}
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="col-6 m-auto pt-2 pb-2 text-center" >
+        <h5>Despesas - {{unidade.nome}}</h5>
+        <a href="{% url 'condominio:despesa_unidade_create' unidade_id=unidade.id %}" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Nova Despesa</a>
+      </div>
+      <div class="col-6 m-auto pt-2 pb-2 text-center">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr style="text-align: center">
+              <th scope="col"style="text-align: left">Conta</th>
+              <th scope="col">Valor</th>
+              <th scope="col">Data</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for d in despesa %}
+            <tr style="text-align: center">
+              <td style="text-align: left">{{d.conta}}</td>
+              <td>{{d.valor}}</td>
+              <td>{{d.data|date:"d/m/Y"}}</td>
+              <td>
+                <a href=" {% url 'condominio:despesa_unidade_update' d.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
+                {% comment %} <a href=" {% url 'condominio:despesa_unidade_confirm_delete' d.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Remover"> <i class="fas fa-trash-alt"></i></a> {% endcomment %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex justify-content-center">
+        <div class="p-2 bd-highlight">
+          <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:unidade_list' unidade.id%}'"><span class="fas fa-arrow-left"></span> Voltar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
