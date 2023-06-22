@@ -510,7 +510,7 @@ def relatorio_despesa(request, condominio_id):
 
             # despesas = condominio.despesas.order_by("-data").filter(data__gte=data_inicio, data__lte=data_fim).annotate(total_periodo=Sum('valor'))  # noqa
 
-            despesas = condominio.despesas.order_by("-data").filter(data__gte=data_inicio, data__lte=data_fim)  # noqa
+            despesas = condominio.despesas.order_by("-data").filter(data__gte=data_inicio, data__lte=data_fim, unidade__isnull=True)  # noqa
             total_periodo = 0
             for despesa in despesas:
                 total_periodo += despesa.valor
