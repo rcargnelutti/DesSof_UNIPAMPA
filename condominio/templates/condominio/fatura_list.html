@@ -9,10 +9,7 @@
         <h6>Condomínio: <strong> {{condominio.nome}} </strong><h6>
       </div>
       <div class="col-8 m-auto pt-2 pb-2 text-center">
-        <a href="{% url 'condominio:gestao' condominio.id %}" class="btn btn-outline-secondary btn-sm">Dashboard</a>
-        <a href="{% url 'condominio:unidade_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Unidades</a>
-        <a href="{% url 'condominio:despesa_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Despesas</a>
-        <a href="{% url 'condominio:fatura_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Faturas</a>
+        {% include 'condominio/condominio_gestao_menu.html' %}
       </div>
     </div>
     <div class="card-body">
@@ -20,69 +17,52 @@
         <h5>Faturas</h5>
         <a href="{% url 'condominio:fatura_create' condominio.id%}" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Gerar Faturas</a>
       </div>
-      <div class="col-12 m-auto pt-2 pb-2 text-center">
+      <div class="col-8 m-auto pt-2 pb-2 text-center">
         <table class="table">
           <thead class="thead-dark">
             <tr>
+              <th></th>
               <th scope="col">Id</th>
               <th scope="col">Unidade</th>
-              <th scope="col">Vínculo</th>
-              <th scope="col">Pessoa</th>
+              <th scope="col">Proprietário</th>
+              <th scope="col">Locatário</th>
               <th scope="col">Valor</th>
               <th scope="col">Competência</th>
               <th scope="col">Vencimento</th>
               <th scope="col">Status</th>
-              <th scope="col">Ação</th>
+              <th scope="col">Ações</th>
             </tr>
           </thead>
           <tbody>
-            <td>1</td>
-            <td>101</td>
-            <td>Proprietário</td>
-            <td>Pessoa 1</td>
-            <td>280,00</td>
-            <td>04/2023</td>
-            <td>10/05/2023</td>
-            <td>Aberto</td>
-            <td>
-              <a href=" " class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar"><i class="fas fa-light fa-eye"></i></a>
-              <a href=" " class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Imprimir"><i class="fa-solid fa-print"></i></a>
-              <a href=" " class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Enviar e-mail"> <i class="fa-solid fa-envelope"></i></a>
-            </td>
+            {% for fatura in faturas %}
+                <tr>
+                    <td href="#collapseExample_{{ fatura.pk }}" data-bs-toggle="collapse" data-bs-placement="top" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar Despesas"><i class="fas fa-light fa-eye"></i></td>
+                    <td>{{ fatura.pk }}</td>
+                    <td>{{ fatura.unidade.nome }}</td>
+                    <td>{{ fatura.proprietario.nome }}</td>
+                    <td>{{ fatura.locatario.nome|default:'-' }}</td>
+                    <td>R$ {{ fatura.valor|floatformat:'2' }}</td>
+                    <td>{{ fatura.competencia_mes }}/{{ fatura.competencia_ano|stringformat:'i' }}</td>
+                    <td>{{ fatura.data_vencimento|date:'d/m/Y' }}</td>
+                    <td>{{ fatura.status }}</td>
+                    <td>
+                      {% if fatura.status == "ABERTO" %}
+                        <a href="{% url 'condominio:fatura_pagamento' fatura.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Pagar"><i class="fa-solid fa-money-check-dollar"></i></a>
+                      {% else %}
+                        <a href="{% url 'condominio:fatura_pagamento_detalhe' fatura.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar"><i class="fas fa-light fa-eye"></i></a>
+                      {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                  {% for despesa in fatura.despesas_list %}
+                    <tr style="text-align: center"class="collapse" id="collapseExample_{{ fatura.pk }}">
+                      <td colspan="5"><div>{{ despesa.despesa.conta.descricao }}</div></td>
+                      <td colspan="5"><div>R$ {{ despesa.valor|floatformat:'2' }}</div></td>
+                    </tr>
+                  {% endfor %}
+                </tr>
+            {% endfor %}
           </tbody>
-
-          <tbody>
-            <td>2</td>
-            <td>102</td>
-            <td>Proprietário</td>
-            <td>Pessoa 2</td>
-            <td>310,00</td>
-            <td>04/2023</td>
-            <td>10/05/2023</td>
-            <td>Aberto</td>
-            <td>
-              <a href=" " class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar"><i class="fas fa-light fa-eye"></i></a>
-              <a href=" " class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Imprimir"><i class="fa-solid fa-print"></i></a>
-              <a href=" " class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Enviar e-mail"> <i class="fa-solid fa-envelope"></i></a>
-            </td>
-          </tbody>
-
-          <tbody>
-            <td>3</td>
-            <td>201</td>
-            <td>Locatário</td>
-            <td>Pessoa 3</td>
-            <td>255,00</td>
-            <td>04/2023</td>
-            <td>10/05/2023</td>
-            <td>Aberto</td>
-            <td>
-              <a href=" " class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar"><i class="fas fa-light fa-eye"></i></a>
-              <a href=" " class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Imprimir"><i class="fa-solid fa-print"></i></a>
-              <a href=" " class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Enviar e-mail"> <i class="fa-solid fa-envelope"></i></a>
-            </td>
-          </tbody>
-          
         </table>
       </div>
     </div>

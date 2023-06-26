@@ -9,10 +9,7 @@
         <h6>Condomínio: <strong> {{condominio.nome}} </strong><h6>
       </div>
       <div class="col-8 m-auto pt-2 pb-2 text-center">
-        <a href="{% url 'condominio:gestao' condominio_id=condominio.id %}" class="btn btn-outline-secondary btn-sm">Dashboard</a>
-        <a href="{% url 'condominio:unidade_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Unidades</a>
-        <a href="{% url 'condominio:despesa_list' condominio.id %}" class="btn btn-outline-secondary btn-sm">Despesas</a>
-        <a href="" class="btn btn-outline-secondary btn-sm">Faturas</a>
+        {% include 'condominio/condominio_gestao_menu.html' %}
       </div>
     </div>
     <div class="card-body">
@@ -24,7 +21,6 @@
         <table class="table">
           <thead class="thead-dark">
             <tr style="text-align: center">
-              {% comment %} <th scope="col">Id</th> {% endcomment %}
               <th scope="col">Unidade</th>
               <th scope="col">Fração</th>
               <th scope="col">Ações</th>
@@ -33,11 +29,11 @@
           <tbody>
             {% for unidade in unidade %}
             <tr style="text-align: center">
-              {% comment %} <th scope="row">{{unidade.id}}</th> {% endcomment %}
               <td>{{unidade.nome}}</td>
               <td>{{unidade.fracao}}</td>
               <td>
                 <a href=" {% url 'condominio:pessoa_unidade_list' unidade.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Vincular pessoa"><i class="fas fa-users-cog"></i></a>
+                <a href=" {% url 'condominio:despesa_unidade_list' unidade.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Vincular pessoa"><i class="fa-solid fa-dollar-sign"></i></a>
                 <a href=" {% url 'condominio:unidade_update' unidade.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
                 <a href=" {% url 'condominio:unidade_confirm_delete' unidade.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Remover"> <i class="fas fa-trash-alt"></i></a>
               </td>

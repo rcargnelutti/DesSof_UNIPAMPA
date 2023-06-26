@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Condomínios{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header text-center">
+      <h4>Contatos - {{ pessoa.nome }}</h4>
+    </div>
+    <div class="card-body">
+      <table style="margin:auto">
+        <tr>
+          <td style="padding: 10px">
+            <div class="card col-8 m-auto pt-2 pb-2 text-center box-contato" id="div1">
+              <h5>Telefone</h5>
+              <a href="{% url 'condominio:contato_telefone_create' pessoa.id %}" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Novo Telefone</a>
+              </br>
+              {% if telefone %}
+                <div class="col-10 m-auto pt-2 pb-2 text-center">
+                  <table class="table">
+                    <thead class="thead-dark">
+                      <tr style="text-align: center">
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Número</th>
+                        <th scope="col">Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for t in telefone %}
+                      <tr style="text-align: center">
+                        <td>{{t.descricao}}</td>
+                        <td>{{t.numero}}</td>
+                        <td>
+                          <a href="{% url 'condominio:contato_telefone_update' t.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
+                          <a href="{% url 'condominio:contato_telefone_confirm_delete' t.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Remover"><i class="fas fa-trash"></i></a>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              {% else %}
+                </br>
+                <div>Não há telefone cadastrado.</div>
+              {% endif %}
+            </div>
+          </td>  
+          <td>
+            <div class="card col-8 m-auto pt-2 pb-2 text-center box-contato" id="div2">
+              <h5>E-mail</h5>
+              <a href="{% url 'condominio:contato_email_create' pessoa.id %}" class="btn btn-outline-primary btn-sm"> <span class="fas fa-plus"></span> Novo E-mail</a>
+              </br>
+              {% if email %}
+                <div class="col-10 m-auto pt-2 pb-2 text-center">
+                  <table class="table">
+                    <thead class="thead-dark">
+                      <tr style="text-align: center">
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Número</th>
+                        <th scope="col">Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for e in email %}
+                      <tr style="text-align: center">
+                        <td>{{e.descricao}}</td>
+                        <td>{{e.endereco}}</td>
+                        <td>
+                          <a href="{% url 'condominio:contato_email_update' e.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
+                          <a href="{% url 'condominio:contato_email_confirm_delete' e.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Remover"><i class="fas fa-trash"></i></a>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              {% else %}
+                </br>
+                <div>Não há e-mail cadastrado.</div>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="text-center">
+      <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:pessoa_list' %}'"><span class="fas fa-arrow-left"></span> Voltar</button>
+    </div>
+    </br>
+  </div>
+{% endblock %}

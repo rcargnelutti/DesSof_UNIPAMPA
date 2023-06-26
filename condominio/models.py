@@ -1,5 +1,4 @@
 from django.db import models
-from locale import setlocale, currency as moeda, LC_ALL # noqa
 
 
 class Condominio(models.Model):
@@ -15,13 +14,12 @@ class Condominio(models.Model):
     area_comum = models.CharField('área comum', max_length=50, blank=True, null=True)  # noqa
     area_privativa = models.CharField('área privativa', max_length=50, blank=True, null=True)  # noqa
     area_total = models.CharField('área total', max_length=50, blank=True, null=True)  # noqa
-
     dia_vencimento_boleto = models.CharField('Dia de vencimento da fatura', max_length=2)  # noqa
-
+    multa = models.DecimalField('multa (%):', max_digits=10, decimal_places=0)  # noqa
+    juro = models.DecimalField('juro ao mês (%):', max_digits=10, decimal_places=0)  # noqa
     status = models.BooleanField(default=True, blank=True, null=True)
     data_inicio_contrato = models.DateTimeField(blank=True, null=True)
     data_fim_contrato = models.DateTimeField(blank=True, null=True)
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -49,10 +47,12 @@ class Pessoa(models.Model):
         return self.nome
 
 
+class Morador(models.TextChoices):
+    PROPRIETARIO = 'Proprietário', 'Proprietário'
+    LOCATARIO = 'Locatário', 'Locatário'
+
+
 class PessoaUnidade(models.Model):
-    class Morador(models.TextChoices):
-        PROPRIETARIO = 'Proprietário', 'Proprietário'
-        LOCATARIO = 'Locatário', 'Locatário'
     pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name="moradores")  # noqa
     unidade = models.ForeignKey(Unidade, on_delete=models.PROTECT, related_name="moradores")  # noqa
     vinculo = models.CharField(choices=Morador.choices, max_length=15)  # noqa
@@ -84,29 +84,72 @@ class Despesa(models.Model):
         FRACAO = 'Fração', 'Fração'
         UNIDADE = 'Unidade', 'Unidade'
     condominio = models.ForeignKey(Condominio, on_delete=models.CASCADE, related_name='despesas')  # noqa
+    unidade = models.ForeignKey(Unidade, on_delete=models.CASCADE, related_name='despesas', blank=True, null=True)  # noqa
     conta = models.ForeignKey(Conta, on_delete=models.PROTECT, related_name="despesas")  # noqa
-    rateio = models.CharField(choices=Rateio.choices, default=Rateio.FRACAO, max_length=10)  # noqa
+    rateio = models.CharField(choices=Rateio.choices, max_length=10, blank=True, null=True)  # noqa
     valor = models.DecimalField(max_digits=10, decimal_places=2)
     data = models.DateField(null=True)
     identificacao = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def valor_real(self):
-        # setlocale(LC_ALL,'pt_BR.UTF-8')
-        return moeda(self.valor, grouping=True)
-        # valor_real.short_description = 'Valor'
-
     def __str__(self):
         return self.conta
 
 
+class StatusFatura(models.TextChoices):
+    ABERTO = 'ABERTO'
+    PAGO = 'PAGO'
+
+
 class Fatura(models.Model):
-    unidade = models.CharField(max_length=20)
-    pessoa = models.CharField(max_length=100)
-    vinculo = models.CharField(max_length=15)
+    data_criacao = models.DateTimeField()
+    data_inicio = models.DateField()
+    data_fim = models.DateField()
+    data_pagamento = models.DateField(blank=True, null=True)
+    competencia_ano = models.IntegerField()
+    competencia_mes = models.IntegerField()
+    data_vencimento = models.DateField()
+    unidade = models.ForeignKey(Unidade, related_name='faturas', on_delete=models.PROTECT)  # noqa
+    proprietario = models.ForeignKey(Pessoa, related_name='faturas_proprietario', on_delete=models.PROTECT)  # noqa
+    locatario = models.ForeignKey(Pessoa, null=True, blank=True, related_name='faturas_locatario', on_delete=models.PROTECT)  # noqa
     valor = models.DecimalField(max_digits=10, decimal_places=2)
-    competencia = models.CharField(max_length=15)
-    data_vencimento = models.DateField(null=True)
-    # created_at = models.DateTimeField(auto_now_add=True)
-    # updated_at = models.DateTimeField(auto_now=True)
+    status = models.CharField(choices=StatusFatura.choices, max_length=6)
+    valor_multa = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)  # noqa
+    valor_juro = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)  # noqa
+    valor_pago = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)  # noqa
+    dias_atraso_pagamento = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        unique_together = ['unidade', 'competencia_ano', 'competencia_mes']
+
+
+class FaturaDespesa(models.Model):
+    fatura = models.ForeignKey(Fatura, related_name='despesas', on_delete=models.CASCADE)  # noqa
+    despesa = models.ForeignKey(Despesa, related_name='fatura_itens', on_delete=models.PROTECT)  # noqa
+    valor = models.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        unique_together = ['fatura', 'despesa']
+
+
+class Telefone(models.Model):
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name="contato_telefone")  # noqa
+    descricao = models.CharField(max_length=200)
+    numero = models.CharField('Número', max_length=20)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.pessoa} - {self.descricao} - {self.numero}"
+
+
+class Email(models.Model):
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name="contato_email")  # noqa
+    descricao = models.CharField(max_length=200)
+    endereco = models.CharField('E-mail', max_length=200)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.pessoa} - {self.descricao} - {self.email}"

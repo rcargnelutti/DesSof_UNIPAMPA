@@ -15,7 +15,6 @@
         <table class="table">
           <thead class="thead-dark">
             <tr>
-              {% comment %} <th scope="col">Id</th> {% endcomment %}
               <th scope="col">Nome</th>
               <th scope="col">Documento</th>
               <th scope="col">Status</th>
@@ -25,13 +24,13 @@
           <tbody>
             {% for pessoa in object_list %}
             <tr>
-              {% comment %} <th scope="row">{{pessoa.id}}</th> {% endcomment %}
               <td>{{pessoa.nome}}</td>
               <td>{{pessoa.documento}}</td>
               <td>{{pessoa.status}}</td>
               <td style="text-align: center">
                 <a href=" {% url 'condominio:pessoa_update' pk=pessoa.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
-                <a href=" {% url 'condominio:pessoa_detail' pk=pessoa.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar"><i class="fas fa-light fa-eye"></i></a>
+                <a href=" {% url 'condominio:pessoa_detail' pessoa_id=pessoa.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar"><i class="fas fa-light fa-eye"></i></a>
+                <a href=" {% url 'condominio:contato_list' pessoa_id=pessoa.id %}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Contatos"><i class="fas fa-address-card"></i></a>
               </td>
             </tr>
             {% endfor %}

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Contas{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header text-center">
+      <div class="text-center">
+        <h6>Condomínio: <strong> {{condominio.nome}} </strong><h6>
+      </div>
+      <div class="col-8 m-auto pt-2 pb-2 text-center">
+        {% include 'condominio/condominio_gestao_menu.html' %}
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="col-6 m-auto pt-2 pb-2 text-center" >
+        <h5>Contatos (Proprietário/Locatário)</h5>
+      </div>
+
+      <div class="col-4 m-auto pt-2 pb-2">
+        {% for u in unidades %}
+          <strong>Unidade:</strong> {{u.nome}}</br>
+          <strong>Proprietário:</strong> {{u.nome_proprietario}}</br>
+          <strong>Contatos:</strong></br>
+          Percorrer contatos telefone e email para exibir aqui</br>
+
+          {% if u.nome_locatario %}
+            </br><strong>Locatário:</strong> {{u.nome_locatario}}</br>
+            <strong>Contatos:</strong></br>
+            Percorrer contatos telefone e email para exibir aqui
+          {% endif %}
+          <hr>
+        {% endfor %}
+      </div>
+
+      {% comment %} <div class="col-8 m-auto pt-2 pb-2 text-center">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr style="text-align: center">
+              <th scope="col">Id</th>
+              <th scope="col">Unidade</th>
+              <th scope="col">Fração</th>
+              <th scope="col" style="text-align: left">Proprietário</th>
+              <th scope="col" style="text-align: left">Locatário</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for u in unidades %}
+                <tr style="text-align: center">
+                  <td>{{u.id}}</td>
+                  <td>{{u.nome}}</td>
+                  <td>{{u.fracao}}</td>
+                  <td style="text-align: left">{{u.nome_proprietario}} - [{{u.documento_proprietario}}] - {{u.data_inicio_proprietario|date:'d/m/Y'}}</td>
+                  <td style="text-align: left">{{u.nome_locatario|default:'-'}} 
+                    {% if u.nome_locatario %}
+                      [{{u.documento_locatario}}] - {{u.data_inicio_locatario|date:'d/m/Y'}}
+                    {% endif %}
+                  </td>
+                </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        </br>
+        <div class="text-center">
+          <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:relatorio_list' condominio.id %}'"><span class="fas fa-arrow-left"></span> Voltar</button>
+        </div>
+      </div> {% endcomment %}
+    </div>
+  </div>
+{% endblock %}

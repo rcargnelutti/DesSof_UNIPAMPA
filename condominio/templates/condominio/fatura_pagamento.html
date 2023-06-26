@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}Faturas{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header text-center">
+      <div class="text-center">
+        <h6>Condomínio: <strong> {{condominio.nome}} </strong><h6>
+      </div>
+      <div class="col-8 m-auto pt-2 pb-2 text-center">
+        {% include 'condominio/condominio_gestao_menu.html' %}
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="col-8 m-auto pb-2">
+        <h5 class="text-center">Pagar Fatura</h5>
+      </br>
+      <table style="margin:auto">
+        <tr><td>Fatura: <strong id="fatura_id"> {{ fatura.id }} </strong></td></tr>
+        <tr><td>Unidade: <strong>{{ fatura.unidade.nome }}</strong></td></tr>
+        <tr><td>Proprietário: <strong>{{ fatura.proprietario.nome }}</strong></td></tr>
+        <tr><td>Locatário: <strong>{{ fatura.locatario.nome|default:'-' }}</strong></td></tr>
+        <tr><td>Valor: R$ <strong>{{ fatura.valor|floatformat:'2' }}</strong></td></tr>
+        <tr><td>Competência: <strong>{{ fatura.competencia_mes }}/{{ fatura.competencia_ano|stringformat:'i' }}</strong></td></tr>
+        <tr><td>Vencimento: <strong>{{ fatura.data_vencimento|date:'d/m/Y' }}</strong></td></tr>
+        <tr><td>Status: <strong>{{ fatura.status }}</strong></td></tr>
+      </table>
+      </br>
+      <form method="post" action="." >
+        {% csrf_token %}
+        <table align="center">
+          <tr style="text-align: center" >
+            <th><label for="id_data">Data do pagamento:</label></th>
+            <td>
+              <input type="date" class="form-control date-time-mask" placeholder="00/00/0000" name="data_pagamento" id="id_data_pagamento" maxlength="10" required>
+            </td>
+          </tr>
+        </table>
+        </br>
+        <div class="fatura_vencida_calculo">
+          <table align="center" style="text-align: center">
+            <tr>
+              <td colspan="3"><label>Fatura com <strong id="dias_atraso">  </strong> dias em atraso.</label></td>
+            </tr>
+            <tr>
+              <th><label>Multa</label></th>
+              <th><label>Juro</label></th>
+              <th><label>Total a Pagar</label></th>
+            </tr>
+            <tr>
+              <td style="width:125px"> 
+                <input type="text" class="form-control" style="text-align: center" placeholder="" name="valor_multa" id="id_valor_multa" value="0" maxlength="20" required readonly="readonly"> 
+              </td>
+              <td style="width:125px"> 
+                <input type="text" class="form-control" style="text-align: center"placeholder="" name="valor_juro" id="id_valor_juro" value="0" maxlength="20" required readonly="readonly"> 
+              </td>
+              <td style="width:150px"> 
+                <input type="text" class="form-control" style="text-align: center"placeholder="" name="valor_pago" id="id_valor_pago" value="0" maxlength="20" required readonly="readonly"> 
+              </td>
+            </tr>
+          </table>
+          </br>
+        </div>
+        <div class="text-center">
+          <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:fatura_list' condominio.id %}'"><span class="fas fa-arrow-left"></span> Voltar</button>
+          <button type="submit" class="btn btn-outline-success btn-sm"><span class="fas fa-save"></span> Pagar</button>
+        </div>
+        </br>
+      </form>
+      </div>
+
+      {% if erro_formulario %}
+          <div>erro formulário</div>
+      {% endif %}
+
+      <script>
+        $("#id_data_pagamento").change(function () {
+          var data_pagamento = $(this).val();
+          var fatura_id = document.getElementById("fatura_id").innerText;
+          $.ajax({
+            url: '/condominios/ajax/fatura_vencida_calculo/',
+            data: {
+              'data_pagamento': data_pagamento,
+              'fatura_id': fatura_id,
+            },
+            dataType: 'json',
+            success: function (data) {
+              if (data) {
+                //alert("Data pagamento = " + data.data_pagamento + " | Id Fatura = " + fatura_id +
+                // " | Dias em atraso = " + data.dias_atraso + " | Valor da multa = " + data.valor_multa +
+                // " | Valor do juro = " + data.valor_juro + " | Total a pagar = " + data.valor_pago);
+                if (data.dias_atraso > 0) {
+                  document.getElementById("dias_atraso").innerText = data.dias_atraso;
+                  $("#id_valor_multa").val(data.valor_multa);
+                  $("#id_valor_juro").val(data.valor_juro);
+                  $("#id_valor_pago").val(data.valor_pago);
+                  $(".fatura_vencida_calculo").show();
+                } else {
+                  $(".fatura_vencida_calculo").hide();
+                }
+              }
+            }
+          });
+        });
+      </script>
+
+    </div>
+  </div>
+{% endblock %}

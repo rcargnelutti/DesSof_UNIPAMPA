@@ -8,12 +8,36 @@
       <h4>Detalhes da Pessoa</h4>
     </div>
     <div class="col-4 m-auto pt-4 pb-2 ">
-      <strong>Nome:</strong> {{ object.nome }} <br />
-      <strong>Documento:</strong> {{ object.documento }} <br />
-      <strong>Status:</strong> {{ object.status }} <br />
+      <strong>Nome:</strong> {{ pessoa.nome }} <br />
+      <strong>Documento:</strong> {{ pessoa.documento }} <br />
+      <strong>Status:</strong> {{ pessoa.status }} <br />
+      <div class="col-8 m-auto pt-2 pb-2 text-center" >
+        <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:pessoa_update' pk=pessoa.id %}'"><span class="fas fa-edit"></span> Editar</button>
+      </div>
+      <hr>
+      <strong>Telefone:</strong></br>
+      {% if telefone %}
+        {% for t in telefone %}
+          <strong>{{t.descricao}}:</strong> {{t.numero}}</br>
+        {% endfor %}
+      {% else %}
+        <div>Não há telefone cadastrado.</div>
+      {% endif %}
+
+      <hr>
+      <strong>E-mail:</strong></br>
+      {% if email %}
+        {% for e in email %}
+          <strong>{{e.descricao}}:</strong> {{e.endereco}}</br>
+        {% endfor %}
+      {% else %}
+        <div>Não há e-mail cadastrado.</div>
+      {% endif %}
+      <hr>
     </div>
     <div class="col-8 m-auto pt-2 pb-2 text-center" >
       <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:pessoa_list' %}'"><span class="fas fa-arrow-left"></span> Voltar</button>
+      <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:contato_list' pessoa_id=pessoa.id %}'"><span class="fas fa-address-card"></span> Contatos</button>
     </div>
   </div>
 {% endblock %}

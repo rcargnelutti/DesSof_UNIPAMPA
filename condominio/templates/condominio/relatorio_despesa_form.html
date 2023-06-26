@@ -14,7 +14,7 @@
     </div>
     <div class="card-body">
       <div class="col-8 m-auto pb-2">
-        <h5 class="text-center">Gerar Faturas</h5>
+        <h5 class="text-center">Demonstrativo de Despesas</h5>
       </br>
           <form method="post" action="." >
             {% csrf_token %}
@@ -29,18 +29,10 @@
                 </td>
               </tr>
             </table>
-            <table align="center">
-              <tr style="text-align: center" >
-                <th><label for="id_data">Vencimento:</label></th>
-                <td colspan="2">
-                  <input type="date" class="form-control date-time-mask" placeholder="00/00/0000" name="data_vencimento" maxlength="10" required>
-                </td>
-              </tr>
-            </table>
             </br>
             <div class="text-center">
-              <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:fatura_list' condominio.id %}'"><span class="fas fa-arrow-left"></span> Voltar</button>
-              <button type="submit" class="btn btn-outline-success btn-sm"><span class="fas fa-save"></span> Gerar</button>
+              <button type="reset" class="btn btn-outline-info btn-sm" onclick="location.href = '{% url 'condominio:relatorio_list' condominio.id %}'"><span class="fas fa-arrow-left"></span> Voltar</button>
+              <button type="submit" class="btn btn-outline-success btn-sm" ><span class="fas fa-save"></span> Visualizar</button>
             </div>
             </br>
           </form>
